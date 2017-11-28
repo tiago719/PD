@@ -7,17 +7,15 @@ package servidorgestao;
 
 /**
  *
- * @author Tiago Coutinho
+ * @author edu_f
  */
-public class ServidorGestao
-{
+public class ServidorGestao {
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
-    {
-            //commit da aula de PW
+    public static void main(String[] args) {
+        // TODO code application logic here
     }
     
 }
