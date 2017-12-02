@@ -9,6 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.Box;
@@ -60,6 +62,16 @@ public class RegistoPanel extends JPanel implements Observer
         confirmarPasswordL=new JLabel("Confirmar Password:");
         
         registar=new JButton("Registar");
+        
+        registar.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                observableGame.regista(usernameF.getText(),nomeF.getText(), 
+                        passwordF.getText(), confirmarPasswordF.getText());
+            }
+        });
 
    }
     

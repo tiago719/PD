@@ -152,5 +152,8 @@ public class ObservableGame extends Observable
         notifyObservers();
     }
 
-
+    public void regista(String nome, String username, String password, String cPassword)
+    {   
+        throw new UnsupportedOperationException("Registo nao implementado");
+    }
 }
