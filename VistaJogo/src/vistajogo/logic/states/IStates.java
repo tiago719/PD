@@ -13,4 +13,6 @@ public interface IStates extends Serializable
    IStates placeToken(int line, int column);
    IStates returnToken(int line, int column);
    IStates quit();
+   IStates login(String username, String password);
+   IStates register(String username, String nome, String password);
 }

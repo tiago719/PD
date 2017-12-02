@@ -38,5 +38,17 @@ public class StateAdapter implements IStates, vistajogo.logic.Constants
 
     @Override
     public IStates quit(){ return this;}
+
+    @Override
+    public IStates login(String username, String password)
+    {
+        return this;
+    }
+
+    @Override
+    public IStates register(String username, String nome, String password)
+    {
+        return this;
+    }
     
 }

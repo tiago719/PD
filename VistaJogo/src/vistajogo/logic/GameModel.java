@@ -10,8 +10,7 @@ import java.io.Serializable;
  */
 
 public class GameModel  implements Serializable
-{
-    
+{  
     private GameData gameData;
     private IStates state; 
     
