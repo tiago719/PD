@@ -8,7 +8,9 @@ package vistajogo.ui.gui.registoLogin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -49,10 +51,13 @@ public class RegistoPanel extends JPanel implements Observer
     public void setupComponents()
     {
         nomeF=new JTextField();
-        nomeF.setSize(new Dimension(JTEXT_SIZE_X, JTEXT_SIZE_Y));
+        //nomeF.setMaximumSize(new Dimension(Constants.DIM_Y_TEXT_FIELD, Constants.DIM_X_TEXT_FIELD));
         usernameF=new JTextField();
+        usernameF.setMaximumSize(new Dimension(Constants.DIM_Y_TEXT_FIELD, Constants.DIM_X_TEXT_FIELD));   
         passwordF=new JTextField();
+        passwordF.setMaximumSize(new Dimension(Constants.DIM_Y_TEXT_FIELD, Constants.DIM_X_TEXT_FIELD));   
         confirmarPasswordF=new JTextField();
+        confirmarPasswordF.setMaximumSize(new Dimension(Constants.DIM_Y_TEXT_FIELD, Constants.DIM_X_TEXT_FIELD));   
         
         tituloL=new JLabel("Registar");
         tituloL.setFont(new Font("Serif", Font.BOLD, 25));
@@ -79,7 +84,7 @@ public class RegistoPanel extends JPanel implements Observer
     {
         setLayout(new BorderLayout());
         
-        Box box=Box.createVerticalBox();
+        JPanel box=new JPanel(new BorderLayout());
         box.add(tituloL);
         box.add(nomeL);
         box.add(nomeF);

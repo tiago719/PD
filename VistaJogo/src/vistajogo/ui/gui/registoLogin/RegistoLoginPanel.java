@@ -62,12 +62,9 @@ public class RegistoLoginPanel extends JPanel implements Observer
         pOeste.setBorder(new LineBorder(Color.RED));
         pOeste.add(new RegistoPanel(observableGame));
 
-        Box center=Box.createHorizontalBox();
-        center.add(Box.createVerticalGlue());
-        center.add(pOeste);
-        center.add(Box.createVerticalGlue());
-        center.add(pEste);
-        center.add(Box.createVerticalGlue());
+        JPanel center=new JPanel(new BorderLayout(100,0));
+        center.add(pOeste, BorderLayout.WEST);
+        center.add(pEste, BorderLayout.EAST);
         
         add(center);
         

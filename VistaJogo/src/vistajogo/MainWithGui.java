@@ -10,6 +10,8 @@ public class MainWithGui
     public static void main(String[] args)
     {                
         RegistoLoginView registoLoginView=new RegistoLoginView(new ObservableGame());
+        
+        //ThreeInRowView v=new ThreeInRowView(new ObservableGame());
     }
     
 }
