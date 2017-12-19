@@ -8,11 +8,22 @@ package vistajogo.ui.gui.registoLogin;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import vistajogo.logic.ObservableGame;
 import static vistajogo.ui.gui.registoLogin.Constants.DIM_X_LOGIN;
@@ -26,13 +37,14 @@ import static vistajogo.ui.gui.registoLogin.Constants.DIM_Y_REGISTO;
  */
 public class RegistoLoginPanel extends JPanel implements Observer
 {
-    ObservableGame observableGame;
-    RegistoPanel registoPanel;
-    LoginPanel loginPanel;
+    ObservableGame ObservableGame;
+    Registo registoPanel;
+    Login loginPanel;
+    JPanel CardPanel;
     
     public RegistoLoginPanel(ObservableGame o)
     {
-        observableGame=o;
+        ObservableGame=o;
         
         setupComponents();
         setupLayout();
@@ -40,8 +52,14 @@ public class RegistoLoginPanel extends JPanel implements Observer
     
     public void setupComponents()
     {
-        registoPanel=new RegistoPanel(observableGame);
-        loginPanel=new LoginPanel(observableGame);
+        registoPanel=new Registo(ObservableGame);
+        loginPanel=new Login(ObservableGame);
+    }
+    
+    public void setCardPanel(JPanel J)
+    {
+        CardPanel=J;
+        loginPanel.setCardPanel(J);
     }
     
     public void setupLayout()
@@ -50,17 +68,13 @@ public class RegistoLoginPanel extends JPanel implements Observer
         pEste.setMaximumSize(new Dimension(DIM_X_LOGIN, DIM_Y_LOGIN));
         pEste.setMinimumSize(new Dimension(DIM_X_LOGIN, DIM_Y_LOGIN));
         pEste.setPreferredSize(new Dimension(DIM_X_LOGIN, DIM_Y_LOGIN));
-        pEste.setLayout(new BorderLayout());
-        pEste.setBorder(new LineBorder(Color.GRAY));
-        pEste.add(new LoginPanel(observableGame));
+        pEste.add(loginPanel);
         
         JPanel pOeste=new JPanel();
         pOeste.setMaximumSize(new Dimension(DIM_X_REGISTO, DIM_Y_REGISTO));
         pOeste.setMinimumSize(new Dimension(DIM_X_REGISTO, DIM_Y_REGISTO));
         pOeste.setPreferredSize(new Dimension(DIM_X_REGISTO, DIM_Y_REGISTO));
-        pOeste.setLayout(new BorderLayout());
-        pOeste.setBorder(new LineBorder(Color.RED));
-        pOeste.add(new RegistoPanel(observableGame));
+        pOeste.add(registoPanel);
 
         JPanel center=new JPanel(new BorderLayout(100,0));
         center.add(pOeste, BorderLayout.WEST);

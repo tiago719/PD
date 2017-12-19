@@ -6,10 +6,19 @@
 package vistajogo.ui.gui.registoLogin;
 
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import vistajogo.logic.ObservableGame;
@@ -20,25 +29,38 @@ import vistajogo.logic.ObservableGame;
  */
 public class RegistoLoginView extends JFrame implements Observer
 {
-    ObservableGame observableGame;
-    RegistoLoginPanel panel;
+    ObservableGame ObservableGame;
+    JPanel PainelPrincipal;
+    RegistoLoginPanel RegistoLoginPanel;
+    
     
     public RegistoLoginView(ObservableGame o)
     {
-        super("Three In a Row");
-        observableGame=o;
-        observableGame.addObserver(this);
+        super("KSmasher");
         
-        panel=new RegistoLoginPanel(observableGame);
+        
+        ObservableGame=o;
+        ObservableGame.addObserver(this);
+                
+        RegistoLoginPanel=new RegistoLoginPanel(ObservableGame);
+        CardLayout cl;
+        
+        PainelPrincipal=new JPanel(cl=new CardLayout());
+        PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
+        cl.first(PainelPrincipal);
+        
+        RegistoLoginPanel.setCardPanel(PainelPrincipal);
         
         addComponents();
         
         setVisible(true);
         
-        this.setSize(700, 500);
-        this.setMinimumSize(new Dimension(650, 450));
+        this.setSize(500, 400);
+        this.setMinimumSize(new Dimension(650, 400));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         validate();
+
     }
     
     public void addComponents()
@@ -46,7 +68,7 @@ public class RegistoLoginView extends JFrame implements Observer
         Container cp=getContentPane();
         
         cp.setLayout(new BorderLayout());
-        cp.add(panel,BorderLayout.CENTER);
+        cp.add(PainelPrincipal,BorderLayout.CENTER);
     }
 
     @Override

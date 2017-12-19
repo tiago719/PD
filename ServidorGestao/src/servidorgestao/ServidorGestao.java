@@ -5,17 +5,53 @@
  */
 package servidorgestao;
 
+import classescomunicacao.RegistoUtilizador;
+import java.io.BufferedReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
 /**
  *
  * @author edu_f
  */
 public class ServidorGestao {
-
-    /**
-     * @param args the command line arguments
-     */
+    
+    public static final int PORTO = 5001;
+    public static final int BUFSIZE = 4000;
+    public static final String IP = "localhost";
+    public static final int TIMEOUT = 50000;
+    
     public static void main(String[] args) {
-        // TODO code application logic here
+        
+        ServerSocket serverSocket=null;
+        try
+        {
+            serverSocket=new ServerSocket(PORTO);
+            while(true)
+            {
+                Socket nextClient=serverSocket.accept();
+                
+                ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
+                in.readObject();
+                
+                RegistoUtilizador returnedObject = (RegistoUtilizador)in.readObject();
+                ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
+                
+                Integer novo = new Integer(1);
+                out.writeObject(novo);
+                out.flush();
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+        finally
+        {
+            
+        }
     }
     
 }

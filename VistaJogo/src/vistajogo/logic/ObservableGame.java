@@ -2,6 +2,8 @@
 package vistajogo.logic;
 
 import java.util.Observable;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import vistajogo.logic.states.IStates;
 
 /** 
@@ -12,10 +14,12 @@ import vistajogo.logic.states.IStates;
 public class ObservableGame extends Observable
 {
     GameModel gameModel;
+    Comunicacao comunicacao;
     
     public ObservableGame()
     {
         gameModel = new GameModel();
+        comunicacao=new Comunicacao();
     }
 
     public GameModel getGameModel()
@@ -152,8 +156,12 @@ public class ObservableGame extends Observable
         notifyObservers();
     }
 
-    public void regista(String nome, String username, String password, String cPassword)
-    {   
-        throw new UnsupportedOperationException("Registo nao implementado");
+    public void Regista(String username, String email, String password) {
+        comunicacao.registo(username, email, password);
+    }
+
+    public boolean Login(String username, String password) {
+        //return Model.Login(username, password);
+        return false;
     }
 }
