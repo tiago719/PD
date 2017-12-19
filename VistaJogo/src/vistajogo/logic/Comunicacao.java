@@ -1,11 +1,12 @@
 package vistajogo.logic;
 
-import classescomunicacao.RegistoUtilizador;
+import classescomunicacao.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.Inet4Address;
 import java.net.Socket;
 import java.util.Calendar;
 import java.util.logging.Level;
@@ -15,7 +16,7 @@ public class Comunicacao
 {
     public static final int PORTO = 5001;
     public static final int BUFSIZE = 4000;
-    public static final String IP = "localhost";
+    public static final String IP = "10.65.141.237";
     public static final int TIMEOUT = 50000;
 
     public Comunicacao()
