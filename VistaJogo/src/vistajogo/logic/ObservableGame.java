@@ -156,12 +156,11 @@ public class ObservableGame extends Observable
         notifyObservers();
     }
 
-    public void Regista(String username, String email, String password) {
-        comunicacao.registo(username, email, password);
+    public int Regista(String username, String email, String password) {
+        return comunicacao.registo(username, email, password);
     }
 
-    public boolean Login(String username, String password) {
-        //return Model.Login(username, password);
-        return false;
+    public int Login(String username, String password) {
+        return comunicacao.login(username, password);
     }
 }
