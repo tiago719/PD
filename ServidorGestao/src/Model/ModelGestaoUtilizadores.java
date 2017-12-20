@@ -13,9 +13,8 @@ public class ModelGestaoUtilizadores {
 
     }
 
-    public int AdicionaUtil(RegistoUtilizador res) {
+    public static int AdicionaUtil(RegistoUtilizador res) {
         PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
-
         try {
             if (p.ExisteUsername(res.getUsername())) {
                 return -1;

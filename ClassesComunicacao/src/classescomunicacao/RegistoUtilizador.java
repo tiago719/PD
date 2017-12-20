@@ -14,12 +14,12 @@ import java.io.Serializable;
 public class RegistoUtilizador implements Serializable
 {
     static final long serialVersionUID = 1L;
-    private String nome, email, password;
+    private String nome, username, password;
 
-    public RegistoUtilizador(String nome, String email, String password)
+    public RegistoUtilizador(String nome, String username, String password)
     {
         this.nome = nome;
-        this.email = email;
+        this.username = username;
         this.password = password;
     }
 
@@ -33,14 +33,14 @@ public class RegistoUtilizador implements Serializable
         this.nome = nome;
     }
 
-    public String getEmail()
+    public String getUsername()
     {
-        return email;
+        return username;
     }
 
-    public void setEmail(String email)
+    public void setUsername(String username)
     {
-        this.email = email;
+        this.username = username;
     }
 
     public String getPassword()
