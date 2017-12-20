@@ -7,10 +7,6 @@ package classescomunicacao;
 
 import java.io.Serializable;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class Login implements Serializable
 {
     static final long serialVersionUID = 1L;
