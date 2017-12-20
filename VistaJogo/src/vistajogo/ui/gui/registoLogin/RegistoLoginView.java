@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -32,7 +33,7 @@ public class RegistoLoginView extends JFrame implements Observer
     ObservableGame ObservableGame;
     JPanel PainelPrincipal;
     RegistoLoginPanel RegistoLoginPanel;
-    
+    EcraPrincipal EcraPrincipalPanel;
     
     public RegistoLoginView(ObservableGame o)
     {
@@ -43,11 +44,14 @@ public class RegistoLoginView extends JFrame implements Observer
         ObservableGame.addObserver(this);
                 
         RegistoLoginPanel=new RegistoLoginPanel(ObservableGame);
+        EcraPrincipalPanel=new EcraPrincipal(ObservableGame);
         CardLayout cl;
         
         PainelPrincipal=new JPanel(cl=new CardLayout());
         PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
+        PainelPrincipal.add(EcraPrincipalPanel, "EcraPrincipal");
         cl.first(PainelPrincipal);
+        RegistoLoginPanel.setRegistoLoginView(this);
         
         RegistoLoginPanel.setCardPanel(PainelPrincipal);
         
