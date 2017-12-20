@@ -46,6 +46,6 @@ public class ModelGestaoUtilizadores {
         }
     }
     
-    public boolean VerificaLogin();
+    
 
 }
