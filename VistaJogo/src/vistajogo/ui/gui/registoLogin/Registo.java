@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import vistajogo.logic.ObservableGame;
 
+
 /**
  *
  * @author Tiago Coutinho
@@ -149,15 +150,15 @@ public class Registo extends javax.swing.JPanel
 
         jErroUser.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroUser.setForeground(new java.awt.Color(153, 0, 0));
-        jErroUser.setText("Utilizador entre 7-15 Caracteres");
+        jErroUser.setText("Utilizador no Máximo 15 Caracteres");
 
         jErroNome.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroNome.setForeground(new java.awt.Color(153, 0, 0));
-        jErroNome.setText("Nome entre 7-15 Caracteres");
+        jErroNome.setText("Nome no Máximo 15 Caracteres");
 
         jErroPass.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroPass.setForeground(new java.awt.Color(153, 0, 0));
-        jErroPass.setText("Palavra-Passe entre 8-15 caracteres");
+        jErroPass.setText("Palavra-Passe no Máximo 15 caracteres");
 
         jErroCPass.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         jErroCPass.setForeground(new java.awt.Color(153, 0, 0));
@@ -168,7 +169,7 @@ public class Registo extends javax.swing.JPanel
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(83, Short.MAX_VALUE)
+                .addContainerGap(76, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,12 +263,23 @@ public class Registo extends javax.swing.JPanel
 
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
+        if(!jPassword.getText().equals(jCPassword.getText()))
+        {
+            jErroCPass.setText("As Duas Palavras-Passe não correspondem");
+            jErroCPass.setVisible(true);
+            jErroCPass.setForeground(Color.RED);
+        }
+        
         switch(ObservableGame.Regista(jUsername.getText(), jNome.getText(), jPassword.getText()))
         {
             case 1: 
             {
                 jErroCPass.setText("Registo Efetuado com Sucesso");
+                jErroUser.setVisible(false);
+                jErroPass.setVisible(false);
+                jErroNome.setVisible(false);
                 jErroCPass.setVisible(true);
+                jErroCPass.setForeground(Color.GREEN);
                 break;
             }
             case -1:
@@ -278,26 +290,27 @@ public class Registo extends javax.swing.JPanel
             }
             case -2:
             {
-                jErroUser.setText("Utilizador entre 7-15 caracteres");
+                jErroUser.setText("Utilizador no Máximo 15 Caracteres");
                 jErroUser.setVisible(true);
                 break;
             }
             case -3:
             {
-                jErroNome.setText("Nome entre 7-15 caracteres");
+                jErroNome.setText("Nome no Máximo 15 caracteres");
                 jErroNome.setVisible(true);
                 break;
             }
             case -4:
             {
-                jErroPass.setText("Palavra-Passe entre 7-15 caracteres");
+                jErroPass.setText("Palavra-Passe no Máximo 30 caracteres");
                 jErroPass.setVisible(true);
                 break;
             }
             case -5:
             {
-                jErroCPass.setText("Verifique a sua conenção à internet");
+                jErroCPass.setText("Verifique a sua Conenção à Internet");
                 jErroCPass.setVisible(true);
+                jErroCPass.setForeground(Color.RED);
                 break;
             }
                 

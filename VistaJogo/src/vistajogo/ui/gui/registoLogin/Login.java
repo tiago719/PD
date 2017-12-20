@@ -201,14 +201,22 @@ public class Login extends javax.swing.JPanel {
 
     private void jEntrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEntrarMouseClicked
     {//GEN-HEADEREND:event_jEntrarMouseClicked
-
-        /*if (ObservableGame.Login(jUsername.getText().trim(), jPassword.getText().trim())) {
+        int ret=ObservableGame.Login(jUsername.getText().trim(), jPassword.getText().trim());
+        if (ret==0) {
             jErro.setText("Credenciais Incorretas!");
+            jErro.setForeground(Color.red);
             jErro.setVisible(true);
-        } else {
-            CardLayout cl = (CardLayout) CardPanel.getLayout();
-            cl.next(CardPanel);
-        }*/
+        } else if(ret==1) {
+            jErro.setText("Login Efetuado com sucesso!");
+            jErro.setForeground(Color.green);
+            jErro.setVisible(true);
+        }
+        else
+        {
+            jErro.setText("Verifique a sua Conenção à Internet");
+            jErro.setForeground(Color.green);
+            jErro.setVisible(true);
+        }
     }//GEN-LAST:event_jEntrarMouseClicked
 
 

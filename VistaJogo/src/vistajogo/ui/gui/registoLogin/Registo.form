@@ -17,7 +17,7 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace pref="83" max="32767" attributes="0"/>
+              <EmptySpace pref="76" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -153,7 +153,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="99" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Utilizador entre 7-15 Caracteres"/>
+        <Property name="text" type="java.lang.String" value="Utilizador no M&#xe1;ximo 15 Caracteres"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jErroNome">
@@ -164,7 +164,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="99" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Nome entre 7-15 Caracteres"/>
+        <Property name="text" type="java.lang.String" value="Nome no M&#xe1;ximo 15 Caracteres"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jErroPass">
@@ -175,7 +175,7 @@
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="0" green="0" red="99" type="rgb"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Palavra-Passe entre 8-15 caracteres"/>
+        <Property name="text" type="java.lang.String" value="Palavra-Passe no M&#xe1;ximo 15 caracteres"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jErroCPass">
