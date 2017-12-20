@@ -2,6 +2,7 @@ package Model;
 
 import classescomunicacao.RegistoUtilizador;
 import Model.PesquisasGestaoUtilizadores;
+import classescomunicacao.Login;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -45,6 +46,24 @@ public class ModelGestaoUtilizadores {
         }
     }
     
-    
+    public static int LoginUtil(Login l)
+    {
+          PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
+          
+        try {
+            if(p.VerificaLogin(l.getNome(), l.getPassword()) == true)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            return -1;
+        }
+        
+    }
 
 }

@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 public class Comunicacao
 {
     public static final int PORTO = 5001;
+    public static final int PORTO2 = 5002;
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
@@ -62,8 +63,9 @@ public class Comunicacao
                     System.out.println(ex);
                 }
             }
-            return -5;
+            
         }
+        return -5;
     }
     
     public int login(String username, String password)
@@ -71,7 +73,7 @@ public class Comunicacao
         Socket socket = null;
         try
         {
-            socket = new Socket(IP, PORTO);
+            socket = new Socket(IP, PORTO2);
             socket.setSoTimeout(TIMEOUT);
 
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
@@ -104,7 +106,7 @@ public class Comunicacao
                     System.out.println(ex);
                 }
             }
-            return -1;
         }
+        return -1;
     }
 }
