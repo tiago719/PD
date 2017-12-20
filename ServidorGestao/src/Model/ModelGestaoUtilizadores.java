@@ -1,6 +1,6 @@
 package Model;
 
-import classescomunicacao.RegistoUtilizador;
+import classescomunicacao.*;
 import Model.PesquisasGestaoUtilizadores;
 import classescomunicacao.Login;
 import java.security.NoSuchAlgorithmException;
