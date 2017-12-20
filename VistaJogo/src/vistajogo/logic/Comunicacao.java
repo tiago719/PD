@@ -16,7 +16,7 @@ public class Comunicacao
 {
     public static final int PORTO = 5001;
     public static final int BUFSIZE = 4000;
-    public static final String IP = "10.65.141.237";
+    public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
 
     public Comunicacao()
@@ -24,7 +24,7 @@ public class Comunicacao
 
     }
 
-    public void registo(String nome, String email, String password)
+    public int registo(String nome, String email, String password)
     {
         Socket socket = null;
         try
@@ -41,7 +41,49 @@ public class Comunicacao
             
             Integer returnedObject=(Integer)in.readObject();
             
-            System.out.println(returnedObject);
+            return returnedObject;
+
+        } 
+        catch (IOException | ClassNotFoundException e)
+        {
+            System.out.println(e);
+        } 
+        finally
+        {
+            if (socket != null)
+            {
+                try
+                {
+                    socket.close();
+                } 
+                catch (IOException ex)
+                {
+                    System.out.println("Erro a fechar o socket a registar.");
+                    System.out.println(ex);
+                }
+            }
+            return -5;
+        }
+    }
+    
+    public int login(String username, String password)
+    {
+        Socket socket = null;
+        try
+        {
+            socket = new Socket(IP, PORTO);
+            socket.setSoTimeout(TIMEOUT);
+
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            Login novo = new Login(username, password);
+            out.writeObject(novo);
+            out.flush();
+            
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            
+            Integer returnedObject=(Integer)in.readObject();
+            
+            return returnedObject;
 
         } 
         catch (Exception e)
@@ -62,6 +104,7 @@ public class Comunicacao
                     System.out.println(ex);
                 }
             }
+            return -1;
         }
     }
 }
