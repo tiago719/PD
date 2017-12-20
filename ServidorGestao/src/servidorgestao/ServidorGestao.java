@@ -18,40 +18,13 @@ import java.net.Socket;
  */
 public class ServidorGestao {
     
-    public static final int PORTO = 5001;
-    public static final int BUFSIZE = 4000;
-    public static final String IP = "localhost";
-    public static final int TIMEOUT = 50000;
-    
     public static void main(String[] args) {
         
-        ServerSocket serverSocket=null;
-        try
-        {
-            serverSocket=new ServerSocket(PORTO);
-            while(true)
-            {
-                Socket nextClient=serverSocket.accept();
-                
-                ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
-                in.readObject();
-                
-                RegistoUtilizador returnedObject = (RegistoUtilizador)in.readObject();
-                ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
-                
-                Integer novo = new Integer(1);
-                out.writeObject(novo);
-                out.flush();
-            }
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-        finally
-        {
-            
-        }
+        Comunicacao comunicacao=new Comunicacao();
+        
+        comunicacao.recebeRegistos();
+        comunicacao.recebeLogins();
+       
     }
     
 }

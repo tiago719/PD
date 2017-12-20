@@ -202,13 +202,13 @@ public class Login extends javax.swing.JPanel {
     private void jEntrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEntrarMouseClicked
     {//GEN-HEADEREND:event_jEntrarMouseClicked
 
-        if (ObservableGame.Login(jUsername.getText().trim(), jPassword.getText().trim()) == false) {
+        /*if (ObservableGame.Login(jUsername.getText().trim(), jPassword.getText().trim())) {
             jErro.setText("Credenciais Incorretas!");
             jErro.setVisible(true);
         } else {
             CardLayout cl = (CardLayout) CardPanel.getLayout();
             cl.next(CardPanel);
-        }
+        }*/
     }//GEN-LAST:event_jEntrarMouseClicked
 
 
