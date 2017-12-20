@@ -5,6 +5,7 @@
  */
 package servidorgestao;
 
+import Model.ModelGestaoUtilizadores;
 import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  *
@@ -30,6 +32,7 @@ public class Comunicacao
     
     public void recebeRegistos()
     {
+        int devolve = 0;
         ServerSocket serverSocket=null;
         try
         {
@@ -41,9 +44,12 @@ public class Comunicacao
                 ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
                 
                 RegistoUtilizador returnedObject = (RegistoUtilizador)in.readObject();
+                
+                devolve = ModelGestaoUtilizadores.AdicionaUtil(returnedObject);
+                
                 ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
                 
-                Integer novo = new Integer(1);
+                Integer novo = new Integer(devolve);
                 out.writeObject(novo);
                 out.flush();
             }
