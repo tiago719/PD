@@ -7,6 +7,7 @@ package vistajogo.ui.gui.registoLogin;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -22,7 +23,8 @@ public class Login extends javax.swing.JPanel {
     ObservableGame ObservableGame;
     boolean UserFirst = true, PassFirst = true;
     JPanel CardPanel;
-
+    RegistoLoginView RegistoLoginView;
+    
     public Login() {
         initComponents();
     }
@@ -37,6 +39,14 @@ public class Login extends javax.swing.JPanel {
     public void setCardPanel(JPanel J) {
         CardPanel = J;
     }
+    
+        
+        
+    public void setRegistoLoginView(RegistoLoginView v)
+    {
+        RegistoLoginView=v;
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,27 +130,24 @@ public class Login extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPassword))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(50, 50, 50)
-                                        .addComponent(jLabel1))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(36, 36, 36)
-                                .addComponent(jErro))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
-                                .addComponent(jEntrar)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addGap(50, 50, 50)
+                                .addComponent(jLabel1))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jErro))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jEntrar)))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,7 +162,7 @@ public class Login extends javax.swing.JPanel {
                 .addComponent(jErro)
                 .addGap(18, 18, 18)
                 .addComponent(jEntrar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -201,20 +208,20 @@ public class Login extends javax.swing.JPanel {
 
     private void jEntrarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jEntrarMouseClicked
     {//GEN-HEADEREND:event_jEntrarMouseClicked
+
         int ret=ObservableGame.Login(jUsername.getText().trim(), jPassword.getText().trim());
         if (ret==0) {
             jErro.setText("Credenciais Incorretas!");
-            jErro.setForeground(Color.red);
             jErro.setVisible(true);
-        } else if(ret==1) {
-            jErro.setText("Login Efetuado com sucesso!");
-            jErro.setForeground(Color.green);
-            jErro.setVisible(true);
+        } else if(ret==1) 
+        {
+            CardLayout cl = (CardLayout) CardPanel.getLayout();
+            cl.next(CardPanel);
+            RegistoLoginView.setSize(Constants.DIM_X_ECRA_PRINCIPAL,Constants.DIM_Y_ECRA_PRINCIPAL );
         }
         else
         {
-            jErro.setText("Verifique a sua Conenção à Internet");
-            jErro.setForeground(Color.green);
+            jErro.setText("Verifique a sua Conencção à Internet");
             jErro.setVisible(true);
         }
     }//GEN-LAST:event_jEntrarMouseClicked

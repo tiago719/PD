@@ -1,6 +1,6 @@
 package Model;
 
-import classescomunicacao.RegistoUtilizador;
+import classescomunicacao.*;
 import Model.PesquisasGestaoUtilizadores;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
