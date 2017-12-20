@@ -25,7 +25,7 @@ public class PesquisasGestaoUtilizadores {
     public void AdicionaUtilizador(String Username, String Nome, String PalavraChave) throws NoSuchAlgorithmException {
         bd = new BaseDados();
 
-        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, USERNAME, PASSWORD, LOGADO) VALUES ( null,'" + Nome.trim() + "','" + Username.trim() + "','" + SHA1(PalavraChave) + "', false;);");
+        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, USERNAME, PASSWORD, LOGADO) VALUES ( null,'" + Nome.trim() + "','" + Username.trim() + "','" + SHA1(PalavraChave) + "', false);");
 
         bd.CloseConnection();
     }

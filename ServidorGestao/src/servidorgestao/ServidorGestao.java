@@ -22,9 +22,12 @@ public class ServidorGestao {
         
         Comunicacao comunicacao=new Comunicacao();
         
-        comunicacao.recebeRegistos();
-        comunicacao.recebeLogins();
-       
+        comunicacao.Start();
+        
+        while(true)
+        {
+            
+        }
     }
     
 }
