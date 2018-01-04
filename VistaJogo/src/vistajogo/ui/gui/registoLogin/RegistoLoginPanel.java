@@ -31,16 +31,13 @@ import static vistajogo.ui.gui.registoLogin.Constants.DIM_X_REGISTO;
 import static vistajogo.ui.gui.registoLogin.Constants.DIM_Y_LOGIN;
 import static vistajogo.ui.gui.registoLogin.Constants.DIM_Y_REGISTO;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class RegistoLoginPanel extends JPanel implements Observer
 {
     ObservableGame ObservableGame;
     Registo registoPanel;
     Login loginPanel;
     JPanel CardPanel;
+    RegistoLoginView RegistoLoginView;
     
     public RegistoLoginPanel(ObservableGame o)
     {
@@ -60,6 +57,12 @@ public class RegistoLoginPanel extends JPanel implements Observer
     {
         CardPanel=J;
         loginPanel.setCardPanel(J);
+    }
+    
+    public void setRegistoLoginView(RegistoLoginView v)
+    {
+        RegistoLoginView=v;
+        loginPanel.setRegistoLoginView(v);
     }
     
     public void setupLayout()
