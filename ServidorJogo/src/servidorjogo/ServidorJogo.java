@@ -1,6 +1,7 @@
 
 package servidorjogo;
 
+import Model.BaseDados;
 import Model.TrataServidorGestao;
 
 
@@ -10,7 +11,9 @@ public class ServidorJogo {
 
    
     public static void main(String[] args) {
-       TrataServidorGestao thread1 = new TrataServidorGestao();
+        
+        BaseDados BD = new BaseDados();
+       TrataServidorGestao thread1 = new TrataServidorGestao(BD);
        thread1.IpDB = "localhost";
        thread1.IpSG = "localhost";
        thread1.PortoSG = 6005;
