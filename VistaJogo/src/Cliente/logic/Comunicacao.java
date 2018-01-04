@@ -111,39 +111,4 @@ public class Comunicacao
         }
         return -1;
     }
-    
-    public void atualizaListasClientes
-    {
-        Socket socket = null;
-        try
-        {
-            socket = new Socket(Constants.HOST_SERVIDOR_GESTAO, PORTO_SERVIDOR_GESTAO);
-            socket.setSoTimeout(TIMEOUT);
-
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            
-            ArrayList<Cliente> returnedObject=(ArrayList<Cliente>)in.readObject();
-            
-
-        } 
-        catch (Exception e)
-        {
-            System.out.println(e);
-        } 
-        finally
-        {
-            if (socket != null)
-            {
-                try
-                {
-                    socket.close();
-                } 
-                catch (IOException ex)
-                {
-                    System.out.println("Erro a fechar o socket a registar.");
-                    System.out.println(ex);
-                }
-            }
-        }
-    }
 }

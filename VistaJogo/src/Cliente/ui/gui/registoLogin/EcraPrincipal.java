@@ -8,6 +8,9 @@ package Cliente.ui.gui.registoLogin;
 import java.util.Observable;
 import java.util.Observer;
 import Cliente.logic.ObservableGame;
+import classescomunicacao.ClienteEnviar;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 /**
  *
@@ -95,7 +98,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
 
     @Override
     public void update(Observable o, Object arg)
-    {
-        
+    {   
+        DefaultTableModel defaultTableModel = (DefaultTableModel)(jTableUtilizadores.getModel());
+
+        for(ClienteEnviar cliente: observableGame.getClientes())
+        {
+            defaultTableModel.addRow(new Object[] {cliente.getNomeUtilizador(),cliente.getNome(),cliente.isParFormado()});
+        }
     }
 }

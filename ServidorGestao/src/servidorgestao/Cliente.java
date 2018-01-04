@@ -5,6 +5,7 @@
  */
 package servidorgestao;
 
+import classescomunicacao.ClienteEnviar;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
@@ -19,6 +20,7 @@ import java.util.logging.Logger;
  */
 public class Cliente
 {
+    private ClienteEnviar clienteEnviar;
     private String nomeUtilizador, nome, ip;
     private boolean parFormado;
     private int porto;
@@ -84,15 +86,20 @@ public class Cliente
         return porto;
     }
     
-    public void atualizaCliente(ArrayList<Cliente> clientesLogados)
+    public void atualizaCliente(ArrayList<ClienteEnviar> clientesEnviar)
     {
         try
         {
-            out.writeObject(clientesLogados);
+            out.writeObject(clientesEnviar);
             out.flush();
         } catch (IOException ex)
         {
             System.err.println(ex);
         }  
+    }
+    
+    public ClienteEnviar getClienteEnviar()
+    {
+        return clienteEnviar;
     }
 }

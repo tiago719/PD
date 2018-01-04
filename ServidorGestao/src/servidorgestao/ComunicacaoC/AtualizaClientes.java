@@ -5,6 +5,7 @@
  */
 package servidorgestao.ComunicacaoC;
 
+import classescomunicacao.ClienteEnviar;
 import java.util.ArrayList;
 import servidorgestao.Cliente;
 
@@ -15,15 +16,18 @@ import servidorgestao.Cliente;
 public class AtualizaClientes extends Thread 
 {
     private ArrayList<Cliente> clientesLogados;
+    private ArrayList<ClienteEnviar> clientesEnviar;
     
     public AtualizaClientes()
     {
         clientesLogados=new ArrayList<>();
+        clientesEnviar=new ArrayList<>();
     }
     
     public void addCliente(Cliente cliente)
     {
         clientesLogados.add(cliente);
+        clientesEnviar.add(cliente.getClienteEnviar());
     }
     
     public void removeCliente(Cliente cliente)
@@ -31,7 +35,11 @@ public class AtualizaClientes extends Thread
         for(Cliente c:clientesLogados)
         {
             if(cliente==c)
+            {
                 clientesLogados.remove(c);
+                clientesEnviar.remove(c.getClienteEnviar());
+                return;
+            }
         }
     }
     
@@ -39,7 +47,7 @@ public class AtualizaClientes extends Thread
     {
         for(Cliente c:clientesLogados)
         {
-            c.atualizaCliente(clientesLogados);
+            c.atualizaCliente(clientesEnviar);
         }
     }
     
