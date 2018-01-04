@@ -9,6 +9,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import servidorgestao.Cliente;
 
 /**
  *
@@ -60,7 +63,7 @@ public class PesquisasGestaoUtilizadores {
     }
 
     //VERIFICA SE O Username E Password ESTÁ REGISTADO NA BASE DE DADOS
-    public boolean VerificaLogin(String Username, String Password) throws SQLException {
+    public int VerificaLogin(String Username, String Password) throws SQLException {
         bd = new BaseDados();
         ResultSet Rt = null;
         boolean existe = false;
@@ -69,12 +72,44 @@ public class PesquisasGestaoUtilizadores {
         } catch (NoSuchAlgorithmException ex) {
 
         }
-        if (Rt.next()) {
+        if (Rt.next()) 
+        {
             bd.CloseConnection();
-            return true;
+            return Rt.getInt("IDUTILIZADOR");
         } else {
             bd.CloseConnection();
-            return false;
+            return -1;
         }
+    }
+    
+    public void setClienteLogado(int id)
+    {
+        bd = new BaseDados();
+        try
+        {
+           bd.Modifica("UPDATE UTILIZADOR SET LOGADO=1 WHERE IDUTILIZADOR=" + id + ";");
+        }
+        catch(Exception e){}
+        
+        bd.CloseConnection();
+    }
+    
+    public Cliente getClienteLogado(int id, String ip, int porto)
+    {
+        bd = new BaseDados();
+        ResultSet Rt = null;
+        
+        Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + "';");
+        
+        bd.CloseConnection();
+        
+        try
+        {
+            return new Cliente(Rt.getString("USERNAME"), Rt.getString("NOME"),false, ip, porto);
+        } catch (SQLException ex)
+        {
+            System.out.println(ex);
+        }
+        return null;
     }
 }
