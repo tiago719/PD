@@ -18,7 +18,12 @@ public class TrataServidorGestao extends Thread {
     public String IpDB = null, IpSG;
     public int PortoSG;
     public static final int MAX_SIZE = 10000;
-
+    public BaseDados BD;
+    
+    public TrataServidorGestao(BaseDados BD) {
+        this.BD = BD;
+    }
+    
     @Override
     public void run() {
 
@@ -64,6 +69,7 @@ public class TrataServidorGestao extends Thread {
                 try {
                     request = (String) (in.readObject());
                     IpDB = request;
+                    BD.setIpBD(IpDB);
                 } catch (ClassCastException | ClassNotFoundException e) {
                     request = null;
                 }
