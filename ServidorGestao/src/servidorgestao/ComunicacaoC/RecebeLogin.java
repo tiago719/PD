@@ -52,7 +52,8 @@ public class RecebeLogin extends Thread
             System.out.println(e);
         } finally {
             try {
-                serverSocket.close();
+                if(serverSocket!=null)
+                    serverSocket.close();
             } catch (IOException ex) {
                 System.out.println("Erro a fechar o socket:" + ex);
             }
