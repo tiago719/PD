@@ -7,11 +7,14 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import servidorgestao.ComunicacaoC.AtualizaClientes;
 
 public class ModelGestaoUtilizadores {
 
+    private AtualizaClientes atualizaClientes;
+    
     public ModelGestaoUtilizadores() {
-
+        atualizaClientes=new AtualizaClientes();
     }
 
     public static int AdicionaUtil(RegistoUtilizador res) {
@@ -46,14 +49,18 @@ public class ModelGestaoUtilizadores {
         }
     }
     
-    public static int LoginUtil(Login l)
+    public static int LoginUtil(Login l, String ip, int porto, AtualizaClientes atualizaClientes)
     {
           PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
+          int idUtilizadorLogado;
           
         try {
-            if(p.VerificaLogin(l.getNome(), l.getPassword()) == true)
+            if((idUtilizadorLogado=p.VerificaLogin(l.getNome(), l.getPassword())) != -1)
             {
-                return 1;
+                p.setClienteLogado(idUtilizadorLogado);
+                atualizaClientes.addCliente(p.getClienteLogado(idUtilizadorLogado, ip, porto));
+                atualizaClientes.atualizaClientes();
+                return 1;                
             }
             else
             {

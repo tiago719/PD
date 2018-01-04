@@ -15,6 +15,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import servidorgestao.ComunicacaoC.RecebeLogin;
+import servidorgestao.ComunicacaoC.RecebeRegistos;
 
 /**
  *
@@ -35,74 +37,10 @@ public class Comunicacao {
     {
         new RecebeLogin().start();
         new RecebeRegistos().start();
-    }
-
-    public class RecebeRegistos extends Thread {
-
-        @Override
-        public void run() {
-            int devolve = 0;
-            ServerSocket serverSocket = null;
-            try {
-                serverSocket = new ServerSocket(PORTO);
-                while (true) {
-                    Socket nextClient = serverSocket.accept();
-
-                    ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
-
-                    RegistoUtilizador returnedObject = (RegistoUtilizador) in.readObject();
-
-                    devolve = ModelGestaoUtilizadores.AdicionaUtil(returnedObject);
-
-                    ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
-
-                    Integer novo = new Integer(devolve);
-                    out.writeObject(novo);
-                    out.flush();
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-            } finally {
-                try {
-                    serverSocket.close();
-                } catch (IOException ex) {
-                    System.out.println("Erro a fechar o socket:" + ex);
-                }
-            }
-        }
-    }
-
-    public class RecebeLogin extends Thread {
-
-        @Override
-        public void run() {
-            ServerSocket serverSocket = null;
-            int devolve = 0;
-            try {
-                serverSocket = new ServerSocket(PORTO2);
-                while (true) {
-                    Socket nextClient = serverSocket.accept();
-
-                    ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
-
-                    Login returnedObject = (Login) in.readObject();
-
-                    devolve = ModelGestaoUtilizadores.LoginUtil(returnedObject);
-                    ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
-
-                    Integer novo = new Integer(devolve);
-                    out.writeObject(novo);
-                    out.flush();
-                }
-            } catch (Exception e) {
-                System.out.println(e);
-            } finally {
-                try {
-                    serverSocket.close();
-                } catch (IOException ex) {
-                    System.out.println("Erro a fechar o socket:" + ex);
-                }
-            }
+        
+        while(true)
+        {
+            
         }
     }
 }
