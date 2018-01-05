@@ -24,6 +24,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
     public EcraPrincipal(ObservableGame o)
     {
         observableGame=o;
+        observableGame.addObserver(this);
+        
         initComponents();
     }
 
@@ -43,15 +45,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jTableUtilizadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String []
             {
@@ -99,11 +93,20 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
     @Override
     public void update(Observable o, Object arg)
     {   
+        String parFormado;
         DefaultTableModel defaultTableModel = (DefaultTableModel)(jTableUtilizadores.getModel());
+        defaultTableModel.setRowCount(0);
 
+        if(observableGame.getClientes()==null)
+            return;
+        
         for(ClienteEnviar cliente: observableGame.getClientes())
         {
-            defaultTableModel.addRow(new Object[] {cliente.getNomeUtilizador(),cliente.getNome(),cliente.isParFormado()});
+            if(cliente.isParFormado())
+                parFormado="Tem par";
+            else
+                parFormado="Não tem par";
+            defaultTableModel.addRow(new Object[] {cliente.getNomeUtilizador(),cliente.getNome(),parFormado});
         }
     }
 }

@@ -1,14 +1,17 @@
 
 package Cliente.logic;
 
-import static Cliente.logic.Comunicacao.TIMEOUT;
+import ComunicacaoP.Comunicacao;
+import static ComunicacaoP.Comunicacao.TIMEOUT;
 import static Cliente.logic.Constants.PORTO_SERVIDOR_GESTAO;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import Cliente.logic.states.IStates;
+import ComunicacaoP.RecebeAtualizacoesClientesLogados;
 import classescomunicacao.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public class ObservableGame extends Observable
     private GameModel gameModel;
     private Comunicacao comunicacao;
     private ArrayList<ClienteEnviar> clientes;
+    private RecebeAtualizacoesClientesLogados threadRecebeAtualizacoesClientesLogados;
     
     public ObservableGame()
     {
@@ -174,44 +178,19 @@ public class ObservableGame extends Observable
     }
 
     public int Login(String username, String password) {
-        return comunicacao.login(username, password);
+        int ret=comunicacao.login(username, password);
+        if(ret==1)
+        {
+            threadRecebeAtualizacoesClientesLogados=new RecebeAtualizacoesClientesLogados(this,comunicacao.getObjectInputStream());
+            threadRecebeAtualizacoesClientesLogados.start();
+        }
+        return ret;
     }
     
-    public void alteracaoListaClientes()
+    public void setClientesLogados(ArrayList<ClienteEnviar> clientes)
     {
-        Socket socket = null;
-        int a=0;
-        while(a==0)//TODO: define condicao de paragem
-        {
-            try
-            {
-                socket = new Socket(Constants.HOST_SERVIDOR_GESTAO, PORTO_SERVIDOR_GESTAO);
-                socket.setSoTimeout(TIMEOUT);
-
-                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-
-                ArrayList<ClienteEnviar> returnedObject=(ArrayList<ClienteEnviar>)in.readObject();
-
-                setChanged();
-                notifyObservers();
-                
-            } 
-            catch (Exception e)
-            {
-                System.out.println(e);
-            } 
-        }  
-        if (socket != null)
-        {
-            try
-            {
-                socket.close();
-            } 
-            catch (IOException ex)
-            {
-                System.out.println("Erro a fechar o socket para receber atualizacoes de clientes.");
-                System.out.println(ex);
-            }
-        }
+        this.clientes=clientes;                
+        setChanged();
+        notifyObservers();
     }
 }

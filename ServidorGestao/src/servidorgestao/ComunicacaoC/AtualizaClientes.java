@@ -13,7 +13,7 @@ import servidorgestao.Cliente;
  *
  * @author Tiago Coutinho
  */
-public class AtualizaClientes extends Thread 
+public class AtualizaClientes
 {
     private ArrayList<Cliente> clientesLogados;
     private ArrayList<ClienteEnviar> clientesEnviar;
@@ -43,17 +43,17 @@ public class AtualizaClientes extends Thread
         }
     }
     
-    public void atualizaClientes()
+    public void atualizaClientes(int id)
     {
+        ArrayList<ClienteEnviar> temp= new ArrayList<>();
         for(Cliente c:clientesLogados)
         {
-            c.atualizaCliente(clientesEnviar);
+            temp.clear();
+            for(ClienteEnviar ce: clientesEnviar)
+                if(!c.getNomeUtilizador().equals(ce.getNomeUtilizador()))
+                    temp.add(ce);
+            
+            c.atualizaCliente(temp);
         }
-    }
-    
-    @Override
-    public void run()
-    {
-        
     }
 }
