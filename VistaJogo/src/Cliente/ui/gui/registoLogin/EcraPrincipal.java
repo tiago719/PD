@@ -10,8 +10,32 @@ import java.util.Observer;
 import Cliente.logic.ObservableGame;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Mensagem;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.EventObject;
+import java.util.Vector;
+import javafx.scene.control.Cell;
+import javax.swing.AbstractCellEditor;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JTable;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.event.CellEditorListener;
+import javax.swing.table.AbstractTableModel;
+
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 /**
  *
@@ -19,15 +43,23 @@ import javax.swing.table.TableColumn;
  */
 public class EcraPrincipal extends javax.swing.JPanel implements Observer
 {
-    ObservableGame observableGame;
-   
-    
+    private ObservableGame observableGame;
+    private ButtonColumn botoesFormarPar, botoesEnviarSms;
+    private DefaultTableModel modeloTabela;
+
     public EcraPrincipal(ObservableGame o)
     {
-        observableGame=o;
+        observableGame = o;
         observableGame.addObserver(this);
-        
+
         initComponents();
+        modeloTabela=new DefaultTableModel();
+        botoesFormarPar=new ButtonColumn(jTableUtilizadores,3);
+        botoesFormarPar.setText("Formar Par");
+        botoesEnviarSms=new ButtonColumn(jTableUtilizadores,4);
+        botoesEnviarSms.setText("Enviar Mensagem");
+        jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
+        jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
     }
 
     /**
@@ -37,7 +69,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUtilizadores = new javax.swing.JTable();
@@ -53,28 +86,23 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jButton2 = new javax.swing.JButton();
 
         jTableUtilizadores.setModel(new javax.swing.table.DefaultTableModel(
-
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+            new Object [][]
+            {
 
             },
-            new String [] {
-                "Nome de Utilizador", "Nome", "Estado", "Jogar"
+            new String []
+            {
+                "Nome de Utilizador", "Nome", "Estado", "Jogar", "Enviar Mensagem"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
+                false, false, false, false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
                 return canEdit [columnIndex];
             }
         });
@@ -84,13 +112,16 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jScrollPane2.setViewportView(jTextPane1);
 
         jButton1.setText("->");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jList1.setModel(new javax.swing.AbstractListModel<String>()
+        {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -100,8 +131,10 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jScrollPane4.setViewportView(jTextPane2);
 
         jButton2.setText("->");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -192,21 +225,30 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
 
     @Override
     public void update(Observable o, Object arg)
-    {   
+    {
         String parFormado;
-        DefaultTableModel defaultTableModel = (DefaultTableModel)(jTableUtilizadores.getModel());
-        defaultTableModel.setRowCount(0);
+        modeloTabela = (DefaultTableModel) (jTableUtilizadores.getModel());
+        modeloTabela.setRowCount(0);
 
-        if(observableGame.getClientes()==null)
-            return;
-        
-        for(ClienteEnviar cliente: observableGame.getClientes())
+        if (observableGame.getClientes() == null)
         {
-            if(cliente.isParFormado())
-                parFormado="Tem par";
+            return;
+        }
+
+        for (ClienteEnviar cliente : observableGame.getClientes())
+        {
+            if (cliente.getNome().equals("Nome User 3"))
+            {
+                parFormado = "Tem par";
+            } 
             else
-                parFormado="Não tem par";
-            defaultTableModel.addRow(new Object[] {cliente.getNomeUtilizador(),cliente.getNome(),parFormado});
+            {
+                parFormado = "Não tem par";
+            }
+            modeloTabela.addRow(new Object[]
+            {
+                cliente.getNomeUtilizador(), cliente.getNome(), parFormado
+            });
         }
         
         Mensagem sms = observableGame.GetSMS();
@@ -218,5 +260,137 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         {
              jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
         }
+    }
+
+    public class ButtonColumn extends AbstractCellEditor
+	implements TableCellRenderer, TableCellEditor, MouseListener
+{
+	private JTable table;
+	private Action action;
+	private int mnemonic;
+	private Border originalBorder;
+	private Border focusBorder;
+
+	private JButton renderButton;
+	private JButton editButton;
+	private Object editorValue;
+	private boolean isButtonColumnEditor;
+
+	public ButtonColumn(JTable table, int column)
+	{
+		this.table = table;
+		renderButton = new JButton();
+		editButton = new JButton();
+		editButton.setFocusPainted( false );
+		originalBorder = editButton.getBorder();
+		setFocusBorder( new LineBorder(Color.BLUE) );
+
+		TableColumnModel columnModel = table.getColumnModel();
+		columnModel.getColumn(column).setCellRenderer( this );
+		columnModel.getColumn(column).setCellEditor( this );
+		table.addMouseListener( this );
+	}
+        
+        public void setEnable(boolean val)
+        {
+            renderButton.setEnabled(val);
+        }
+
+	public Border getFocusBorder()
+	{
+		return focusBorder;
+	}
+
+	public void setFocusBorder(Border focusBorder)
+	{
+		this.focusBorder = focusBorder;
+		editButton.setBorder( focusBorder );
+	}
+
+	public int getMnemonic()
+	{
+		return mnemonic;
+	}
+
+	public void setMnemonic(int mnemonic)
+	{
+            this.mnemonic = mnemonic;
+            renderButton.setMnemonic(mnemonic);
+            editButton.setMnemonic(mnemonic);
+	}
+
+	@Override
+	public Component getTableCellEditorComponent(
+		JTable table, Object value, boolean isSelected, int row, int column)
+	{
+            return editButton;
+	}
+
+	@Override
+	public Object getCellEditorValue()
+	{
+		return editorValue;
+	}
+        
+        public void setText(String text)
+        {
+            renderButton.setText(text);
+        }
+
+	public Component getTableCellRendererComponent(
+		JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
+	{
+            
+		if (isSelected)
+		{
+			renderButton.setForeground(table.getSelectionForeground());
+	 		renderButton.setBackground(table.getSelectionBackground());
+		}
+		else
+		{
+			renderButton.setForeground(table.getForeground());
+			renderButton.setBackground(UIManager.getColor("Button.background"));
+		}
+
+		if (hasFocus)
+		{
+			renderButton.setBorder( focusBorder );
+		}
+		else
+		{
+			renderButton.setBorder( originalBorder );
+		}
+		
+		return renderButton;
+	}
+
+        @Override
+        public void mousePressed(MouseEvent e)
+        {
+
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e)
+        {
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e)
+        {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e)
+        {
+            
+        }
+    
     }
 }
