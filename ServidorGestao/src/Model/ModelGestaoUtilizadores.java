@@ -3,6 +3,10 @@ package Model;
 import classescomunicacao.*;
 import Model.PesquisasGestaoUtilizadores;
 import classescomunicacao.Login;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import static java.lang.Thread.sleep;
+import java.net.Socket;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -49,28 +53,46 @@ public class ModelGestaoUtilizadores {
         }
     }
     
-    public static int LoginUtil(Login l, String ip, int porto, AtualizaClientes atualizaClientes)
+    public static void LoginUtil(Login l, Socket socket, ObjectOutputStream out, AtualizaClientes atualizaClientes)
     {
           PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
           int idUtilizadorLogado;
           
         try {
-            if((idUtilizadorLogado=p.VerificaLogin(l.getNome(), l.getPassword())) != -1)
+            idUtilizadorLogado=p.VerificaLogin(l.getNome(), l.getPassword());
+            if(idUtilizadorLogado!= -1)
             {
+                Integer novo = new Integer(1);
+                out.writeObject(novo);
+                out.flush();
+                
+                try
+                {
+                    sleep(1000);
+                } catch (InterruptedException ex)
+                {
+                    Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 p.setClienteLogado(idUtilizadorLogado);
-                atualizaClientes.addCliente(p.getClienteLogado(idUtilizadorLogado, ip, porto));
-                atualizaClientes.atualizaClientes();
-                return 1;                
+                atualizaClientes.addCliente(p.getClienteLogado(idUtilizadorLogado, socket, out));
+                atualizaClientes.atualizaClientes(idUtilizadorLogado);
+                return;                
             }
             else
             {
-                return 0;
+                Integer novo = new Integer(0);
+                out.writeObject(novo);
+                out.flush();
+                
+                return;
             }
         } catch (SQLException ex) {
             Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
         }
-        
+        catch(IOException e)
+        {
+            Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, e);
+        }    
     }
-
 }

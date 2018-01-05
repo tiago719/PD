@@ -5,12 +5,15 @@
  */
 package classescomunicacao;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Tiago Coutinho
  */
-public class ClienteEnviar
+public class ClienteEnviar implements Serializable
 {
+    static final long serialVersionUID = 1L;
     private String nomeUtilizador, nome;
     private boolean parFormado;
 
@@ -49,7 +52,5 @@ public class ClienteEnviar
     public void setParFormado(boolean parFormado)
     {
         this.parFormado = parFormado;
-    }
-    
-    
+    }  
 }
