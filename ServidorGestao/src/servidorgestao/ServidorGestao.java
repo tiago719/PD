@@ -13,10 +13,6 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- *
- * @author edu_f
- */
 public class ServidorGestao {
     
     public static void main(String[] args) {
@@ -27,7 +23,7 @@ public class ServidorGestao {
         thread1.start();
         
         
-        Comunicacao comunicacao=new Comunicacao();
+        Comunicacao comunicacao =new Comunicacao();
         
         comunicacao.Start();
         
