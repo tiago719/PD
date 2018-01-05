@@ -1,4 +1,4 @@
-package Cliente.logic;
+package ComunicacaoP;
 
 import static Cliente.logic.Constants.PORTO_SERVIDOR_GESTAO;
 import classescomunicacao.*;
@@ -21,6 +21,9 @@ public class Comunicacao
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
+    
+    Socket socketClientesLogados;
+    ObjectInputStream in;
 
     public Comunicacao()
     {
@@ -72,18 +75,18 @@ public class Comunicacao
     
     public int login(String username, String password)
     {
-        Socket socket = null;
+        //TODO_ Fechas este socket. MAS NAO NESTA FUNCAO
+        socketClientesLogados = null;
         try
         {
-            socket = new Socket(IP, PORTO2);
-            socket.setSoTimeout(TIMEOUT);
+            socketClientesLogados = new Socket(IP, PORTO2);
 
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectOutputStream out = new ObjectOutputStream(socketClientesLogados.getOutputStream());
             Login novo = new Login(username, password);
             out.writeObject(novo);
             out.flush();
             
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            in = new ObjectInputStream(socketClientesLogados.getInputStream());
             
             Integer returnedObject=(Integer)in.readObject();
             
@@ -94,21 +97,13 @@ public class Comunicacao
         {
             System.out.println(e);
         } 
-        finally
-        {
-            if (socket != null)
-            {
-                try
-                {
-                    socket.close();
-                } 
-                catch (IOException ex)
-                {
-                    System.out.println("Erro a fechar o socket a registar.");
-                    System.out.println(ex);
-                }
-            }
-        }
         return -1;
     }
+
+    public ObjectInputStream getObjectInputStream()
+    {
+        return in;
+    }
+    
+    
 }

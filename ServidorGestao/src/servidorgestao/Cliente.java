@@ -21,29 +21,21 @@ import java.util.logging.Logger;
 public class Cliente
 {
     private ClienteEnviar clienteEnviar;
-    private String nomeUtilizador, nome, ip;
+    private String nomeUtilizador, nome;
     private boolean parFormado;
-    private int porto;
+    private int id;
     private Socket socket;
     private ObjectOutputStream out;
 
-    public Cliente(String nomeUtilizador, String nome, boolean parFormado, String ip, int porto)
+    public Cliente(String nomeUtilizador, String nome, ObjectOutputStream out, boolean parFormado, Socket socket, int id)
     {
         this.nomeUtilizador = nomeUtilizador;
+        this.id=id;
         this.nome = nome;
         this.parFormado = parFormado;
-        this.ip=ip;
-        this.porto=porto;
-        try
-        {
-            socket=new Socket(ip,porto);//TODO: fechar socket
-            socket.setSoTimeout(2000);
-            
-            out = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException ex)
-        {
-            System.out.println("Erro a criar Socket: \n" + ex);
-        }
+        this.socket=socket;
+        clienteEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
+        this.out = out;
     }
 
     public String getNomeUtilizador()
@@ -74,16 +66,11 @@ public class Cliente
     public void setParFormado(boolean parFormado)
     {
         this.parFormado = parFormado;
-    }    
+    } 
 
-    public String getIp()
+    public int getId()
     {
-        return ip;
-    }
-
-    public int getPorto()
-    {
-        return porto;
+        return id;
     }
     
     public void atualizaCliente(ArrayList<ClienteEnviar> clientesEnviar)
