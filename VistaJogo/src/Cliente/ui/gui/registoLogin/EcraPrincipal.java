@@ -9,6 +9,8 @@ import java.util.Observable;
 import java.util.Observer;
 import Cliente.logic.ObservableGame;
 import classescomunicacao.ClienteEnviar;
+import classescomunicacao.Mensagem;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -28,6 +30,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.event.CellEditorListener;
 import javax.swing.table.AbstractTableModel;
+
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -246,6 +249,16 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
             {
                 cliente.getNomeUtilizador(), cliente.getNome(), parFormado
             });
+        }
+        
+        Mensagem sms = observableGame.GetSMS();
+        if(sms.getDistinatario() == null)
+        {
+              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+        }
+        else
+        {
+             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
         }
     }
 

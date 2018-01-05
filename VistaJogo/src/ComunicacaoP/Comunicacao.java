@@ -14,27 +14,25 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Comunicacao
-{
+public class Comunicacao {
+
     public static final int PORTO = 5001;
     public static final int PORTO2 = 5002;
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
-    
+    private String UserName;
+    Socket socketMensagens;
     Socket socketClientesLogados;
     ObjectInputStream in;
 
-    public Comunicacao()
-    {
+    public Comunicacao() {
 
     }
 
-    public int registo(String nome, String email, String password)
-    {
+    public int registo(String nome, String email, String password) {
         Socket socket = null;
-        try
-        {
+        try {
             socket = new Socket(IP, PORTO);
             socket.setSoTimeout(TIMEOUT);
 
@@ -42,68 +40,103 @@ public class Comunicacao
             RegistoUtilizador novo = new RegistoUtilizador(nome, email, password);
             out.writeObject(novo);
             out.flush();
-            
+
             ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
-            
-            Integer returnedObject=(Integer)in.readObject();
-            
+
+            Integer returnedObject = (Integer) in.readObject();
+
             return returnedObject;
 
-        } 
-        catch (IOException | ClassNotFoundException e)
-        {
+        } catch (IOException | ClassNotFoundException e) {
             System.out.println(e);
-        } 
-        finally
-        {
-            if (socket != null)
-            {
-                try
-                {
+        } finally {
+            if (socket != null) {
+                try {
                     socket.close();
-                } 
-                catch (IOException ex)
-                {
+                } catch (IOException ex) {
                     System.out.println("Erro a fechar o socket a registar.");
                     System.out.println(ex);
                 }
             }
-            
+
         }
         return -5;
     }
-    
-    public int login(String username, String password)
-    {
+
+    public int login(String username, String password) {
         //TODO_ Fechas este socket. MAS NAO NESTA FUNCAO
         socketClientesLogados = null;
-        try
-        {
+        try {
             socketClientesLogados = new Socket(IP, PORTO2);
 
             ObjectOutputStream out = new ObjectOutputStream(socketClientesLogados.getOutputStream());
             Login novo = new Login(username, password);
             out.writeObject(novo);
             out.flush();
-            
+
             in = new ObjectInputStream(socketClientesLogados.getInputStream());
-            
-            Integer returnedObject=(Integer)in.readObject();
-            
+
+            Integer returnedObject = (Integer) in.readObject();
+
+            if (returnedObject == 1) {
+                socketMensagens = new Socket(IP, PORTO);
+            }
             return returnedObject;
 
-        } 
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e);
-        } 
+        }
         return -1;
     }
 
-    public ObjectInputStream getObjectInputStream()
-    {
+    public ObjectInputStream getObjectInputStream() {
         return in;
     }
-    
-    
+
+    public void EnviaSMSTodos(String sms) {
+
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(socketMensagens.getOutputStream());
+            Mensagem envia = new Mensagem();
+            envia.setDistinatario(null);
+            envia.setMensagem(sms);
+            envia.setRemetente(UserName);
+
+            out.writeObject(envia);
+            out.flush();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public void EnviaSMSDestinatario(String sms, String Destinatario) {
+
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(socketMensagens.getOutputStream());
+            Mensagem envia = new Mensagem();
+            envia.setDistinatario(Destinatario);
+            envia.setMensagem(sms);
+            envia.setRemetente(UserName);
+            out.writeObject(envia);
+            out.flush();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 }
