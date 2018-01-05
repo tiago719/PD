@@ -11,7 +11,7 @@ public class MainWithGui
     {                
         RegistoLoginView registoLoginView=new RegistoLoginView(new ObservableGame());
         
-        //ThreeInRowView v=new ThreeInRowView(new ObservableGame());
+//        ThreeInRowView v=new ThreeInRowView(new ObservableGame());
     }
     
 }
