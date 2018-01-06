@@ -63,17 +63,13 @@ public class Comunicacao {
                     System.out.println(ex);
                 }
             }
-
         }
-
         return -5;
     }
 
     public int login(String username, String password) {
         //TODO_ Fechas este socket. MAS NAO NESTA FUNCAO
-        socketClientesLogados = null;
         try {
-            socketClientesLogados = new Socket(IP, PORTO2);
 
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             Login novo = new Login(username, password);
@@ -81,13 +77,13 @@ public class Comunicacao {
             out.flush();
            
 
-            in = new ObjectInputStream(socketClientesLogados.getInputStream());
+            in = new ObjectInputStream(socket.getInputStream());
 
             Integer returnedObject = (Integer) in.readObject();
 
-            if (returnedObject == 1) {
-                socketMensagens = new Socket(IP, PORTO);
-            }
+//            if (returnedObject == 1) {
+//                socketMensagens = new Socket(IP, PORTO);
+//            }
 
             return returnedObject;
 
@@ -105,11 +101,11 @@ public class Comunicacao {
 
         ObjectOutputStream out = null;
         try {
-            out = new ObjectOutputStream(socketMensagens.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             Mensagem envia = new Mensagem();
             envia.setDistinatario(null);
             envia.setMensagem(sms);
-            envia.setRemetente(UserName);
+            //envia.setRemetente(UserName);
 
             out.writeObject(envia);
             out.flush();
@@ -129,11 +125,11 @@ public class Comunicacao {
 
         ObjectOutputStream out = null;
         try {
-            out = new ObjectOutputStream(socketMensagens.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             Mensagem envia = new Mensagem();
             envia.setDistinatario(Destinatario);
             envia.setMensagem(sms);
-            envia.setRemetente(UserName);
+            //envia.setRemetente(UserName);
             out.writeObject(envia);
             out.flush();
 

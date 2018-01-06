@@ -1,10 +1,12 @@
 package classescomunicacao;
 
+import java.io.Serializable;
+
 /**
  *
  * @author edu_f
  */
-public class Jogadas {
+public class Jogadas implements Serializable{
     String nickname;
     String peca;
     int linha, coluna;
