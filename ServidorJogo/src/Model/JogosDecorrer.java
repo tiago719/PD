@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Model;
 
+import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,20 +8,22 @@ import java.util.Map;
  *
  * @author edu_f
  */
-public class JogosDecorrer extends Thread{
+public class JogosDecorrer{
 
-    Map<Integer, Thread> Jogos;
+    //key -> idJogo | value -> thread do Jogo
+    Map<Integer, Thread> jogos;
 
     public JogosDecorrer() {
-        Jogos = new HashMap<>();
+        jogos = new HashMap<>();
     }
     
-    
-    
-    
-    @Override
-    public void run() {
-        
+    public void addNovoJogo(int id, String nick1, String nick2, Socket socket){
+        jogos.put(id, new ThreadJogos(nick1, nick2, socket));
     }
+    
+    public Thread getJogoDecorrer(int id){
+        return jogos.get(id);    
+    }
+    
     
 }
