@@ -1,4 +1,4 @@
-package Model;
+package servidorgestao.ComunicacaoC;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

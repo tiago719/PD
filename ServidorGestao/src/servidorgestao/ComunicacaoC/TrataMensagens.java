@@ -1,4 +1,4 @@
-package Model;
+package servidorgestao.ComunicacaoC;
 
 public class TrataMensagens extends Thread {
 
