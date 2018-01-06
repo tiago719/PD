@@ -76,27 +76,28 @@ public class PesquisasGestaoUtilizadores
     public int VerificaLogin(String Username, String Password) throws SQLException
     {
         bd = new BaseDados();
-        ResultSet Rt = null;
+        ResultSet Rt;
         try
         {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + Username + "' and PASSWORD = '" + SHA1(Password) + "';");
+            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + Username + "'and PASSWORD='" + SHA1(Password)+ "';");
+            if (Rt.next())
+            {
+                int id = Rt.getInt("IDUTILIZADOR");
+    //            if(Rt.getBoolean("LOGADO")) //TODO: Quando fechar o servidor de gestão é preciso por as flags logado a false. 
+    //                return -1;// Depois disso descomentar este codigo
+
+                bd.CloseConnection();
+                return id;
+            } else
+            {
+                bd.CloseConnection();
+                return -1;
+            }
         } catch (NoSuchAlgorithmException ex)
         {
-
+            System.out.println();
         }
-        if (Rt.next())
-        {
-            int id = Rt.getInt("IDUTILIZADOR");
-//            if(Rt.getBoolean("LOGADO")) //TODO: Quando fechar o servidor de gestão é preciso por as flags logado a false. 
-//                return -1;// Depois disso descomentar este codigo
-            
-            bd.CloseConnection();
-            return id;
-        } else
-        {
-            bd.CloseConnection();
-            return -1;
-        }
+        return -1;
     }
 
     public void setClienteLogado(int id)

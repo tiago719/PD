@@ -83,7 +83,7 @@ public class RecebePedidosClientes extends Thread
             if(devolve==1)
             {
                     try {
-                        pesquisasGestaoUtilizadores.AdicionaUtilizador(registo.getUsername(), registo.getNome(), registo.getPassword());
+                        pesquisasGestaoUtilizadores.AdicionaUtilizador(registo.getNome(), registo.getUsername(), registo.getPassword());
                 } catch (NoSuchAlgorithmException ex) 
                 {
                     devolve=-5;
