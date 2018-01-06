@@ -50,13 +50,27 @@ public class RecebeObjetos extends Thread {
                 ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
                 ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
 
-                Object returnedObject = in.readObject();
-                if (returnedObject instanceof RegistoUtilizador) {
-                    enviaRespostaCliente((RegistoUtilizador) returnedObject, out);
-                } else if (returnedObject instanceof Login) {
-                    ModelGestaoUtilizadores.LoginUtil((Login) returnedObject, nextClient, out, atualizaClientes);
-                } else if (returnedObject instanceof Mensagem) {
-                    TrataMensagens((Mensagem) returnedObject);
+
+                    Object returnedObject=in.readObject();
+                    if(returnedObject instanceof RegistoUtilizador)
+                    {
+                        enviaRespostaCliente((RegistoUtilizador)returnedObject, out);
+                    }
+                    else if(returnedObject instanceof Login)
+                    {
+                        ModelGestaoUtilizadores.LoginUtil((Login)returnedObject, nextClient, out, atualizaClientes);
+                    }
+                    else if(returnedObject instanceof Mensagem )
+                    {
+                        //TODO: Trabalha preto
+                    }
+                    
+                    nextClient.close();
+                 }
+                catch (Exception e) 
+                {
+                    System.out.println(e);
+
                 }
             } catch (Exception e) {
                 System.out.println(e);
