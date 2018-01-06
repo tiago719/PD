@@ -46,8 +46,8 @@ public class TrataUtilizador extends Thread {
                         int idPar = rs.getInt("IDPAR");
                         rs = BD.Le("SELECT jogo.EMCURSO, jogo.TERMINOU, jogo.INTERROMPIDO FROM jogo WHERE jogo.IDPAR = " + idPar);
                         if (rs.getBoolean("jogo.EMCURSO")) {
-                            rs = BD.Le("SELECT IDJOGO FROM jogo WHERE jogo.IDPAR = " + idPar);
-                            jd.getJogoDecorrer(idJogo);
+//                            rs = BD.Le("SELECT IDJOGO FROM jogo WHERE jogo.IDPAR = " + idPar);
+//                            jd.getJogoDecorrer(idJogo);
                         } else if (rs.getBoolean("jogo.TERMINOU")) {
 
                         } else if (rs.getBoolean("jogo.INTERROMPIDO")) {
@@ -61,8 +61,6 @@ public class TrataUtilizador extends Thread {
                             
                             
                         }
-
-                        jd.addNovoJogo(porto, nick1, nick2);
                     }
                 }
 
