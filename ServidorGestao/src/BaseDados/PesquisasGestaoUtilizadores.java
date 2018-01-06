@@ -102,10 +102,11 @@ public class PesquisasGestaoUtilizadores {
     public String getNome(int id) {
         bd = new BaseDados();
         ResultSet Rt = null;
-
+        String nome=null;
         try {
             Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
-            String nome = Rt.getString("NOME");
+            if(Rt.next())
+                nome = Rt.getString("NOME");
             bd.CloseConnection();
             return nome;
         } catch (SQLException e) {

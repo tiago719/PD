@@ -70,8 +70,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUtilizadores = new javax.swing.JTable();
@@ -87,23 +86,18 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jButton2 = new javax.swing.JButton();
 
         jTableUtilizadores.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Nome de Utilizador", "Nome", "Estado", "Jogar", "Enviar Mensagem"
             }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
+        ) {
+            boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
@@ -113,16 +107,18 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jScrollPane2.setViewportView(jTextPane1);
 
         jButton1.setText("->");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>()
-        {
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
@@ -132,10 +128,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jScrollPane4.setViewportView(jTextPane2);
 
         jButton2.setText("->");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -201,6 +195,13 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+          if(jTextField1.getText().length() != 0)
+          {
+              observableGame.EnviaSMSTodos(jTextField1.getText());
+          }
+    }//GEN-LAST:event_jButton1MouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -245,15 +246,15 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
             });
         }
         
-//        Mensagem sms = observableGame.GetSMS();
-//        if(sms.getDistinatario() == null)
-//        {
-//              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-//        }
-//        else
-//        {
-//             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-//        }
+        Mensagem sms = observableGame.GetSMS();
+        if(sms.getDistinatario() == null)
+        {
+              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+        }
+        else
+        {
+             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+        }
     }
 
     public class ButtonColumn extends AbstractCellEditor
