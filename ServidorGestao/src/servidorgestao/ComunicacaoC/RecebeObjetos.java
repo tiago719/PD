@@ -63,8 +63,6 @@ public class RecebeObjetos extends Thread
                     {
                         //TODO: Trabalha preto
                     }
-                    
-                    nextClient.close();
                  }
                 catch (Exception e) 
                 {
