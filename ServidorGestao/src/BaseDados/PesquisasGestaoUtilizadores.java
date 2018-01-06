@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+package BaseDados;
 
+import BaseDados.BaseDados;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.security.MessageDigest;
@@ -13,7 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import servidorgestao.Cliente;
+import Model.Cliente;
 
 /**
  *

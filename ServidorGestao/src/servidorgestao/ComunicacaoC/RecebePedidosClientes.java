@@ -6,7 +6,7 @@
 package servidorgestao.ComunicacaoC;
 
 import Model.ModelGestaoUtilizadores;
-import Model.PesquisasGestaoUtilizadores;
+import BaseDados.PesquisasGestaoUtilizadores;
 import classescomunicacao.Login;
 import classescomunicacao.Mensagem;
 import classescomunicacao.RegistoUtilizador;
@@ -16,7 +16,9 @@ import java.io.ObjectOutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import servidorgestao.Cliente;
+import Model.Cliente;
+import Model.ObservableGame;
+import java.net.Socket;
 
 /**
  *
@@ -24,23 +26,29 @@ import servidorgestao.Cliente;
  */
 public class RecebePedidosClientes extends Thread
 {
-    Cliente cliente;
-    ObjectInputStream in;
-    ObjectOutputStream out;
-    AtualizaClientes atualizaClientes;
+    private Socket socket;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private ObservableGame observableGame;
     
-    public RecebePedidosClientes(Cliente cliente, AtualizaClientes atualizaClientes)
+    public RecebePedidosClientes(Socket socket, ObservableGame observableGame)
     {
-        this.cliente=cliente;
-        in=cliente.getIn();
-        out=cliente.getOut();
-        this.atualizaClientes=atualizaClientes;
+        try
+        {
+            this.observableGame=observableGame;
+            this.socket=socket;
+            in=new ObjectInputStream(socket.getInputStream());
+            out=new ObjectOutputStream(socket.getOutputStream());
+        } catch (IOException ex)
+        {
+            Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override
     public void run()
     {
-        int a=0;
+        int a=0, ret;
         while(a==0)//TODO: define condicao de paragem
         {
             try
@@ -48,11 +56,19 @@ public class RecebePedidosClientes extends Thread
                 Object returnedObject=in.readObject();
                 if(returnedObject instanceof RegistoUtilizador)
                 {
-                    enviaRespostaCliente((RegistoUtilizador)returnedObject);
+                    ret=observableGame.regista((RegistoUtilizador)returnedObject);
+                    
+                    Integer novo = new Integer(ret);
+                    out.writeObject(novo);
+                    out.flush();
                 }
                 else if(returnedObject instanceof Login)
                 {
-                    ModelGestaoUtilizadores.LoginUtil((Login)returnedObject, cliente, atualizaClientes);
+                    ret=observableGame.login((Login)returnedObject, this);
+                    
+                    Integer novo = new Integer(ret);
+                    out.writeObject(novo);
+                    out.flush();
                 }
                 else if(returnedObject instanceof Mensagem )
                 {
@@ -65,38 +81,31 @@ public class RecebePedidosClientes extends Thread
         }
         try
         {
-            cliente.getSocket().close();
+            socket.close();
         } catch (IOException ex)
         {
             Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void enviaRespostaCliente(RegistoUtilizador registo)
+
+    public ObjectOutputStream getOut()
     {
-        try
-        {
-            PesquisasGestaoUtilizadores pesquisasGestaoUtilizadores= new PesquisasGestaoUtilizadores();//TODO: nao devia ser só uma referencia em vez de estarmos sempre a criar?
-            
-            int devolve = ModelGestaoUtilizadores.AdicionaUtil(registo);
-            
-            if(devolve==1)
-            {
-                    try {
-                        pesquisasGestaoUtilizadores.AdicionaUtilizador(registo.getNome(), registo.getUsername(), registo.getPassword());
-                } catch (NoSuchAlgorithmException ex) 
-                {
-                    devolve=-5;
-                    Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            
-            Integer novo = new Integer(devolve);
-            out.writeObject(novo);
-            out.flush();
-        } catch (IOException ex)
-        {
-            Logger.getLogger(RecebeClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return out;
     }
+
+    public void setOut(ObjectOutputStream out)
+    {
+        this.out = out;
+    }
+
+    public ObjectInputStream getIn()
+    {
+        return in;
+    }
+
+    public void setIn(ObjectInputStream in)
+    {
+        this.in = in;
+    }
+    
 }

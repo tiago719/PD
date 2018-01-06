@@ -5,35 +5,37 @@
  */
 package servidorgestao.ComunicacaoC;
 
-import Model.ModelGestaoUtilizadores;
-import classescomunicacao.Login;
-import classescomunicacao.Mensagem;
-import classescomunicacao.RegistoUtilizador;
+import Model.Cliente;
+import Model.ObservableGame;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import servidorgestao.Cliente;
-import static servidorgestao.Comunicacao.PORTO2;
+import static servidorgestao.Constantes.PORTO2;
 
 /**
  *
  * @author Tiago Coutinho
  */
-public class RecebeClientes extends Thread
+public class LogicaComunicacao extends Thread
 {
-    private AtualizaClientes atualizaClientes;
-    private ArrayList<RecebePedidosClientes> recebePedidosClientes;
+    private ObservableGame observableGame;
+    ArrayList<RecebePedidosClientes> clientes;
+    EnviaAtualizacoesJogadores enviaAtualizacoesJogadores;
     
-    public RecebeClientes()
+    public LogicaComunicacao(ObservableGame observableGame)
     {
-        atualizaClientes=new AtualizaClientes();
-        recebePedidosClientes=new ArrayList<>();
+        this.observableGame=observableGame;
+        enviaAtualizacoesJogadores=new EnviaAtualizacoesJogadores(observableGame, this);
+        clientes=new ArrayList<>();
     }
+    
     @Override
     public void run()
     {
@@ -44,28 +46,22 @@ public class RecebeClientes extends Thread
             serverSocket = new ServerSocket(PORTO2);
         } catch (IOException ex)
         {
-            Logger.getLogger(RecebeClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
         int a=0;
             while (a==0)//TODO:definir condição de paragem 
             {
                 try 
                 {
-                    Socket nextClient = serverSocket.accept();
+                    Socket nextClient = serverSocket.accept();              
                     
-                    
-                    ObjectInputStream in= new ObjectInputStream(nextClient.getInputStream());
-                    ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
-                    Cliente c=new Cliente(null, null, out, in, false, nextClient, -1);
-                    atualizaClientes.addCliente(c);                    
-                    
-                    RecebePedidosClientes novoCliente= new RecebePedidosClientes(c, atualizaClientes);
-                    recebePedidosClientes.add(novoCliente);
+                    RecebePedidosClientes novoCliente= new RecebePedidosClientes(nextClient,observableGame);
+                    clientes.add(novoCliente);
                     
                     novoCliente.start();
                     
                  }
-                catch (Exception e) 
+                catch (IOException e) 
                 {
                     System.out.println(e);
                 }
@@ -79,10 +75,13 @@ public class RecebeClientes extends Thread
                 } 
                 catch (IOException ex) 
                 {
-                    Logger.getLogger(RecebeClientes.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
     }
     
-    
+    public ArrayList<RecebePedidosClientes> getClientes()
+    {
+        return clientes;
+    }
 }
