@@ -39,6 +39,11 @@ public class ObservableGame extends java.util.Observable
         return mapa.get(recebePedidosClientes);
     }
     
+    public HashMap<RecebePedidosClientes, Cliente> getTodosClientes()
+    {
+        return mapa;
+    }
+    
     //getters
     public ArrayClienteEnviar getClientesEnviar()
     {
