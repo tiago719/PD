@@ -16,6 +16,7 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import servidorgestao.ComunicacaoC.RecebeLogin;
+import servidorgestao.ComunicacaoC.RecebeObjetos;
 import servidorgestao.ComunicacaoC.RecebeRegistos;
 
 /**
@@ -35,12 +36,11 @@ public class Comunicacao {
     
     public void Start()
     {
-        new RecebeLogin().start();
-        new RecebeRegistos().start();
-        
+        RecebeObjetos recebeObjetos = new RecebeObjetos();
+        recebeObjetos.start();
         while(true)
         {
-            
+            //TODO define condicao
         }
     }
 }
