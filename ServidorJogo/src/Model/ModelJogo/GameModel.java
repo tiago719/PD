@@ -13,13 +13,10 @@ public class GameModel  implements Serializable
 {  
     private GameData gameData;
     private IStates state; 
-    private String nickName1, nickName2;
     
     
     public GameModel( String nickName1,String nickName2)
     {
-        this.nickName1 = nickName1;
-        this.nickName2 = nickName2;
         gameData = new GameData(nickName1, nickName2);
         setState(new AwaitBeginning(gameData));
     }

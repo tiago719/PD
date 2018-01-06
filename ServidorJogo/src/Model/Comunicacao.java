@@ -17,11 +17,10 @@ public class Comunicacao {
     ObjectInputStream in;
     ObjectOutputStream out;
 
-    public Comunicacao()
+    public Comunicacao(Socket socket)
     {
         try
         {
-            socket=new Socket(IP, PORTO2);
             out = new ObjectOutputStream(socket.getOutputStream());
             in= new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex)
