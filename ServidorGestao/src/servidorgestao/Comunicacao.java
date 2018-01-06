@@ -6,6 +6,7 @@
 package servidorgestao;
 
 import Model.ModelGestaoUtilizadores;
+import Model.TrataMensagens;
 import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
 import java.io.IOException;

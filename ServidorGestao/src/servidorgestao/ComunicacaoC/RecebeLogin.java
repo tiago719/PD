@@ -16,10 +16,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static servidorgestao.Comunicacao.PORTO2;
 
-/**
- *
- * @author Tiago Coutinho
- */
 public class RecebeLogin extends Thread 
 {
     AtualizaClientes atualizaClientes;
@@ -42,18 +38,14 @@ public class RecebeLogin extends Thread
             Logger.getLogger(RecebeLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
         int a=0;
-            while (a==0)//TODO:definir condição de paragem 
+            while (a==0) //TODO:definir condição de paragem 
             {
                 try 
                 {
                     Socket nextClient = serverSocket.accept();
-
                     ObjectInputStream in = new ObjectInputStream(nextClient.getInputStream());
-
                     Login returnedObject = (Login) in.readObject();
-                    
                     ObjectOutputStream out = new ObjectOutputStream(nextClient.getOutputStream());
-
                     ModelGestaoUtilizadores.LoginUtil(returnedObject, nextClient, out, atualizaClientes);
 
                  }
