@@ -29,7 +29,7 @@ public class ObservableGame extends Observable
     private Comunicacao comunicacao;
     private ArrayList<ClienteEnviar> clientes;
     private RecebeAtualizacoesClientesLogados threadRecebeAtualizacoesClientesLogados;
-    private ThreadChat tchat;
+//    private ThreadChat tchat;
     private ArrayList<Mensagem> MensagensPrivadas;
 
     public ArrayList<Mensagem> getMensagensPrivadas() {
@@ -193,7 +193,7 @@ public class ObservableGame extends Observable
         int ret=comunicacao.login(username, password);
         if(ret==1)
         {            
-            MensagensPrivadas = DevolveMensagens();
+//            MensagensPrivadas = DevolveMensagens();
             threadRecebeAtualizacoesClientesLogados=new RecebeAtualizacoesClientesLogados(this,comunicacao.getObjectInputStream());
             threadRecebeAtualizacoesClientesLogados.start();
         }
@@ -232,15 +232,9 @@ public class ObservableGame extends Observable
         notifyObservers();
     }
     
-    public ArrayList<Mensagem> DevolveMensagens()
-    {
-        try {
-            return comunicacao.RecebeTodasMensagens();
-        } catch (IOException ex) {
-            Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
+//    public ArrayList<Mensagem> DevolveMensagens()
+//    {
+//        return comunicacao.RecebeTodasMensagens();
+//        return null;
+//    }
 }

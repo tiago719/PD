@@ -11,14 +11,13 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import servidorgestao.Cliente;
 import servidorgestao.ComunicacaoC.AtualizaClientes;
 
 public class ModelGestaoUtilizadores {
-
-    private AtualizaClientes atualizaClientes;
     
     public ModelGestaoUtilizadores() {
-        atualizaClientes=new AtualizaClientes();
+        
     }
 
     public static int AdicionaUtil(RegistoUtilizador res) {
@@ -36,13 +35,7 @@ public class ModelGestaoUtilizadores {
                         if (res.getPassword().length() > 30) {
                             return -4;
                         } else {
-                            try {
-                                p.AdicionaUtilizador(res.getNome(), res.getUsername(), res.getPassword());
-                                return 1;
-                            } catch (NoSuchAlgorithmException ex) {
-                                Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-                                return -5;
-                            }
+                            return 1;
                         }
                     }
                 }
@@ -53,18 +46,18 @@ public class ModelGestaoUtilizadores {
         }
     }
     
-    public static void LoginUtil(Login l, Socket socket, ObjectOutputStream out, AtualizaClientes atualizaClientes)
+    public static void LoginUtil(Login l, Cliente cliente, AtualizaClientes atualizaClientes)
     {
           PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
           int idUtilizadorLogado;
           
-        try {
+         try {
             idUtilizadorLogado=p.VerificaLogin(l.getNome(), l.getPassword());
             if(idUtilizadorLogado!= -1)
             {
                 Integer novo = new Integer(1);
-                out.writeObject(novo);
-                out.flush();
+                cliente.getOut().writeObject(novo);
+                cliente.getOut().flush();
                 
                 try
                 {
@@ -75,24 +68,23 @@ public class ModelGestaoUtilizadores {
                 }
                 
                 p.setClienteLogado(idUtilizadorLogado);
-                atualizaClientes.addCliente(p.getClienteLogado(idUtilizadorLogado, socket, out));
-                atualizaClientes.atualizaClientes(idUtilizadorLogado);
-                return;                
+                cliente.setLogado(true);
+                cliente.setId(idUtilizadorLogado);
+                cliente.setNomeUtilizador(l.getNome());
+                cliente.setNome(p.getNome(idUtilizadorLogado));
+
+                atualizaClientes.addClienteLogado(cliente);
+                atualizaClientes.atualizaClientes(idUtilizadorLogado);               
             }
             else
             {
                 Integer novo = new Integer(0);
-                out.writeObject(novo);
-                out.flush();
+                cliente.getOut().writeObject(novo);
+                cliente.getOut().flush();
                 
-                return;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | IOException ex) {
             Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch(IOException e)
-        {
-            Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, e);
         }    
     }
 }

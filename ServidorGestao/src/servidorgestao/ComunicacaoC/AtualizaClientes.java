@@ -16,33 +16,49 @@ import servidorgestao.Cliente;
  */
 public class AtualizaClientes
 {
-    private ArrayList<Cliente> clientesLogados;
+    private ArrayList<Cliente> clientes;
     private ArrayList<ClienteEnviar> clientesEnviar;
 
     public ArrayList<Cliente> getClientesLogados() {
-        return clientesLogados;
+        return clientes;
     }
     
     public AtualizaClientes()
     {
-        clientesLogados=new ArrayList<>();
+        clientes=new ArrayList<>();
         clientesEnviar=new ArrayList<>();
     }
     
     public void addCliente(Cliente cliente)
     {
-        clientesLogados.add(cliente);
-        clientesEnviar.add(cliente.getClienteEnviar());
+        clientes.add(cliente);
+    }
+    
+    public void addClienteLogado(Cliente cliente)
+    {
+        if(cliente.isLogado())
+            clientesEnviar.add(cliente.getClienteEnviar());
     }
     
     public void removeCliente(Cliente cliente)
     {
-        for(Cliente c:clientesLogados)
+        for(Cliente c:clientes)
         {
             if(cliente==c)
             {
-                clientesLogados.remove(c);
-                clientesEnviar.remove(c.getClienteEnviar());
+                clientes.remove(c);
+                return;
+            }
+        }
+    }
+    
+    public void removeClienteLogado(Cliente cliente)
+    {
+        for(ClienteEnviar c:clientesEnviar)
+        {
+            if(cliente.getClienteEnviar()==c)
+            {
+                clientesEnviar.remove(c);
                 return;
             }
         }
@@ -51,14 +67,17 @@ public class AtualizaClientes
     public void atualizaClientes(int id)
     {
         ArrayList<ClienteEnviar> temp= new ArrayList<>();
-        for(Cliente c:clientesLogados)
+        for(Cliente c:clientes)
         {
-            temp.clear();
-            for(ClienteEnviar ce: clientesEnviar)
-                if(!c.getNomeUtilizador().equals(ce.getNomeUtilizador()))
-                    temp.add(ce);
-            
-            c.atualizaCliente(temp);
+            if(c.isLogado())
+            {
+                temp.clear();
+                for(ClienteEnviar ce: clientesEnviar)
+                    if(!c.getNomeUtilizador().equals(ce.getNomeUtilizador()))
+                        temp.add(ce);
+
+                c.atualizaCliente(temp);
+            }      
         }
     }
 }
