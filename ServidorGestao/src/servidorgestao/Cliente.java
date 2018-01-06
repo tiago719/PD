@@ -29,6 +29,14 @@ public class Cliente
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
     public Cliente(String nomeUtilizador, String nome, ObjectOutputStream out,ObjectInputStream in, boolean parFormado, Socket socket, int id)
     {
         this.nomeUtilizador = nomeUtilizador;
@@ -106,16 +114,6 @@ public class Cliente
     public void setLogado(boolean logado)
     {
         this.logado = logado;
-    }
-
-    public Socket getSocket()
-    {
-        return socket;
-    }
-
-    public ObjectOutputStream getOut()
-    {
-        return out;
     }
 
     public ObjectInputStream getIn()

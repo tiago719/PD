@@ -18,6 +18,10 @@ public class AtualizaClientes
 {
     private ArrayList<Cliente> clientes;
     private ArrayList<ClienteEnviar> clientesEnviar;
+
+    public ArrayList<Cliente> getClientesLogados() {
+        return clientes;
+    }
     
     public AtualizaClientes()
     {
