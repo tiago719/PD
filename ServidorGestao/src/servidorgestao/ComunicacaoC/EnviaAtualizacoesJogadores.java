@@ -25,6 +25,7 @@ public class EnviaAtualizacoesJogadores implements Observer
     {
         this.observableGame=observableGame;
         this.logicaComunicacao=logicaComunicacao;
+        observableGame.addObserver(this);
     }
     
     @Override

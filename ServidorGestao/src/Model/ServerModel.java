@@ -6,6 +6,7 @@
 package Model;
 
 import BaseDados.PesquisasGestaoUtilizadores;
+import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
@@ -60,8 +61,8 @@ public class ServerModel
         return ret;
     }
     
-    public ArrayList<ClienteEnviar> getClientesEnviar()
+    public ArrayClienteEnviar getClientesEnviar()
     {
-        return clientesEnviar;
+        return new ArrayClienteEnviar(clientesEnviar);
     }
 }

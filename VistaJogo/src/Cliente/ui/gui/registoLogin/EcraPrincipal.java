@@ -8,6 +8,7 @@ package Cliente.ui.gui.registoLogin;
 import java.util.Observable;
 import java.util.Observer;
 import Cliente.logic.ObservableGame;
+import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Mensagem;
 
@@ -228,7 +229,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
             return;
         }
 
-        for (ClienteEnviar cliente : observableGame.getClientes())
+        for (ClienteEnviar cliente : observableGame.getClientes().getClientes())
         {
             if (cliente.getNome().equals("Nome User 3"))
             {

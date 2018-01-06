@@ -6,6 +6,7 @@
 package ComunicacaoP;
 
 import Cliente.logic.ObservableGame;
+import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -15,12 +16,12 @@ import java.util.Observable;
  *
  * @author Tiago Coutinho
  */
-public class RecebeAtualizacoesClientesLogados extends Thread
+public class RecebeAtualizacoes extends Thread
 {
     ObservableGame observableGame;
     ObjectInputStream in;
     
-    public RecebeAtualizacoesClientesLogados(ObservableGame observableGame, ObjectInputStream in)
+    public RecebeAtualizacoes(ObservableGame observableGame, ObjectInputStream in)
     {
         this.observableGame=observableGame;
         this.in=in;
@@ -34,8 +35,10 @@ public class RecebeAtualizacoesClientesLogados extends Thread
         {
             try
             {
-                ArrayList<ClienteEnviar> returnedObject=(ArrayList<ClienteEnviar>)in.readObject();
-                observableGame.setClientesLogados(returnedObject);                
+                Object returnedObject=in.readObject();
+                
+                if(returnedObject instanceof ArrayClienteEnviar)   
+                    observableGame.setClientesLogados((ArrayClienteEnviar) returnedObject);                
             } 
             catch (Exception e)
             {

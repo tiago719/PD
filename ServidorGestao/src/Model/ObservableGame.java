@@ -5,6 +5,7 @@
  */
 package Model;
 
+import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
@@ -33,8 +34,13 @@ public class ObservableGame extends java.util.Observable
         mapa.put(recebePedidosClientes, cliente);
     }
     
+    public Cliente getCliente(RecebePedidosClientes recebePedidosClientes)
+    {
+        return mapa.get(recebePedidosClientes);
+    }
+    
     //getters
-    public ArrayList<ClienteEnviar> getClientesEnviar()
+    public ArrayClienteEnviar getClientesEnviar()
     {
         return serverModel.getClientesEnviar();
     }
@@ -48,14 +54,12 @@ public class ObservableGame extends java.util.Observable
     
     public int login(Login login, RecebePedidosClientes recebePedidosClientes)
     {
-        Cliente cliente=null;
-        int ret = serverModel.login(login,cliente);
-        
-        novoCliente(recebePedidosClientes, cliente);
-        
+        return serverModel.login(login,null);
+    } 
+    
+    public void update()
+    { 
         setChanged();
         notifyObservers();
-        
-        return ret;
-    } 
+    }
 }
