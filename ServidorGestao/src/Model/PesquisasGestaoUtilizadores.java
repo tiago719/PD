@@ -77,7 +77,6 @@ public class PesquisasGestaoUtilizadores
     {
         bd = new BaseDados();
         ResultSet Rt = null;
-        boolean existe = false;
         try
         {
             Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + Username + "' and PASSWORD = '" + SHA1(Password) + "';");
@@ -113,26 +112,22 @@ public class PesquisasGestaoUtilizadores
         bd.CloseConnection();
     }
 
-    public Cliente getClienteLogado(int id, Socket socket, ObjectOutputStream out)
-    {
+   public String getNome(int id)
+   {
         bd = new BaseDados();
         ResultSet Rt = null;
-        Cliente cliente = null;
-
-        Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
-
+        
         try
         {
-            if (Rt.next())
-            {
-                cliente = new Cliente(Rt.getString("USERNAME"), Rt.getString("NOME"), out, false, socket, id);
-            }
-        } catch (SQLException ex)
+            Rt=bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id +";");
+            String nome=Rt.getString("NOME");
+            bd.CloseConnection();
+            return nome;
+        } catch (SQLException e)
         {
-            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        bd.CloseConnection();
 
-        return cliente;
-    }
+        bd.CloseConnection();
+        return null;
+   }
 }

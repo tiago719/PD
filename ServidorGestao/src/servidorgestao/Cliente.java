@@ -7,6 +7,7 @@ package servidorgestao;
 
 import classescomunicacao.*;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -20,22 +21,24 @@ import java.util.logging.Logger;
  */
 public class Cliente
 {
-    private ClienteEnviar clienteEnviar;
+    private ClienteEnviar informacaoEnviar;
     private String nomeUtilizador, nome;
-    private boolean parFormado;
+    private boolean parFormado, logado;
     private int id;
     private Socket socket;
     private ObjectOutputStream out;
+    private ObjectInputStream in;
 
-    public Cliente(String nomeUtilizador, String nome, ObjectOutputStream out, boolean parFormado, Socket socket, int id)
+    public Cliente(String nomeUtilizador, String nome, ObjectOutputStream out,ObjectInputStream in, boolean parFormado, Socket socket, int id)
     {
         this.nomeUtilizador = nomeUtilizador;
         this.id=id;
         this.nome = nome;
         this.parFormado = parFormado;
         this.socket=socket;
-        clienteEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
+        informacaoEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
         this.out = out;
+        this.in=in;
     }
 
     public String getNomeUtilizador()
@@ -73,6 +76,11 @@ public class Cliente
         return id;
     }
     
+    public void setId(int id)
+    {
+        this.id=id;
+    }
+    
     public void atualizaCliente(ArrayList<ClienteEnviar> clientesEnviar)
     {
         try
@@ -87,6 +95,31 @@ public class Cliente
     
     public ClienteEnviar getClienteEnviar()
     {
-        return clienteEnviar;
+        return informacaoEnviar;
+    }
+
+    public boolean isLogado()
+    {
+        return logado;
+    }
+
+    public void setLogado(boolean logado)
+    {
+        this.logado = logado;
+    }
+
+    public Socket getSocket()
+    {
+        return socket;
+    }
+
+    public ObjectOutputStream getOut()
+    {
+        return out;
+    }
+
+    public ObjectInputStream getIn()
+    {
+        return in;
     }
 }
