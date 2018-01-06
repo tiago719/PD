@@ -2,7 +2,7 @@ package Cliente;
 
 import Cliente.logic.ObservableGame;
 import Cliente.ui.gui.ThreeInRowView;
-import Cliente.ui.gui.registoLogin.RegistoLoginView;
+import Cliente.ui.gui.EcraInicial.RegistoLoginView;
 
 public class MainWithGui 
 {
