@@ -1,4 +1,4 @@
-package Cliente.ui.gui.registoLogin;
+package Cliente.ui.gui.EcraInicial;
 
 public class Constants
 {

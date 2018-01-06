@@ -122,9 +122,19 @@ public class PesquisasGestaoUtilizadores
         try
         {
             Rt=bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id +";");
-            String nome=Rt.getString("NOME");
-            bd.CloseConnection();
-            return nome;
+            
+            if(Rt.next())
+            {
+                String nome=Rt.getString("NOME");
+                bd.CloseConnection();
+                return nome;
+            }
+            else
+            {
+                bd.CloseConnection();
+                return null;
+            }
+            
         } catch (SQLException e)
         {
         }

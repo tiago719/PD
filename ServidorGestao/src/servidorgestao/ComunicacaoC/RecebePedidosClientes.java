@@ -110,6 +110,5 @@ public class RecebePedidosClientes extends Thread
     public void setIn(ObjectInputStream in)
     {
         this.in = in;
-    }
-    
+    }  
 }
