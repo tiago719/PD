@@ -27,6 +27,14 @@ public class Cliente
     private Socket socket;
     private ObjectOutputStream out;
 
+    public Socket getSocket() {
+        return socket;
+    }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
     public Cliente(String nomeUtilizador, String nome, ObjectOutputStream out, boolean parFormado, Socket socket, int id)
     {
         this.nomeUtilizador = nomeUtilizador;
