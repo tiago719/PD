@@ -129,4 +129,18 @@ public class Comunicacao {
             }
         }
     }
+
+ /*   public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
+        in = new ObjectInputStream(socketClientesLogados.getInputStream());
+        Mensagem returnedObjec = null;
+        ArrayList<Mensagem> sms = new ArrayList<Mensagem>();
+        do {
+            returnedObjec = (Mensagem) in.readObject();
+            if (returnedObjec != null) {
+                sms.add(returnedObjec);
+            }
+        } while (returnedObjec != null);
+        return sms;
+    }*/
+
 }
