@@ -39,7 +39,7 @@ public class RecebeAtualizacoesClientesLogados extends Thread
             } 
             catch (Exception e)
             {
-                System.out.println(e);
+                System.out.println("RecebeAtualizacoesClientesLogados run" + e);
             } 
         }  
     }

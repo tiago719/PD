@@ -1,16 +1,10 @@
 package ComunicacaoP;
 
-import static Cliente.logic.Constants.PORTO_SERVIDOR_GESTAO;
 import classescomunicacao.*;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Inet4Address;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +29,7 @@ public class Comunicacao {
             in= new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex)
         {
-            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Comunicacao: " + ex);
         }
     }
 
@@ -52,7 +46,7 @@ public class Comunicacao {
             return returnedObject;
 
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println(e);
+            System.out.println("registo: " + e);
 
         }
         return -5;
@@ -74,7 +68,7 @@ public class Comunicacao {
             return returnedObject;
 
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println("erro login: " + e);
         }
         return -1;
     }
@@ -97,12 +91,12 @@ public class Comunicacao {
             out.flush();
 
         } catch (IOException ex) {
-            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("erro EnviaSMSTodos: " + ex);
         } finally {
             try {
                 out.close();
             } catch (IOException ex) {
-                Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
             }
         }
     }
@@ -120,12 +114,12 @@ public class Comunicacao {
             out.flush();
 
         } catch (IOException ex) {
-            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("erro EnviaSMSDestinatario: " + ex);
         } finally {
             try {
                 out.close();
             } catch (IOException ex) {
-                Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
             }
         }
     }
