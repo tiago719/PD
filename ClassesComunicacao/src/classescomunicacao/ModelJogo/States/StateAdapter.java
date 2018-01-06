@@ -1,8 +1,7 @@
-package Model.ModelJogo.States;
+package classescomunicacao.ModelJogo.States;
 
-import Model.ModelJogo.Constants;
-import Model.ModelJogo.GameData;
-
+import classescomunicacao.ModelJogo.Constants;
+import classescomunicacao.ModelJogo.GameData;
 
 public class StateAdapter implements IStates, Constants
 {

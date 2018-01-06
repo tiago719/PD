@@ -1,7 +1,7 @@
-package Model.ModelJogo;
+package classescomunicacao.ModelJogo;
 
-import Model.ModelJogo.States.AwaitBeginning;
-import Model.ModelJogo.States.IStates;
+import classescomunicacao.ModelJogo.States.AwaitBeginning;
+import classescomunicacao.ModelJogo.States.IStates;
 import java.io.Serializable;
 
 /**
@@ -15,7 +15,7 @@ public class GameModel  implements Serializable
     private IStates state; 
     
     
-    public GameModel( String nickName1,String nickName2)
+    public GameModel(String nickName1,String nickName2, int idJogo)
     {
         gameData = new GameData(nickName1, nickName2);
         setState(new AwaitBeginning(gameData));

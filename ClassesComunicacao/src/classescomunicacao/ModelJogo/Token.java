@@ -1,4 +1,4 @@
-package Model.ModelJogo;
+package classescomunicacao.ModelJogo;
 
 import java.io.Serializable;
 

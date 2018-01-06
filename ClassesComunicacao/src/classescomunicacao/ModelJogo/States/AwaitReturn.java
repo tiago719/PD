@@ -1,8 +1,10 @@
-package Model.ModelJogo.States;
+package classescomunicacao.ModelJogo.States;
 
-import Model.ModelJogo.GameData;
-import Model.ModelJogo.Player;
-import Model.ModelJogo.Token;
+import static classescomunicacao.ModelJogo.Constants.DIM;
+import classescomunicacao.ModelJogo.GameData;
+import classescomunicacao.ModelJogo.Player;
+import classescomunicacao.ModelJogo.Token;
+
 
 
 public class AwaitReturn extends StateAdapter

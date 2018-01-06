@@ -6,15 +6,18 @@ import java.io.Serializable;
  *
  * @author edu_f
  */
-public class Jogadas implements Serializable{
-    String nickname;
-    int linha, coluna;
-    boolean colocar;
+public class Jogadas implements Serializable {
 
-    public Jogadas(String nickname, String peca, int linha, int coluna, boolean colocar) {
+    String nickname;
+    int linha, coluna, idJogo;
+    boolean colocar;
+    static final long serialVersionUID = 1L;
+
+    public Jogadas(String nickname, int linha, int coluna, int idJogo, boolean colocar) {
         this.nickname = nickname;
         this.linha = linha;
         this.coluna = coluna;
+        this.idJogo = idJogo;
         this.colocar = colocar;
     }
 
@@ -49,7 +52,9 @@ public class Jogadas implements Serializable{
     public void setColocar(boolean colocar) {
         this.colocar = colocar;
     }
-    
-    
-    
+
+    public int getIdJogo() {
+        return idJogo;
+    }
+
 }

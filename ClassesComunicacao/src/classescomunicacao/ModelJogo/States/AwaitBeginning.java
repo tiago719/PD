@@ -1,6 +1,7 @@
-package Model.ModelJogo.States;
+package classescomunicacao.ModelJogo.States;
 
-import Model.ModelJogo.GameData;
+import classescomunicacao.ModelJogo.GameData;
+
 
 public class AwaitBeginning extends StateAdapter 
 {
