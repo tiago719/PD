@@ -24,12 +24,15 @@ public class Comunicacao {
     
     Socket socket;
     ObjectInputStream in;
+    ObjectOutputStream out;
 
     public Comunicacao()
     {
         try
         {
             socket=new Socket(IP, PORTO2);
+            out = new ObjectOutputStream(socket.getOutputStream());
+            in= new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex)
         {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
@@ -40,12 +43,9 @@ public class Comunicacao {
     {
         try
         {
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             RegistoUtilizador novo = new RegistoUtilizador(nome, email, password);
             out.writeObject(novo);
             out.flush();
-
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
             Integer returnedObject = (Integer) in.readObject();
 
@@ -54,15 +54,6 @@ public class Comunicacao {
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e);
 
-        } finally {
-            if (socket != null) {
-                try {
-                    socket.close();
-                } catch (IOException ex) {
-                    System.out.println("Erro a fechar o socket a registar.");
-                    System.out.println(ex);
-                }
-            }
         }
         return -5;
     }
@@ -70,14 +61,9 @@ public class Comunicacao {
     public int login(String username, String password) {
         //TODO_ Fechas este socket. MAS NAO NESTA FUNCAO
         try {
-
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             Login novo = new Login(username, password);
             out.writeObject(novo);
             out.flush();
-           
-
-            in = new ObjectInputStream(socket.getInputStream());
 
             Integer returnedObject = (Integer) in.readObject();
 
