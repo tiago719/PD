@@ -144,7 +144,7 @@ public class Comunicacao {
         }
     }
 
-    public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
+ /*   public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
         in = new ObjectInputStream(socketClientesLogados.getInputStream());
         Mensagem returnedObjec = null;
         ArrayList<Mensagem> sms = new ArrayList<Mensagem>();
@@ -155,6 +155,6 @@ public class Comunicacao {
             }
         } while (returnedObjec != null);
         return sms;
-    }
+    }*/
 
 }

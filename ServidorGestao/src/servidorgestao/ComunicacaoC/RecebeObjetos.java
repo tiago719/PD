@@ -6,6 +6,7 @@
 package servidorgestao.ComunicacaoC;
 
 import Model.ModelGestaoUtilizadores;
+import Model.PesquisasGestaoUtilizadores;
 import classescomunicacao.Login;
 import classescomunicacao.Mensagem;
 import classescomunicacao.RegistoUtilizador;
@@ -14,6 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import servidorgestao.Cliente;
@@ -101,6 +103,14 @@ public class RecebeObjetos extends Thread {
                     try {
                         c.getOut().writeObject(sms);
                         c.getOut().flush();
+                        
+                        PesquisasGestaoUtilizadores pesq = new PesquisasGestaoUtilizadores();
+                        
+                        try {
+                            pesq.AdicionaSMS(sms);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(RecebeObjetos.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     } catch (IOException ex) {
                         Logger.getLogger(RecebeObjetos.class.getName()).log(Level.SEVERE, null, ex);
                     }
