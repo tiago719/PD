@@ -244,15 +244,15 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
             });
         }
         
-        Mensagem sms = observableGame.GetSMS();
-        if(sms.getDistinatario() == null)
-        {
-              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-        }
-        else
-        {
-             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-        }
+//        Mensagem sms = observableGame.GetSMS();
+//        if(sms.getDistinatario() == null)
+//        {
+//              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+//        }
+//        else
+//        {
+//             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+//        }
     }
 
     public class ButtonColumn extends AbstractCellEditor

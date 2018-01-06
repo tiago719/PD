@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import Cliente.logic.states.IStates;
 import ComunicacaoP.RecebeAtualizacoesClientesLogados;
-import ComunicacaoP.ThreadChat;
 import classescomunicacao.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -208,25 +207,25 @@ public class ObservableGame extends Observable
         notifyObservers();
     }
     
-     public void EnviaSMSTodos(String sms) {
-        comunicacao.EnviaSMSTodos(sms);
-    }
-
-    public void EnviaSMS(String sms, String dest) {
-        comunicacao.EnviaSMSDestinatario(sms, dest);
-    }
-    
-    public Mensagem GetSMS()
-    {
-        return tchat.getMensagem();
-    }
-    
-    public void IniciaThread()
-    {
-        tchat = new ThreadChat();
-        tchat.Update(this);
-        tchat.start();     
-    }
+//     public void EnviaSMSTodos(String sms) {
+//        comunicacao.EnviaSMSTodos(sms);
+//    }
+//
+//    public void EnviaSMS(String sms, String dest) {
+//        comunicacao.EnviaSMSDestinatario(sms, dest);
+//    }
+//    
+//    public Mensagem GetSMS()
+//    {
+//        return tchat.getMensagem();
+//    }
+//    
+//    public void IniciaThread()
+//    {
+//        tchat = new ThreadChat();
+//        tchat.Update(this);
+//        tchat.start();     
+//    }
     
     public void Update() {
         setChanged();
