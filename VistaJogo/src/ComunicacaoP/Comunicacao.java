@@ -21,21 +21,25 @@ public class Comunicacao {
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
-    private String UserName;
-    Socket socketMensagens;
-    Socket socketClientesLogados;
+    
+    Socket socket;
     ObjectInputStream in;
 
-    public Comunicacao() {
-
+    public Comunicacao()
+    {
+        try
+        {
+            socket=new Socket(IP, PORTO2);
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public int registo(String nome, String email, String password) {
-        Socket socket = null;
-        try {
-            socket = new Socket(IP, PORTO);
-            socket.setSoTimeout(TIMEOUT);
-
+    public int registo(String nome, String email, String password)
+    {
+        try
+        {
             ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             RegistoUtilizador novo = new RegistoUtilizador(nome, email, password);
             out.writeObject(novo);
@@ -49,6 +53,7 @@ public class Comunicacao {
 
         } catch (IOException | ClassNotFoundException e) {
             System.out.println(e);
+
         } finally {
             if (socket != null) {
                 try {
@@ -58,29 +63,28 @@ public class Comunicacao {
                     System.out.println(ex);
                 }
             }
-
         }
         return -5;
     }
 
     public int login(String username, String password) {
         //TODO_ Fechas este socket. MAS NAO NESTA FUNCAO
-        socketClientesLogados = null;
         try {
-            socketClientesLogados = new Socket(IP, PORTO2);
 
-            ObjectOutputStream out = new ObjectOutputStream(socketClientesLogados.getOutputStream());
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
             Login novo = new Login(username, password);
             out.writeObject(novo);
             out.flush();
+           
 
-            in = new ObjectInputStream(socketClientesLogados.getInputStream());
+            in = new ObjectInputStream(socket.getInputStream());
 
             Integer returnedObject = (Integer) in.readObject();
 
-            if (returnedObject == 1) {
-                socketMensagens = new Socket(IP, PORTO);
-            }
+//            if (returnedObject == 1) {
+//                socketMensagens = new Socket(IP, PORTO);
+//            }
+
             return returnedObject;
 
         } catch (Exception e) {
@@ -97,11 +101,11 @@ public class Comunicacao {
 
         ObjectOutputStream out = null;
         try {
-            out = new ObjectOutputStream(socketMensagens.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             Mensagem envia = new Mensagem();
             envia.setDistinatario(null);
             envia.setMensagem(sms);
-            envia.setRemetente(UserName);
+            //envia.setRemetente(UserName);
 
             out.writeObject(envia);
             out.flush();
@@ -121,11 +125,11 @@ public class Comunicacao {
 
         ObjectOutputStream out = null;
         try {
-            out = new ObjectOutputStream(socketMensagens.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             Mensagem envia = new Mensagem();
             envia.setDistinatario(Destinatario);
             envia.setMensagem(sms);
-            envia.setRemetente(UserName);
+            //envia.setRemetente(UserName);
             out.writeObject(envia);
             out.flush();
 

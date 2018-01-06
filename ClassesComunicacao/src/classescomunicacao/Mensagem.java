@@ -1,8 +1,10 @@
 
 package classescomunicacao;
 
+import java.io.Serializable;
 
-public class Mensagem {
+
+public class Mensagem implements Serializable{
     
     private String Mensagem;
     private String Distinatario; // QUANDO É PARA TODOS É QUANDO ESTA A NULL

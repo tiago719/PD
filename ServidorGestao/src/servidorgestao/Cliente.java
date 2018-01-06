@@ -5,7 +5,7 @@
  */
 package servidorgestao;
 
-import classescomunicacao.ClienteEnviar;
+import classescomunicacao.*;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
