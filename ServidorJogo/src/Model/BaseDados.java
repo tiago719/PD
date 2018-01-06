@@ -16,16 +16,17 @@ public class BaseDados {
 
     }
 
-    public int Modifica(String q) {
-        int resposta = 0;
+    public ResultSet Modifica(String q) {
+        ResultSet resposta = null;
         try {
-            resposta = St.executeUpdate(q);
-
-            return resposta;
+            St.executeUpdate(q);
+            resposta= St.getGeneratedKeys();
         } catch (Exception ex) {
             System.out.println("Erro: " + ex);
         }
-        return resposta;
+        finally{
+            return resposta;
+        }
     }
 
     public ResultSet Le(String q) {

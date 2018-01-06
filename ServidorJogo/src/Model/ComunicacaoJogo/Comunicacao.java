@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package servidorgestao;
+package Model.ComunicacaoJogo;
 
-import servidorgestao.ComunicacaoC.RecebeObjetos;
 
 /**
  *
@@ -24,8 +23,6 @@ public class Comunicacao {
     
     public void Start()
     {
-        RecebeObjetos recebeObjetos = new RecebeObjetos();
-        recebeObjetos.start();
         while(true)
         {
             //TODO define condicao
