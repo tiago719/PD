@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cliente.ui.gui.registoLogin;
+package Cliente.ui.gui.EcraInicial;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -55,8 +55,7 @@ public class Login extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
@@ -73,40 +72,30 @@ public class Login extends javax.swing.JPanel {
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
         jUsername.setText("Username");
         jUsername.setDisabledTextColor(new java.awt.Color(0, 0, 0));
-        jUsername.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        jUsername.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 jUsernameFocusGained(evt);
             }
         });
-        jUsername.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jUsername.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jUsernameMouseClicked(evt);
             }
         });
-        jUsername.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jUsername.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jUsernameActionPerformed(evt);
             }
         });
 
         jEntrar.setText("Entrar");
-        jEntrar.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jEntrar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jEntrarMouseClicked(evt);
             }
         });
-        jEntrar.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jEntrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jEntrarActionPerformed(evt);
             }
         });
@@ -117,10 +106,8 @@ public class Login extends javax.swing.JPanel {
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));
         jPassword.setText("Password");
-        jPassword.addFocusListener(new java.awt.event.FocusAdapter()
-        {
-            public void focusGained(java.awt.event.FocusEvent evt)
-            {
+        jPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
                 jPasswordFocusGained(evt);
             }
         });

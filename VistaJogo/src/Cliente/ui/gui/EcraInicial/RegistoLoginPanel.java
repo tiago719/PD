@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cliente.ui.gui.registoLogin;
+package Cliente.ui.gui.EcraInicial;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,10 +26,10 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import Cliente.logic.ObservableGame;
-import static Cliente.ui.gui.registoLogin.Constants.DIM_X_LOGIN;
-import static Cliente.ui.gui.registoLogin.Constants.DIM_X_REGISTO;
-import static Cliente.ui.gui.registoLogin.Constants.DIM_Y_LOGIN;
-import static Cliente.ui.gui.registoLogin.Constants.DIM_Y_REGISTO;
+import static Cliente.ui.gui.EcraInicial.Constants.DIM_X_LOGIN;
+import static Cliente.ui.gui.EcraInicial.Constants.DIM_X_REGISTO;
+import static Cliente.ui.gui.EcraInicial.Constants.DIM_Y_LOGIN;
+import static Cliente.ui.gui.EcraInicial.Constants.DIM_Y_REGISTO;
 
 public class RegistoLoginPanel extends JPanel implements Observer
 {
