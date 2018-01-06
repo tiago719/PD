@@ -8,7 +8,7 @@ import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import Cliente.logic.states.IStates;
-import ComunicacaoP.RecebeAtualizacoesClientesLogados;
+import ComunicacaoP.RecebeAtualizacoes;
 import classescomunicacao.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +27,8 @@ public class ObservableGame extends Observable
 {
     private GameModel gameModel;
     private Comunicacao comunicacao;
-    private ArrayList<ClienteEnviar> clientes;
-    private RecebeAtualizacoesClientesLogados threadRecebeAtualizacoesClientesLogados;
+    private ArrayClienteEnviar clientes;
+    private RecebeAtualizacoes threadRecebeAtualizacoes;
 //    private ThreadChat tchat;
     private ArrayList<Mensagem> MensagensPrivadas;
 
@@ -130,7 +130,7 @@ public class ObservableGame extends Observable
         return gameModel.hasWon(player);
     }
     
-    public ArrayList<ClienteEnviar> getClientes()
+    public ArrayClienteEnviar getClientes()
     {
         return clientes;
     }
@@ -194,13 +194,13 @@ public class ObservableGame extends Observable
         if(ret==1)
         {            
 //            MensagensPrivadas = DevolveMensagens();
-            threadRecebeAtualizacoesClientesLogados=new RecebeAtualizacoesClientesLogados(this,comunicacao.getObjectInputStream());
-            threadRecebeAtualizacoesClientesLogados.start();
+            threadRecebeAtualizacoes=new RecebeAtualizacoes(this,comunicacao.getObjectInputStream());
+            threadRecebeAtualizacoes.start();
         }
         return ret;
     }
     
-    public void setClientesLogados(ArrayList<ClienteEnviar> clientes)
+    public void setClientesLogados(ArrayClienteEnviar clientes)
     {
         this.clientes=clientes;                
         setChanged();

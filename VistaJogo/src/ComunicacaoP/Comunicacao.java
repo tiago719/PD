@@ -7,8 +7,10 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.Observable;
 
-public class Comunicacao {
+public class Comunicacao extends java.util.Observable
+{
 
     public static final int PORTO = 5001;
     public static final int PORTO2 = 5002;
@@ -16,9 +18,9 @@ public class Comunicacao {
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
     
-    Socket socket;
-    ObjectInputStream in;
-    ObjectOutputStream out;
+    private Socket socket;
+    private ObjectInputStream in;
+    private ObjectOutputStream out;
 
     public Comunicacao()
     {
@@ -77,52 +79,52 @@ public class Comunicacao {
         return in;
     }
 
-    public void EnviaSMSTodos(String sms) {
-
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(socket.getOutputStream());
-            Mensagem envia = new Mensagem();
-            envia.setDistinatario(null);
-            envia.setMensagem(sms);
-            //envia.setRemetente(UserName);
-
-            out.writeObject(envia);
-            out.flush();
-
-        } catch (IOException ex) {
-            System.out.println("erro EnviaSMSTodos: " + ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
-            }
-        }
-    }
-
-    public void EnviaSMSDestinatario(String sms, String Destinatario) {
-
-        ObjectOutputStream out = null;
-        try {
-            out = new ObjectOutputStream(socket.getOutputStream());
-            Mensagem envia = new Mensagem();
-            envia.setDistinatario(Destinatario);
-            envia.setMensagem(sms);
-            //envia.setRemetente(UserName);
-            out.writeObject(envia);
-            out.flush();
-
-        } catch (IOException ex) {
-            System.out.println("erro EnviaSMSDestinatario: " + ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
-            }
-        }
-    }
+//    public void EnviaSMSTodos(String sms) {
+//
+//        ObjectOutputStream out = null;
+//        try {
+//            out = new ObjectOutputStream(socket.getOutputStream());
+//            Mensagem envia = new Mensagem();
+//            envia.setDistinatario(null);
+//            envia.setMensagem(sms);
+//            //envia.setRemetente(UserName);
+//
+//            out.writeObject(envia);
+//            out.flush();
+//
+//        } catch (IOException ex) {
+//            System.out.println("erro EnviaSMSTodos: " + ex);
+//        } finally {
+//            try {
+//                out.close();
+//            } catch (IOException ex) {
+//                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
+//            }
+//        }
+//    }
+//
+//    public void EnviaSMSDestinatario(String sms, String Destinatario) {
+//
+//        ObjectOutputStream out = null;
+//        try {
+//            out = new ObjectOutputStream(socket.getOutputStream());
+//            Mensagem envia = new Mensagem();
+//            envia.setDistinatario(Destinatario);
+//            envia.setMensagem(sms);
+//            //envia.setRemetente(UserName);
+//            out.writeObject(envia);
+//            out.flush();
+//
+//        } catch (IOException ex) {
+//            System.out.println("erro EnviaSMSDestinatario: " + ex);
+//        } finally {
+//            try {
+//                out.close();
+//            } catch (IOException ex) {
+//                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
+//            }
+//        }
+//    }
 
  /*   public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
         in = new ObjectInputStream(socketClientesLogados.getInputStream());

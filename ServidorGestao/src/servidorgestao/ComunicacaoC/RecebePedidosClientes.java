@@ -69,6 +69,10 @@ public class RecebePedidosClientes extends Thread
                     Integer novo = new Integer(ret);
                     out.writeObject(novo);
                     out.flush();
+                    
+                    observableGame.novoCliente(this, observableGame.getCliente(this));
+                    
+                    observableGame.update();
                 }
                 else if(returnedObject instanceof Mensagem )
                 {
