@@ -165,7 +165,8 @@ public class ObservableGame extends Observable {
     public int Login(String username, String password) {
         int ret = comunicacao.login(username, password);
         if (ret == 1) {
-//            MensagensPrivadas = DevolveMensagens();
+//MensagensPrivadas = DevolveMensagens();
+            comunicacao.setNomeUtilizador(username);
             threadRecebeAtualizacoes = new RecebeAtualizacoes(this, comunicacao.getObjectInputStream());
             threadRecebeAtualizacoes.start();
         }
@@ -181,11 +182,11 @@ public class ObservableGame extends Observable {
     public void EnviaSMSTodos(String sms) {
         comunicacao.EnviaSMSTodos(sms);
     }
-//
-//    public void EnviaSMS(String sms, String dest) {
-//        comunicacao.EnviaSMSDestinatario(sms, dest);
-//    }
-//    
+
+    public void EnviaSMS(String sms, String dest) {
+        comunicacao.EnviaSMSDestinatario(sms, dest);
+    }
+    
 
     public Mensagem GetSMS() {
         return threadRecebeAtualizacoes.getMensagem();

@@ -107,7 +107,7 @@ public class RecebePedidosClientes extends Thread {
                 try {
                     RecebePedidosClientes key = en.getKey();
                     Cliente value = en.getValue();
-                    sms.setRemetente(value.getNome());
+                    //sms.setRemetente(value.getNome());
                    
                     key.getOut().writeObject(sms);
                     key.getOut().flush();
