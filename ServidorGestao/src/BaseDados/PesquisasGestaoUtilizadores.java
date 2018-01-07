@@ -115,8 +115,36 @@ public class PesquisasGestaoUtilizadores {
         bd.CloseConnection();
     }
 
-   public String getNome(int id)
-   {
+    public String getNome(String username)
+    {
+         bd = new BaseDados();
+        ResultSet Rt = null;   
+        try
+        {
+            Rt=bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + username +"';");
+            
+            if(Rt.next())
+            {
+                String nome=Rt.getString("NOME");
+                bd.CloseConnection();
+                return nome;
+            }
+            else
+            {
+                bd.CloseConnection();
+                return null;
+            }
+            
+        } catch (SQLException e)
+        {
+        }
+
+        bd.CloseConnection();
+        return null;
+    }
+    
+    public String getNome(int id) {
+
         bd = new BaseDados();
         ResultSet Rt = null;
         
@@ -169,6 +197,7 @@ public class PesquisasGestaoUtilizadores {
         }
     }
 
+    
     public void AdicionaSMS(Mensagem sms) throws SQLException {
         bd = new BaseDados();
         ResultSet Rt, Rt1;
