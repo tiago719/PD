@@ -117,7 +117,7 @@ public class Comunicacao extends java.util.Observable
             Mensagem envia = new Mensagem();
             envia.setDistinatario(Destinatario);
             envia.setMensagem(sms);
-            //envia.setRemetente(UserName);
+            envia.setRemetente(NomeUtilizador);
             out.writeObject(envia);
             out.flush();
 
