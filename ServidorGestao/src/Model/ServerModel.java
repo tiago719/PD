@@ -26,6 +26,7 @@ public class ServerModel
     private PesquisasGestaoUtilizadores pesquisasGestaoUtilizadores;
     ArrayClienteEnviar arrayClienteEnviar;
     
+    
     public ServerModel()
     {
         clientes=new ArrayList<>();

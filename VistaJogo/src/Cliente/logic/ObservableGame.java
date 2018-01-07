@@ -8,7 +8,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import Cliente.logic.states.IStates;
 import ComunicacaoP.RecebeAtualizacoes;
-import ComunicacaoP.ThreadChat;
 import classescomunicacao.*;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,7 +27,6 @@ public class ObservableGame extends Observable {
     private Comunicacao comunicacao;
     private ArrayClienteEnviar clientes;
     private RecebeAtualizacoes threadRecebeAtualizacoes;
-    private ThreadChat tchat;
     
     private ArrayList<Mensagem> MensagensPrivadas;
     
@@ -190,16 +188,9 @@ public class ObservableGame extends Observable {
 //    
 
     public Mensagem GetSMS() {
-        return tchat.getMensagem();
-    }
-    
-    public void IniciaThread() {
-        tchat = new ThreadChat();
-        tchat.Update(this);
-        tchat.setIn(comunicacao.getIn());
-        tchat.start();
-    }
-    
+        return threadRecebeAtualizacoes.getMensagem();
+    }   
+  
     public void Update() {
         setChanged();
         notifyObservers();

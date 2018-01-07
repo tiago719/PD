@@ -60,12 +60,15 @@ public class RecebePedidosClientes extends Thread {
                     out.flush();
                 } else if (returnedObject instanceof Login) {
                     ret = observableGame.login((Login) returnedObject, this);
-
+                   
                     Integer novo = new Integer(ret);
                     out.writeObject(novo);
                     out.flush();
-
-                    observableGame.novoCliente(this, observableGame.getCliente(this));
+                    PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
+                    observableGame.novoCliente(this, new Cliente(
+                            ((Login) returnedObject).getNome()
+                            ,p.getNome(((Login) returnedObject).getNome())
+                                    ,false,0));
 
                     observableGame.update();
                 } else if (returnedObject instanceof Mensagem) {
@@ -105,7 +108,7 @@ public class RecebePedidosClientes extends Thread {
                     RecebePedidosClientes key = en.getKey();
                     Cliente value = en.getValue();
                     sms.setRemetente(value.getNome());
-                    key.getOut();
+                   
                     key.getOut().writeObject(sms);
                     key.getOut().flush();
                 } catch (IOException ex) {

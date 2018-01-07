@@ -21,6 +21,10 @@ import servidorgestao.ComunicacaoC.RecebePedidosClientes;
 public class ObservableGame extends java.util.Observable
 {
     private ServerModel serverModel;
+
+    public ServerModel getServerModel() {
+        return serverModel;
+    }
     private HashMap<RecebePedidosClientes, Cliente> mapa;
     
     public ObservableGame()
