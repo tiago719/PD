@@ -6,6 +6,8 @@
 package servidorgestao.ComunicacaoC;
 
 import Model.ObservableGame;
+import classescomunicacao.ArrayClienteEnviar;
+import classescomunicacao.ClienteEnviar;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -31,11 +33,20 @@ public class EnviaAtualizacoesJogadores implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
+        ArrayClienteEnviar arrayClienteEnviar = observableGame.getClientesEnviar();
         for(RecebePedidosClientes rpc:logicaComunicacao.getClientes())
         {
+            String nomeClienteAtual=observableGame.getCliente(rpc).getNomeUtilizador();
+            for(ClienteEnviar clienteEnviar : arrayClienteEnviar.getClientes())               
+                if(nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador()))
+                {
+                    arrayClienteEnviar.getClientes().remove(clienteEnviar);
+                    break;
+                }
             try
             {
-                rpc.getOut().writeObject(observableGame.getClientesEnviar());
+                rpc.getOut().reset();
+                rpc.getOut().writeObject(arrayClienteEnviar);
                 rpc.getOut().flush();
             } catch (IOException ex)
             {

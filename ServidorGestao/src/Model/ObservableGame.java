@@ -27,6 +27,7 @@ public class ObservableGame extends java.util.Observable
     {
         serverModel=new ServerModel();
         mapa=new HashMap<>();
+        serverModel.setLogados(false);
     }
     
     public void novoCliente(RecebePedidosClientes recebePedidosClientes, Cliente cliente)

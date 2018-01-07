@@ -66,4 +66,9 @@ public class ServerModel
     {
         return arrayClienteEnviar;
     }
+
+    void setLogados(boolean b)
+    {
+        pesquisasGestaoUtilizadores.setLogados(b);
+    }
 }
