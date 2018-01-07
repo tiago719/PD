@@ -44,11 +44,11 @@ public class Comunicacao extends java.util.Observable
         }
     }
 
-    public int registo(String nome, String email, String password)
+    public int registo(String nome, String username, String password)
     {
         try
         {
-            RegistoUtilizador novo = new RegistoUtilizador(nome, email, password);
+            RegistoUtilizador novo = new RegistoUtilizador(username,nome, password);
             out.writeObject(novo);
             out.flush();
 
