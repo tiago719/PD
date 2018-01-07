@@ -16,9 +16,9 @@ public class ArrayClienteEnviar implements Serializable
 {
     private ArrayList<ClienteEnviar> clientes;
 
-    public ArrayClienteEnviar(ArrayList<ClienteEnviar> clientes)
+    public ArrayClienteEnviar()
     {
-        this.clientes = clientes;
+        clientes=new ArrayList<>();
     }
 
     public ArrayList<ClienteEnviar> getClientes()
@@ -29,5 +29,10 @@ public class ArrayClienteEnviar implements Serializable
     public void setClientes(ArrayList<ClienteEnviar> clientes)
     {
         this.clientes = clientes;
+    }
+    
+    public void addCliente(ClienteEnviar clienteEnviar)
+    {
+        clientes.add(clienteEnviar);
     }
 }

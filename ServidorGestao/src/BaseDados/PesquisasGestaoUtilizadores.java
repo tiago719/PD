@@ -101,15 +101,25 @@ public class PesquisasGestaoUtilizadores {
 
     public String getNome(int id) {
         bd = new BaseDados();
-        ResultSet Rt = null;
-        String nome=null;
-        try {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
+        ResultSet Rt = null;   
+        try
+        {
+            Rt=bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id +";");
+            
             if(Rt.next())
-                nome = Rt.getString("NOME");
-            bd.CloseConnection();
-            return nome;
-        } catch (SQLException e) {
+            {
+                String nome=Rt.getString("NOME");
+                bd.CloseConnection();
+                return nome;
+            }
+            else
+            {
+                bd.CloseConnection();
+                return null;
+            }
+            
+        } catch (SQLException e)
+        {
         }
 
         bd.CloseConnection();
