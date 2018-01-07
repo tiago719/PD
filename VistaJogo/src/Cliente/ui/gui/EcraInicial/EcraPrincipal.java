@@ -70,6 +70,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents()
     {
 
@@ -104,6 +105,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
 
             public boolean isCellEditable(int rowIndex, int columnIndex)
             {
+
                 return canEdit [columnIndex];
             }
         });
@@ -113,6 +115,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jScrollPane2.setViewportView(jTextPane1);
 
         jButton1.setText("->");
+
         jButton1.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -120,6 +123,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
                 jButton1ActionPerformed(evt);
             }
         });
+
 
         jList1.setModel(new javax.swing.AbstractListModel<String>()
         {
@@ -132,6 +136,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         jScrollPane4.setViewportView(jTextPane2);
 
         jButton2.setText("->");
+
         jButton2.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -201,6 +206,14 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+          if(jTextField1.getText().length() != 0)
+          {
+              observableGame.EnviaSMSTodos(jTextField1.getText());
+          }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -245,15 +258,17 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer
             });
         }
         
-//        Mensagem sms = observableGame.GetSMS();
-//        if(sms.getDistinatario() == null)
-//        {
-//              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-//        }
-//        else
-//        {
-//             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-//        }
+
+        Mensagem sms = observableGame.GetSMS();
+        if(sms.getDistinatario() == null)
+        {
+              jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+        }
+        else
+        {
+             jTextPane2.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+        }
+
     }
 
     public class ButtonColumn extends AbstractCellEditor

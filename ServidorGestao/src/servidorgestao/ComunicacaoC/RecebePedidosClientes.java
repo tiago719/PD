@@ -69,7 +69,7 @@ public class RecebePedidosClientes extends Thread {
 
                     observableGame.update();
                 } else if (returnedObject instanceof Mensagem) {
-
+                    TrataMensagens((Mensagem)returnedObject);
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
@@ -104,7 +104,7 @@ public class RecebePedidosClientes extends Thread {
                 try {
                     RecebePedidosClientes key = en.getKey();
                     Cliente value = en.getValue();
-
+                    sms.setRemetente(value.getNome());
                     key.getOut();
                     key.getOut().writeObject(sms);
                     key.getOut().flush();

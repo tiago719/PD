@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
@@ -21,6 +22,14 @@ public class Comunicacao extends java.util.Observable
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
+
+    public ObjectInputStream getIn() {
+        return in;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
 
     public Comunicacao()
     {
@@ -79,30 +88,21 @@ public class Comunicacao extends java.util.Observable
         return in;
     }
 
-//    public void EnviaSMSTodos(String sms) {
-//
-//        ObjectOutputStream out = null;
-//        try {
-//            out = new ObjectOutputStream(socket.getOutputStream());
-//            Mensagem envia = new Mensagem();
-//            envia.setDistinatario(null);
-//            envia.setMensagem(sms);
-//            //envia.setRemetente(UserName);
-//
-//            out.writeObject(envia);
-//            out.flush();
-//
-//        } catch (IOException ex) {
-//            System.out.println("erro EnviaSMSTodos: " + ex);
-//        } finally {
-//            try {
-//                out.close();
-//            } catch (IOException ex) {
-//                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
-//            }
-//        }
-//    }
-//
+    public void EnviaSMSTodos(String sms) {
+
+        try {
+            Mensagem envia = new Mensagem();
+            envia.setDistinatario(null);
+            envia.setMensagem(sms);
+
+            out.writeObject(envia);
+            out.flush();
+
+        } catch (IOException ex) {
+            System.out.println("erro EnviaSMSTodos: " + ex);
+        } 
+    }
+
 //    public void EnviaSMSDestinatario(String sms, String Destinatario) {
 //
 //        ObjectOutputStream out = null;
@@ -126,8 +126,8 @@ public class Comunicacao extends java.util.Observable
 //        }
 //    }
 
- /*   public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
-        in = new ObjectInputStream(socketClientesLogados.getInputStream());
+   public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
+        in = new ObjectInputStream(socket.getInputStream());
         Mensagem returnedObjec = null;
         ArrayList<Mensagem> sms = new ArrayList<Mensagem>();
         do {
@@ -137,6 +137,6 @@ public class Comunicacao extends java.util.Observable
             }
         } while (returnedObjec != null);
         return sms;
-    }*/
+    }
 
 }

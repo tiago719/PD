@@ -44,6 +44,7 @@ public class Registo extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+
     private void initComponents()
     {
 
@@ -64,6 +65,7 @@ public class Registo extends javax.swing.JPanel
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
         jUsername.setText("Nome de Utilizador");
         jUsername.setDisabledTextColor(new java.awt.Color(204, 204, 204));
+
         jUsername.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -72,12 +74,14 @@ public class Registo extends javax.swing.JPanel
             }
             public void focusLost(java.awt.event.FocusEvent evt)
             {
+
                 jUsernameFocusLost(evt);
             }
         });
 
         jNome.setForeground(new java.awt.Color(204, 204, 204));
         jNome.setText("Nome");
+
         jNome.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -86,11 +90,13 @@ public class Registo extends javax.swing.JPanel
             }
             public void focusLost(java.awt.event.FocusEvent evt)
             {
+
                 jNomeFocusLost(evt);
             }
         });
 
         jRegistar.setText("Registar");
+
         jRegistar.addMouseListener(new java.awt.event.MouseAdapter()
         {
             public void mouseClicked(java.awt.event.MouseEvent evt)
@@ -108,6 +114,7 @@ public class Registo extends javax.swing.JPanel
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));
         jPassword.setText("Password");
+
         jPassword.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -123,6 +130,7 @@ public class Registo extends javax.swing.JPanel
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
+
                 jPasswordActionPerformed(evt);
             }
         });
@@ -144,6 +152,7 @@ public class Registo extends javax.swing.JPanel
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
+
                 jCPasswordActionPerformed(evt);
             }
         });
