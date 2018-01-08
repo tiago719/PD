@@ -21,11 +21,11 @@ import servidorgestao.ComunicacaoC.RecebePedidosClientes;
 public class ObservableGame extends java.util.Observable
 {
     private ServerModel serverModel;
+    private HashMap<RecebePedidosClientes, Cliente> mapa;
 
     public ServerModel getServerModel() {
         return serverModel;
     }
-    private HashMap<RecebePedidosClientes, Cliente> mapa;
     
     public ObservableGame()
     {
@@ -62,9 +62,9 @@ public class ObservableGame extends java.util.Observable
         return serverModel.regista(registoUtilizador);
     }
     
-    public int login(Login login, RecebePedidosClientes recebePedidosClientes)
+    public int login(Login login, Cliente cliente)
     {
-        return serverModel.login(login,null);
+        return serverModel.login(login,cliente);
     } 
     
     public void update()

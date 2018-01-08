@@ -33,20 +33,20 @@ public class EnviaAtualizacoesJogadores implements Observer
     @Override
     public void update(Observable o, Object arg)
     {
-        ArrayClienteEnviar arrayClienteEnviar = observableGame.getClientesEnviar();
+        ArrayClienteEnviar temp = new ArrayClienteEnviar();
         for(RecebePedidosClientes rpc:logicaComunicacao.getClientes())
         {
+            temp.getClientes().clear();
             String nomeClienteAtual=observableGame.getCliente(rpc).getNomeUtilizador();
-            for(ClienteEnviar clienteEnviar : arrayClienteEnviar.getClientes())               
-                if(nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador()))
+            for(ClienteEnviar clienteEnviar : observableGame.getClientesEnviar().getClientes())               
+                if(!nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador()))
                 {
-                    arrayClienteEnviar.getClientes().remove(clienteEnviar);
-                    break;
+                    temp.addCliente(clienteEnviar);
                 }
             try
             {
                 rpc.getOut().reset();
-                rpc.getOut().writeObject(arrayClienteEnviar);
+                rpc.getOut().writeObject(temp);
                 rpc.getOut().flush();
             } catch (IOException ex)
             {
