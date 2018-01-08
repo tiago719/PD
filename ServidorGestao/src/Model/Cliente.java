@@ -26,6 +26,8 @@ public class Cliente
         this.parFormado = parFormado;
         informacaoEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
     }
+    
+    public Cliente(){}
 
     public String getNomeUtilizador()
     {
@@ -80,5 +82,10 @@ public class Cliente
     public void setLogado(boolean logado)
     {
         this.logado = logado;
+    }
+
+    void setClienteEnviar()
+    {
+        informacaoEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
     }
 }

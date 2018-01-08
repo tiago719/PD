@@ -22,11 +22,9 @@ import java.util.logging.Logger;
 public class ServerModel
 {
     private ArrayList<Cliente> clientes;
-    
     private PesquisasGestaoUtilizadores pesquisasGestaoUtilizadores;
-    ArrayClienteEnviar arrayClienteEnviar;
-    
-    
+    private ArrayClienteEnviar arrayClienteEnviar;
+
     public ServerModel()
     {
         clientes=new ArrayList<>();
@@ -55,7 +53,11 @@ public class ServerModel
         
         if(ret!=-1)
         {
-            cliente=new Cliente(login.getNome(), pesquisasGestaoUtilizadores.getNome(ret), true, ret);
+            cliente.setNomeUtilizador(login.getNome());
+            cliente.setNome(pesquisasGestaoUtilizadores.getNome(ret));
+            cliente.setLogado(true);
+            cliente.setId(ret);
+            cliente.setClienteEnviar();
             clientes.add(cliente);
             arrayClienteEnviar.addCliente(cliente.getClienteEnviar());
             return 1;
