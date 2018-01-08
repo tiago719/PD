@@ -74,4 +74,11 @@ public class ServerModel
     {
         pesquisasGestaoUtilizadores.setLogados(b);
     }
+
+    void setLogOut(Cliente cliente)
+    {
+        clientes.remove(cliente);
+        arrayClienteEnviar.removeCliente(cliente.getClienteEnviar());
+        pesquisasGestaoUtilizadores.setLogout(cliente);
+    }
 }

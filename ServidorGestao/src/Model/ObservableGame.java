@@ -49,6 +49,15 @@ public class ObservableGame extends java.util.Observable
         return mapa;
     }
     
+    public void removeCliente(RecebePedidosClientes recebePedidosClientes)
+    {
+        recebePedidosClientes.stop();
+        serverModel.setLogOut(mapa.get(recebePedidosClientes));
+        mapa.remove(recebePedidosClientes);
+        
+        setChanged();
+        notifyObservers();
+    }    
     //getters
     public ArrayClienteEnviar getClientesEnviar()
     {

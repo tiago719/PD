@@ -58,6 +58,7 @@ public class LogicaComunicacao extends Thread
                     RecebePedidosClientes novoCliente= new RecebePedidosClientes(nextClient,observableGame);
                     clientes.add(novoCliente);
                     
+                    novoCliente.setDaemon(true);
                     novoCliente.start();
                     
                  }

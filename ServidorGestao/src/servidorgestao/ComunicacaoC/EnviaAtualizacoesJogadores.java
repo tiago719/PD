@@ -50,7 +50,7 @@ public class EnviaAtualizacoesJogadores implements Observer
                 rpc.getOut().flush();
             } catch (IOException ex)
             {
-                Logger.getLogger(EnviaAtualizacoesJogadores.class.getName()).log(Level.SEVERE, null, ex);
+                observableGame.removeCliente(rpc);
             }
         }
     }
