@@ -110,26 +110,21 @@ public class Comunicacao extends java.util.Observable
     }
 
     public void EnviaSMSDestinatario(String sms, String Destinatario) {
-
-        ObjectOutputStream out = null;
+   
         try {
-            out = new ObjectOutputStream(socket.getOutputStream());
+          
             Mensagem envia = new Mensagem();
             envia.setDistinatario(Destinatario);
             envia.setMensagem(sms);
             envia.setRemetente(NomeUtilizador);
+            
             out.writeObject(envia);
             out.flush();
 
         } catch (IOException ex) {
             System.out.println("erro EnviaSMSDestinatario: " + ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
-            }
-        }
+        } 
+      
     }
 
    public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
