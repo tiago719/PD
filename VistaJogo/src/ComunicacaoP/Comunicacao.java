@@ -1,9 +1,11 @@
 package ComunicacaoP;
 
 import classescomunicacao.*;
+import static classescomunicacao.Constantes.CLIENT_LEFT;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -12,7 +14,6 @@ import javafx.beans.Observable;
 
 public class Comunicacao extends java.util.Observable
 {
-
     public static final int PORTO = 5001;
     public static final int PORTO2 = 5002;
     public static final int BUFSIZE = 4000;
@@ -77,10 +78,6 @@ public class Comunicacao extends java.util.Observable
 
             Integer returnedObject = (Integer) in.readObject();
 
-//            if (returnedObject == 1) {
-//                socketMensagens = new Socket(IP, PORTO);
-//            }
-
             return returnedObject;
 
         } catch (Exception e) {
@@ -123,8 +120,7 @@ public class Comunicacao extends java.util.Observable
 
         } catch (IOException ex) {
             System.out.println("erro EnviaSMSDestinatario: " + ex);
-        } 
-      
+        }   
     }
 
    public ArrayList<Mensagem> RecebeTodasMensagens() throws IOException, ClassNotFoundException {
@@ -139,5 +135,28 @@ public class Comunicacao extends java.util.Observable
         } while (returnedObjec != null);
         return sms;
     }
-
+   
+       
+    public void logOut()
+    {
+        try
+        {
+            Integer novo=new Integer(CLIENT_LEFT);
+            out.writeObject(novo);
+            out.flush();
+            
+            try
+            {
+                sleep(1000);
+            } catch (InterruptedException ex)
+            {
+                Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            socket.close();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

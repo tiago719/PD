@@ -23,6 +23,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import Cliente.logic.ObservableGame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -64,6 +66,17 @@ public class RegistoLoginView extends JFrame implements Observer
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         validate();
+        
+        this.addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                ObservableGame.logOut();
+                System.exit(0);
+            }
+        });
+        
 
     }
     
