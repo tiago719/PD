@@ -21,13 +21,11 @@ import java.util.logging.Logger;
  */
 public class ServerModel
 {
-    private ArrayList<Cliente> clientes;
     private PesquisasGestaoUtilizadores pesquisasGestaoUtilizadores;
     private ArrayClienteEnviar arrayClienteEnviar;
 
     public ServerModel()
     {
-        clientes=new ArrayList<>();
         arrayClienteEnviar=new ArrayClienteEnviar();
         pesquisasGestaoUtilizadores=new PesquisasGestaoUtilizadores();
     }
@@ -58,7 +56,6 @@ public class ServerModel
             cliente.setLogado(true);
             cliente.setId(ret);
             cliente.setClienteEnviar();
-            clientes.add(cliente);
             arrayClienteEnviar.addCliente(cliente.getClienteEnviar());
             return 1;
         }        
@@ -77,7 +74,6 @@ public class ServerModel
 
     void setLogOut(Cliente cliente)
     {
-        clientes.remove(cliente);
         arrayClienteEnviar.removeCliente(cliente.getClienteEnviar());
         pesquisasGestaoUtilizadores.setLogout(cliente);
     }

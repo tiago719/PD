@@ -26,14 +26,12 @@ import static servidorgestao.Constantes.PORTO2;
 public class LogicaComunicacao extends Thread
 {
     private ObservableGame observableGame;
-    ArrayList<RecebePedidosClientes> clientes;
     EnviaAtualizacoesJogadores enviaAtualizacoesJogadores;
     
     public LogicaComunicacao(ObservableGame observableGame)
     {
         this.observableGame=observableGame;
         enviaAtualizacoesJogadores=new EnviaAtualizacoesJogadores(observableGame, this);
-        clientes=new ArrayList<>();
     }
     
     @Override
@@ -56,7 +54,6 @@ public class LogicaComunicacao extends Thread
                     Socket nextClient = serverSocket.accept();              
                     
                     RecebePedidosClientes novoCliente= new RecebePedidosClientes(nextClient,observableGame);
-                    clientes.add(novoCliente);
                     
                     novoCliente.setDaemon(true);
                     novoCliente.start();
@@ -79,10 +76,5 @@ public class LogicaComunicacao extends Thread
                     Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-    }
-    
-    public ArrayList<RecebePedidosClientes> getClientes()
-    {
-        return clientes;
     }
 }

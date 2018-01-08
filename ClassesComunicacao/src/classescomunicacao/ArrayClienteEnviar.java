@@ -35,4 +35,9 @@ public class ArrayClienteEnviar implements Serializable
     {
         clientes.add(clienteEnviar);
     }
+
+    public void removeCliente(ClienteEnviar clienteEnviar)
+    {
+        clientes.remove(clienteEnviar);
+    }  
 }
