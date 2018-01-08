@@ -234,26 +234,32 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
 
         jTextPane2.setText("");
+        String temp;
+        if (jList1.getSelectedValue().contains("*")) {
+            temp = jList1.getSelectedValue().substring(0, jList1.getSelectedValue().length() - 1);
+        } else {
+            temp = jList1.getSelectedValue();
+        }
+
         for (Mensagem s : mensagensClientes) {
-            if (s.getRemetente().equals(jList1.getSelectedValue()) || s.getRemetente().equals("Eu")) {
+            if (s.getRemetente().equals(temp) || s.getRemetente().equals("Eu")) {
                 jTextPane2.setText(jTextPane2.getText() + "\n" + s.getRemetente() + ": " + s.getMensagem());
                 jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
-
-                DefaultListModel<String> dlm = new DefaultListModel<>();
-                for (int j = 0; j < jList1.getModel().getSize(); j++) {
-                    if (j == jList1.getSelectedIndex()) {
-                        if (jList1.getModel().getElementAt(j).contains("*")) {
-                            dlm.addElement(jList1.getModel().getElementAt(j).substring(0, jList1.getModel().getElementAt(j).length() - 1));
-                        } else {
-                            dlm.addElement(jList1.getModel().getElementAt(j));
-                        }
-                    } else {
-                        dlm.addElement(jList1.getModel().getElementAt(j));
-                    }
-                }
-                jList1.setModel(dlm);
             }
         }
+        DefaultListModel<String> dlm = new DefaultListModel<>();
+        for (int j = 0; j < jList1.getModel().getSize(); j++) {
+            if (j == jList1.getSelectedIndex()) {
+                if (jList1.getModel().getElementAt(j).contains("*")) {
+                    dlm.addElement(jList1.getModel().getElementAt(j).substring(0, jList1.getModel().getElementAt(j).length() - 1));
+                } else {
+                    dlm.addElement(jList1.getModel().getElementAt(j));
+                }
+            } else {
+                dlm.addElement(jList1.getModel().getElementAt(j));
+            }
+        }
+        jList1.setModel(dlm);
 
     }//GEN-LAST:event_jList1MouseClicked
 
@@ -275,6 +281,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        int guardasel = 0;
+        if(jList1.getSelectedIndex() != -1) guardasel = jList1.getSelectedIndex();
         String parFormado;
         modeloTabela = (DefaultTableModel) (jTableUtilizadores.getModel());
         modeloTabela.setRowCount(0);
@@ -295,62 +303,68 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         }
 
         Mensagem sms = observableGame.GetSMS();
-        if (sms.getDistinatario() == null) {
-            jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-            jTextPane1.setCaretPosition(jTextPane1.getText().length() - 1);
-        } else {
-            mensagensClientes.add(sms);
-            if (sms.getRemetente().equals(jList1.getSelectedValue())) {
-                jTextPane2.setText(jTextPane2.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
-                jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+        if (sms != null) {
+            if (sms.getDistinatario() == null) {
+                jTextPane1.setText(jTextPane1.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+                jTextPane1.setCaretPosition(jTextPane1.getText().length() - 1);
             } else {
-                //VERIFICA SE Já EXISTE NA LIST O UTILIZADOR QUE RECEBEU 
-                for (int i = 0; i < jList1.getModel().getSize(); i++) {
-                    if (jList1.getModel().getElementAt(i).equals(sms.getRemetente())) {
-                        if (jList1.getModel().getElementAt(i).substring(0, jList1.getModel().getElementAt(i).length() - 1).equals(sms.getRemetente())) {
-                            return;
-                        }
+                mensagensClientes.add(sms);
+                observableGame.LimpaBufMensagem();
+                if (sms.getRemetente().equals(jList1.getSelectedValue())) {
+                    jTextPane2.setText(jTextPane2.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
+                    jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+                } else {
+                    //VERIFICA SE Já EXISTE NA LIST O UTILIZADOR QUE RECEBEU 
+                    for (int i = 0; i < jList1.getModel().getSize(); i++) {
+                        if (jList1.getModel().getElementAt(i).equals(sms.getRemetente()) || jList1.getModel().getElementAt(i).substring(0, jList1.getModel().getElementAt(i).length() - 1).equals(sms.getRemetente())) {
                             DefaultListModel<String> dlm = new DefaultListModel<>();
                             for (int j = 0; j < jList1.getModel().getSize(); j++) {
                                 if (j == i) {
-                                    dlm.addElement(jList1.getModel().getElementAt(i) + "*");
+                                    dlm.addElement(jList1.getModel().getElementAt(j) + "*");
                                 } else {
-                                    dlm.addElement(jList1.getModel().getElementAt(i));
+                                    dlm.addElement(jList1.getModel().getElementAt(j));
                                 }
                             }
                             jList1.setModel(dlm);
-                        return;
-                    }
-                }
-
-                /// CASO NAO EXITA ADICIONAR 
-                DefaultListModel<String> dlm = new DefaultListModel<>();
-                for (int i = 0; i < jList1.getModel().getSize(); i++) {
-                    dlm.addElement(jList1.getModel().getElementAt(i));
-                }
-
-                if (jList1.getModel().getSize() > 0) {
-                    dlm.addElement(sms.getRemetente() + "*");
-                } else {
-                    dlm.addElement(sms.getRemetente());
-                }
-
-                jList1.setModel(dlm);
-
-                if (jList1.getSelectedIndex() == -1 && jList1.getModel().getSize() == 1) {
-                    jList1.setSelectedIndex(0);
-                    jTextPane2.setText("");
-                    for (Mensagem s : mensagensClientes) {
-                        if (s.getRemetente().equals(jList1.getSelectedValue()) || s.getRemetente().equals("Eu")) {
-                            jTextPane2.setText(jTextPane2.getText() + "\n" + s.getRemetente() + ": " + s.getMensagem());
-                            jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+                            if (guardasel != -1) {
+                                jList1.setSelectedIndex(guardasel);
+                            }
+                            return;
                         }
                     }
-                }
 
+                    /// CASO NAO EXITA ADICIONAR 
+                    DefaultListModel<String> dlm = new DefaultListModel<>();
+                    for (int i = 0; i < jList1.getModel().getSize(); i++) {
+                        dlm.addElement(jList1.getModel().getElementAt(i));
+                    }
+
+                    if (jList1.getModel().getSize() > 0) {
+                        dlm.addElement(sms.getRemetente() + "*");
+                    } else {
+                        dlm.addElement(sms.getRemetente());
+                    }
+
+                    jList1.setModel(dlm);
+
+                    if (jList1.getSelectedIndex() == -1 && jList1.getModel().getSize() == 1) {
+                        jList1.setSelectedIndex(0);
+                        jTextPane2.setText("");
+                        for (Mensagem s : mensagensClientes) {
+                            if (s.getRemetente().equals(jList1.getSelectedValue()) || s.getRemetente().equals("Eu")) {
+                                jTextPane2.setText(jTextPane2.getText() + "\n" + s.getRemetente() + ": " + s.getMensagem());
+                                jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+                            }
+                        }
+                    }
+
+                    if (guardasel != -1) {
+                        jList1.setSelectedIndex(guardasel);
+                    }
+
+                }
             }
         }
-
     }
 
     public class ButtonColumn extends AbstractCellEditor
@@ -460,6 +474,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 }
                 dlm.addElement(Nikname.toString());
                 jList1.setModel(dlm);
+
+                jList1.setSelectedIndex(jList1.getModel().getSize() - 1);
             }
         }
 

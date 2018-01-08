@@ -191,6 +191,11 @@ public class ObservableGame extends Observable {
     public Mensagem GetSMS() {
         return threadRecebeAtualizacoes.getMensagem();
     }   
+    
+    public void LimpaBufMensagem()
+    {
+        threadRecebeAtualizacoes.LimpaMensagem();
+    }
   
     public void Update() {
         setChanged();
