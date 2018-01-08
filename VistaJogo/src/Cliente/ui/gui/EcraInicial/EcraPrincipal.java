@@ -11,6 +11,7 @@ import Cliente.logic.ObservableGame;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Mensagem;
+import com.sun.java.accessibility.util.AWTEventMonitor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -19,6 +20,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -64,6 +67,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         botoesEnviarSms.setText("Enviar Mensagem");
         jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
         jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
+        
     }
 
     /**

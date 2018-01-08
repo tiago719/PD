@@ -26,6 +26,30 @@ public class RecebeAtualizacoes extends Thread {
     ObjectInputStream in;
     public Mensagem mensagem;
 
+    public RecebeAtualizacoes(ObservableGame observableGame, ObjectInputStream in) {
+        this.observableGame = observableGame;
+        this.in = in;
+    }
+
+    @Override
+    public void run() 
+    {
+            try {
+                while (true)
+                {
+                    Object returnedObject = in.readObject();
+
+                    if (returnedObject instanceof ArrayClienteEnviar) {
+                        observableGame.setClientesLogados((ArrayClienteEnviar) returnedObject);
+                    } else if (returnedObject instanceof Mensagem) {
+                        mensagem = (Mensagem)returnedObject;
+                         observableGame.Update();
+                    }
+                }
+            } 
+            catch (Exception e) { }
+        }
+    
     public Mensagem getMensagem() {
         return mensagem;
     }
@@ -33,30 +57,5 @@ public class RecebeAtualizacoes extends Thread {
     public void LimpaMensagem()
     {
         mensagem = null;
-    }
-
-    public RecebeAtualizacoes(ObservableGame observableGame, ObjectInputStream in) {
-        this.observableGame = observableGame;
-        this.in = in;
-    }
-
-    @Override
-    public void run() {
-        int a = 0;
-        while (a == 0)//TODO: define condicao de paragem
-        {
-            try {
-                Object returnedObject = in.readObject();
-
-                if (returnedObject instanceof ArrayClienteEnviar) {
-                    observableGame.setClientesLogados((ArrayClienteEnviar) returnedObject);
-                } else if (returnedObject instanceof Mensagem) {
-                    mensagem = (Mensagem)returnedObject;
-                     observableGame.Update();
-                }
-            } catch (Exception e) {
-                System.out.println("RecebeAtualizacoesClientesLogados run" + e);
-            }
-        }
     }
 }

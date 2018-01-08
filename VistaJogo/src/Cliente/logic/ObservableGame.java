@@ -212,4 +212,9 @@ public class ObservableGame extends Observable {
         }
         return null;
     }
+
+    public void logOut()
+    {
+        comunicacao.logOut();
+    }
 }
