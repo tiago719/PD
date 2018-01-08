@@ -198,23 +198,22 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTextField1.getText().length() != 0) {
             observableGame.EnviaSMSTodos(jTextField1.getText());
-     
-            
-            Mensagem temp = new Mensagem(jTextField1.getText(),null,"Eu");
-            jTextField1.setText("");
-            
-            mensagensClientes.add(temp);
-            
-            jTextPane2.setText(jTextPane2.getText() + "\n" + temp.getRemetente() + ": " + temp.getMensagem());
-            jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);       
-   
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if (jTextField2.getText().length() != 0) {
+        if (jTextField2.getText().length() != 0 && jList1.getSelectedIndex() != -1) {
             observableGame.EnviaSMS(jTextField2.getText(), jList1.getSelectedValue());
+
+            Mensagem temp = new Mensagem(jTextField2.getText(), null, "Eu");
             jTextField2.setText("");
+
+            mensagensClientes.add(temp);
+
+            jTextPane2.setText(jTextPane2.getText() + "\n" + temp.getRemetente() + ": " + temp.getMensagem());
+            jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -236,9 +235,23 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
         jTextPane2.setText("");
         for (Mensagem s : mensagensClientes) {
-            if (s.getRemetente().equals(jList1.getSelectedValue())) {
+            if (s.getRemetente().equals(jList1.getSelectedValue()) || s.getRemetente().equals("Eu")) {
                 jTextPane2.setText(jTextPane2.getText() + "\n" + s.getRemetente() + ": " + s.getMensagem());
                 jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+
+                DefaultListModel<String> dlm = new DefaultListModel<>();
+                for (int j = 0; j < jList1.getModel().getSize(); j++) {
+                    if (j == jList1.getSelectedIndex()) {
+                        if (jList1.getModel().getElementAt(j).contains("*")) {
+                            dlm.addElement(jList1.getModel().getElementAt(j).substring(0, jList1.getModel().getElementAt(j).length() - 1));
+                        } else {
+                            dlm.addElement(jList1.getModel().getElementAt(j));
+                        }
+                    } else {
+                        dlm.addElement(jList1.getModel().getElementAt(j));
+                    }
+                }
+                jList1.setModel(dlm);
             }
         }
 
@@ -291,17 +304,49 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 jTextPane2.setText(jTextPane2.getText() + "\n" + sms.getRemetente() + ": " + sms.getMensagem());
                 jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
             } else {
+                //VERIFICA SE Já EXISTE NA LIST O UTILIZADOR QUE RECEBEU 
                 for (int i = 0; i < jList1.getModel().getSize(); i++) {
                     if (jList1.getModel().getElementAt(i).equals(sms.getRemetente())) {
+                        if (jList1.getModel().getElementAt(i).substring(0, jList1.getModel().getElementAt(i).length() - 1).equals(sms.getRemetente())) {
+                            return;
+                        }
+                            DefaultListModel<String> dlm = new DefaultListModel<>();
+                            for (int j = 0; j < jList1.getModel().getSize(); j++) {
+                                if (j == i) {
+                                    dlm.addElement(jList1.getModel().getElementAt(i) + "*");
+                                } else {
+                                    dlm.addElement(jList1.getModel().getElementAt(i));
+                                }
+                            }
+                            jList1.setModel(dlm);
                         return;
                     }
                 }
-                DefaultListModel<String> dlm = new DefaultListModel<String>();
+
+                /// CASO NAO EXITA ADICIONAR 
+                DefaultListModel<String> dlm = new DefaultListModel<>();
                 for (int i = 0; i < jList1.getModel().getSize(); i++) {
                     dlm.addElement(jList1.getModel().getElementAt(i));
                 }
-                dlm.addElement(sms.getRemetente());
+
+                if (jList1.getModel().getSize() > 0) {
+                    dlm.addElement(sms.getRemetente() + "*");
+                } else {
+                    dlm.addElement(sms.getRemetente());
+                }
+
                 jList1.setModel(dlm);
+
+                if (jList1.getSelectedIndex() == -1 && jList1.getModel().getSize() == 1) {
+                    jList1.setSelectedIndex(0);
+                    jTextPane2.setText("");
+                    for (Mensagem s : mensagensClientes) {
+                        if (s.getRemetente().equals(jList1.getSelectedValue()) || s.getRemetente().equals("Eu")) {
+                            jTextPane2.setText(jTextPane2.getText() + "\n" + s.getRemetente() + ": " + s.getMensagem());
+                            jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+                        }
+                    }
+                }
 
             }
         }

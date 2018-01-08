@@ -201,20 +201,21 @@ public class PesquisasGestaoUtilizadores {
     public void AdicionaSMS(Mensagem sms) throws SQLException {
         bd = new BaseDados();
         ResultSet Rt, Rt1;
-
+/*
         Rt = bd.Le("SELECT * WHERE USERNAME = '" + sms.getRemetente() + "';");
 
         if (Rt.next()) {
-            bd.Modifica("INSERT INTO `mensagem`(`IDMENSAGEM`, `IDUTILIZADOR`, `MENSAGEM`) VALUES (null," + Rt.getInt("IDUTILIZADOR") + ", + '" + sms.getMensagem() + "')");
+         /*   bd.Modifica("INSERT INTO `mensagem`(`IDMENSAGEM`, `IDUTILIZADOR`, `MENSAGEM`) VALUES (null," + Rt.getInt("IDUTILIZADOR") + ", + '" + sms.getMensagem() + "')");
             if (sms.getDistinatario() != null) {
                 Rt = bd.Le("SELECT * FROM mensagem WHERE IDUTILIZADOR = " + Rt.getInt("IDUTILIZADOR") + ";");
                 Rt1 = bd.Le("SELECT * WHERE USERNAME = '" + sms.getDistinatario() + "';");
 
                 bd.Modifica("INSERT INTO `utilizador_mensagem`(`IDUTILIZADOR`, `IDMENSAGEM`) VALUES (" + Rt1.getInt("IDUTILIZADOR") + "," + Rt.getInt("IDMENSAGEM") + ")");
-            }
-        }
+            }*/
+            
+      //  }
 
-        bd.CloseConnection();
+       bd.CloseConnection();
     }
 
     public void setLogout(Cliente cliente)
