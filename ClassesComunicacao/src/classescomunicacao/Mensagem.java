@@ -10,6 +10,15 @@ public class Mensagem implements Serializable{
     private String Distinatario; // QUANDO É PARA TODOS É QUANDO ESTA A NULL
     private String Remetente;
 
+    public Mensagem(String Mensagem, String Distinatario, String Remetente) {
+        this.Mensagem = Mensagem;
+        this.Distinatario = Distinatario;
+        this.Remetente = Remetente;
+    }
+     public Mensagem() {
+
+    }
+
     public String getRemetente() {
         return Remetente;
     }

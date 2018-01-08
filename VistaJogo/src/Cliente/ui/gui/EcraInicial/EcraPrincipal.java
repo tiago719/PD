@@ -198,7 +198,16 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (jTextField1.getText().length() != 0) {
             observableGame.EnviaSMSTodos(jTextField1.getText());
+     
+            
+            Mensagem temp = new Mensagem(jTextField1.getText(),null,"Eu");
             jTextField1.setText("");
+            
+            mensagensClientes.add(temp);
+            
+            jTextPane2.setText(jTextPane2.getText() + "\n" + temp.getRemetente() + ": " + temp.getMensagem());
+            jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);       
+   
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
