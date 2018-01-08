@@ -29,6 +29,11 @@ public class RecebeAtualizacoes extends Thread {
     public Mensagem getMensagem() {
         return mensagem;
     }
+    
+    public void LimpaMensagem()
+    {
+        mensagem = null;
+    }
 
     public RecebeAtualizacoes(ObservableGame observableGame, ObjectInputStream in) {
         this.observableGame = observableGame;
