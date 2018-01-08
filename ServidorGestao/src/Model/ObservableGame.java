@@ -12,6 +12,7 @@ import classescomunicacao.RegistoUtilizador;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import servidorgestao.ComunicacaoC.RecebePedidosClientes;
 
 /**
@@ -49,6 +50,15 @@ public class ObservableGame extends java.util.Observable
         return mapa;
     }
     
+    public void removeCliente(RecebePedidosClientes recebePedidosClientes)
+    {
+        recebePedidosClientes.stop();
+        serverModel.setLogOut(mapa.get(recebePedidosClientes));
+        mapa.remove(recebePedidosClientes);
+        
+        setChanged();
+        notifyObservers();
+    }    
     //getters
     public ArrayClienteEnviar getClientesEnviar()
     {
@@ -62,14 +72,22 @@ public class ObservableGame extends java.util.Observable
         return serverModel.regista(registoUtilizador);
     }
     
-    public int login(Login login, Cliente cliente)
+    public int login(Login login, Cliente cliente, RecebePedidosClientes recebePedidosClientes)
     {
-        return serverModel.login(login,cliente);
+        int ret=serverModel.login(login,cliente);
+        if(ret==1)
+            novoCliente(recebePedidosClientes, cliente);
+        return ret;
     } 
     
     public void update()
     { 
         setChanged();
         notifyObservers();
+    }
+
+    public HashMap getMapa()
+    {
+        return mapa;
     }
 }

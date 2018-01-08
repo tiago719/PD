@@ -5,10 +5,13 @@
  */
 package servidorgestao.ComunicacaoC;
 
+import Model.Cliente;
 import Model.ObservableGame;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -34,10 +37,16 @@ public class EnviaAtualizacoesJogadores implements Observer
     public void update(Observable o, Object arg)
     {
         ArrayClienteEnviar temp = new ArrayClienteEnviar();
-        for(RecebePedidosClientes rpc:logicaComunicacao.getClientes())
+        
+        HashMap<RecebePedidosClientes, Cliente> temp2=observableGame.getMapa();
+        
+        for (Map.Entry<RecebePedidosClientes, Cliente> en : temp2.entrySet())
         {
+            RecebePedidosClientes key = en.getKey();
+            Cliente cliente = en.getValue();
+            
             temp.getClientes().clear();
-            String nomeClienteAtual=observableGame.getCliente(rpc).getNomeUtilizador();
+            String nomeClienteAtual=observableGame.getCliente(key).getNomeUtilizador();
             for(ClienteEnviar clienteEnviar : observableGame.getClientesEnviar().getClientes())               
                 if(!nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador()))
                 {
@@ -45,13 +54,14 @@ public class EnviaAtualizacoesJogadores implements Observer
                 }
             try
             {
-                rpc.getOut().reset();
-                rpc.getOut().writeObject(temp);
-                rpc.getOut().flush();
+                key.getOut().reset();
+                key.getOut().writeObject(temp);
+                key.getOut().flush();
             } catch (IOException ex)
             {
-                Logger.getLogger(EnviaAtualizacoesJogadores.class.getName()).log(Level.SEVERE, null, ex);
+                observableGame.removeCliente(key);
             }
+            
         }
     }
     

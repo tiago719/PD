@@ -217,4 +217,23 @@ public class PesquisasGestaoUtilizadores {
         bd.CloseConnection();
     }
 
+    public void setLogout(Cliente cliente)
+    {
+        bd = new BaseDados();
+        BaseDados bdModifica=new BaseDados();
+        int ret;
+        int id;
+        
+        try
+        {
+            ret=bd.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + cliente.getId()+";");
+
+            bd.CloseConnection();
+            bdModifica.CloseConnection();
+        }
+        catch(Exception e)
+        {
+            
+        }
+    }
 }
