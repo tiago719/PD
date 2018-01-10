@@ -19,7 +19,7 @@ public class BaseDados {
     public ResultSet Modifica(String q) {
         ResultSet resposta = null;
         try {
-            St.executeUpdate(q);
+            St.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
             resposta= St.getGeneratedKeys();
         } catch (Exception ex) {
             System.out.println("Erro: " + ex);
