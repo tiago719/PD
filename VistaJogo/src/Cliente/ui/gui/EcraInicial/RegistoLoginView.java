@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Cliente.ui.gui.registoLogin;
+package Cliente.ui.gui.EcraInicial;
 
 import Cliente.ui.gui.EcraInicial.EcraPrincipal;
 import java.awt.BorderLayout;
