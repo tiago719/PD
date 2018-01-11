@@ -17,6 +17,8 @@ import java.awt.Button;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -33,6 +35,7 @@ import javax.swing.AbstractCellEditor;
 import javax.swing.Action;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
@@ -57,10 +60,15 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private DefaultTableModel modeloTabela;
     private ArrayList<Mensagem> mensagensClientes = new ArrayList<>();
     private int Npares = -1;
+    private int idPar;
+    private HashMap<Integer,PedidoPar> mapaPedidos;
 
     public EcraPrincipal(ObservableGame o) {
         observableGame = o;
         observableGame.addObserver(this);
+        mapaPedidos=new HashMap<>();
+        idPar=0;
+        
 
         initComponents();
         modeloTabela = new DefaultTableModel();
@@ -68,9 +76,10 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         botoesFormarPar.setText("Formar Par");
         botoesEnviarSms = new ButtonColumn(jTableUtilizadores, 4);
         botoesEnviarSms.setText("Enviar Mensagem");
-        jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
-        jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
-
+        //jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
+        //jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
+        
+        jPedidosPar.setLayout(new GridLayout(6,0));       
     }
 
     /**
@@ -80,7 +89,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUtilizadores = new javax.swing.JTable();
@@ -94,28 +104,37 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         jTextPane2 = new javax.swing.JTextPane();
         jTextField2 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
+        jPedidosPar = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         jTableUtilizadores.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+            new Object [][]
+            {
 
             },
-            new String [] {
+            new String []
+            {
                 "Nome de Utilizador", "Nome", "Estado", "Jogar", "Enviar Mensagem"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
+        )
+        {
+            boolean[] canEdit = new boolean []
+            {
                 false, false, false, false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
+            public boolean isCellEditable(int rowIndex, int columnIndex)
+            {
                 return canEdit [columnIndex];
             }
         });
         jTableUtilizadores.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableUtilizadores);
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
                 jTextField1KeyPressed(evt);
             }
         });
@@ -123,19 +142,25 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         jScrollPane2.setViewportView(jTextPane1);
 
         jButton1.setText("->");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jButton1MouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jList1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jList1MouseClicked(evt);
             }
         });
@@ -143,18 +168,43 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
         jScrollPane4.setViewportView(jTextPane2);
 
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter()
+        {
+            public void keyPressed(java.awt.event.KeyEvent evt)
+            {
                 jTextField2KeyPressed(evt);
             }
         });
 
         jButton2.setText("->");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        jPedidosPar.setBackground(new java.awt.Color(204, 204, 255));
+
+        jLabel1.setText("Lista de Pedidos de Par:");
+
+        javax.swing.GroupLayout jPedidosParLayout = new javax.swing.GroupLayout(jPedidosPar);
+        jPedidosPar.setLayout(jPedidosParLayout);
+        jPedidosParLayout.setHorizontalGroup(
+            jPedidosParLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPedidosParLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(166, Short.MAX_VALUE))
+        );
+        jPedidosParLayout.setVerticalGroup(
+            jPedidosParLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPedidosParLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -173,20 +223,28 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                                 .addComponent(jButton2)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2))
-                .addContainerGap())
+                        .addGap(18, 18, 18)
+                        .addComponent(jPedidosPar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                    .addComponent(jPedidosPar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -313,7 +371,9 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPedidosPar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -484,10 +544,20 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             Npares = observableGame.getSizePares();
 
         }
+        
+        PedidoPar novoPedidoPar;
+        mapaPedidos.clear();
+        
+        for(FormarPar pedidoPar : observableGame.getPares())
+        {
+            novoPedidoPar = new PedidoPar(observableGame,pedidoPar.Nik1Util,this,pedidoPar);
+            mapaPedidos.put(idPar++, novoPedidoPar);
+            jPedidosPar.add(novoPedidoPar);
+        }
     }
 
     public class ButtonColumn extends AbstractCellEditor
-            implements TableCellRenderer, TableCellEditor, MouseListener {
+            implements TableCellRenderer, TableCellEditor {
 
         private JTable table;
         private Action action;
@@ -511,7 +581,55 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             TableColumnModel columnModel = table.getColumnModel();
             columnModel.getColumn(column).setCellRenderer(this);
             columnModel.getColumn(column).setCellEditor(this);
-            table.addMouseListener(this);
+            table.addMouseListener(new MouseListener()
+            {
+                @Override
+                public void mouseClicked(MouseEvent e)
+                {
+                    if (table.getSelectedColumn() == 4) {
+                    Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
+                    for (int i = 0; i < jList1.getModel().getSize(); i++) {
+                        if (jList1.getModel().getElementAt(i).trim().equals(Nikname.toString().trim())) {
+                            return;
+                        }
+                    }
+
+                    DefaultListModel<String> dlm = new DefaultListModel<String>();
+                    for (int i = 0; i < jList1.getModel().getSize(); i++) {
+                        dlm.addElement(jList1.getModel().getElementAt(i));
+                    }
+                    dlm.addElement(Nikname.toString());
+                    jList1.setModel(dlm);
+
+                    jList1.setSelectedIndex(jList1.getModel().getSize() - 1);
+                } else if (table.getSelectedColumn() == 3) {
+                    Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
+                    observableGame.PedePar((String) Nikname);
+
+                    JOptionPane.showMessageDialog(table, "Ola");
+                }
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e)
+                {
+                }
+
+                @Override
+                public void mouseReleased(MouseEvent e)
+                {
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e)
+                {
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e)
+                {
+                }
+            });
         }
 
         public void setEnable(boolean val) {
@@ -571,48 +689,5 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
             return renderButton;
         }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (table.getSelectedColumn() == 4) {
-                Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
-                for (int i = 0; i < jList1.getModel().getSize(); i++) {
-                    if (jList1.getModel().getElementAt(i).trim().equals(Nikname.toString().trim())) {
-                        return;
-                    }
-                }
-
-                DefaultListModel<String> dlm = new DefaultListModel<String>();
-                for (int i = 0; i < jList1.getModel().getSize(); i++) {
-                    dlm.addElement(jList1.getModel().getElementAt(i));
-                }
-                dlm.addElement(Nikname.toString());
-                jList1.setModel(dlm);
-
-                jList1.setSelectedIndex(jList1.getModel().getSize() - 1);
-            } else if (table.getSelectedColumn() == 3) {
-                Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
-                observableGame.PedePar((String) Nikname);
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-
     }
 }

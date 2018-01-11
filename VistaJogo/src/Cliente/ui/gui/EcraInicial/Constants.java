@@ -21,4 +21,7 @@ public class Constants
     
     static final int DIM_X_FRAME = (int) screenSize.getWidth();
     static final int DIM_Y_FRAME = (int) screenSize.getHeight();
+    
+    public static final int DIM_X_RECEBE_PEDIDOS=200;
+    public static final int DIM_Y_RECEBE_PEDIDOS=400;
 }

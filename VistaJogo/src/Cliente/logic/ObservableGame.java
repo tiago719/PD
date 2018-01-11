@@ -7,6 +7,7 @@ import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import Cliente.logic.states.IStates;
+import Cliente.ui.gui.EcraInicial.PedidoPar;
 import ComunicacaoP.RecebeAtualizacoes;
 import classescomunicacao.*;
 import java.io.IOException;
@@ -245,5 +246,17 @@ public class ObservableGame extends Observable {
     public void EnviaConfirmacao(int i) {
         
         comunicacao.EnviaConfirmacaoPar(threadRecebeAtualizacoes.getPares().get(i));
+    }
+
+    public void EnviaConfirmacao(FormarPar pedidoPar, boolean resposta)
+    {
+        for(FormarPar p : threadRecebeAtualizacoes.getPares())
+        {
+            if(p==pedidoPar)
+            {
+                p.setAceite(resposta);
+                comunicacao.EnviaConfirmacaoPar(p);
+            }
+        }
     }
 }
