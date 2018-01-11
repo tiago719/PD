@@ -5,6 +5,7 @@
  */
 package Cliente.ui.gui.registoLogin;
 
+import Cliente.ui.gui.EcraInicial.EcraPrincipal;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
