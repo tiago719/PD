@@ -1,135 +1,116 @@
-package Cliente.logic;
+package classescomunicacao.ModelJogo;
 
-import Cliente.logic.states.AwaitBeginning;
-import Cliente.logic.states.IStates;
+import classescomunicacao.ModelJogo.States.AwaitBeginning;
+import classescomunicacao.ModelJogo.States.IStates;
 import java.io.Serializable;
 
 /**
  *
  * @author Jose Marinho
  */
+public class GameModel implements Serializable {
 
-public class GameModel  implements Serializable
-{  
     private GameData gameData;
-    private IStates state; 
-    
-    public GameModel()
-    {
-        gameData = new GameData();
+    private IStates state;
+    int idJogo;
+
+    public GameModel(String nickName1, String nickName2, int idJogo) {
+        this.idJogo = idJogo;
+        gameData = new GameData(nickName1, nickName2);
         setState(new AwaitBeginning(gameData));
+    }
+
+    public int getIdJogo() {
+        return idJogo;
     }
 
     public GameData getGameData() {
         return gameData;
     }
 
-    public void setGameData(GameData gameData)
-    {
+    public void setGameData(GameData gameData) {
         this.gameData = gameData;
     }
 
-    public IStates getState()
-    {
+    public IStates getState() {
         return state;
     }
-    
-    private void setState(IStates state)
-    {
-        this.state = state;
-    }        
-    
-     // Methods retrieve data from the game
-    
-    public String gridToString()
-    {
-        return gameData.gridToString();
-    }                    
 
-    public int getNumPlayers()
-    {
+    private void setState(IStates state) {
+        this.state = state;
+    }
+
+    // Methods retrieve data from the game
+    public String gridToString() {
+        return gameData.gridToString();
+    }
+
+    public int getNumPlayers() {
         return gameData.getNumPlayers();
     }
-    
-    public Player getCurrentPlayer() 
-    {
+
+    public Player getCurrentPlayer() {
         return gameData.getCurrentPlayer();
     }
 
-    public Player getNotCurrentPlayer() 
-    {
+    public Player getNotCurrentPlayer() {
         return gameData.getNotCurrentPlayer();
     }
-    
-    public Player getPlayer1()
-    {
+
+    public Player getPlayer1() {
         return gameData.getPlayer1();
     }
 
-    public Player getPlayer2()
-    {
+    public Player getPlayer2() {
         return gameData.getPlayer2();
     }
 
-    public Token getToken(int line, int column) 
-    {
+    public Token getToken(int line, int column) {
         return gameData.getToken(line, column);
     }
-    
-    public String grelhaToString()
-    {
+
+    public String grelhaToString() {
         return gameData.gridToString();
     }
 
-    public int getNumCurrentPlayer()
-    {
+    public int getNumCurrentPlayer() {
         return gameData.getNumCurrentPlayer();
     }
 
-    public String getCurrentPlayerName()
-    {
+    public String getCurrentPlayerName() {
         return gameData.getCurrentPlayer().getName();
     }
-    
-    public boolean isOver() 
-    {
+
+    public boolean isOver() {
         return gameData.isOver();
     }
-    
-    public boolean hasWon(Player player) 
-    {
+
+    public boolean hasWon(Player player) {
         return gameData.hasWon(player);
     }
-    
+
     // Methods that are intended to be used by the user interfaces and that are delegated in the current state of the finite state machine 
-    
-    public void setNumberPlayers(int num)
-    {
+    public void setNumberPlayers(int num) {
         setState(getState().setNumberPlayers(num));
     }
 
-    public void setPlayerName(int num, String name) 
-    {
+    public void setPlayerName(int num, String name) {
         setState(getState().setName(num, name));
     }
 
-    public void startGame()
-    {
+    public void startGame() {
         setState(getState().startGame());
     }
 
-    public void placeToken(int line, int column)
-    {
+    public void placeToken(int line, int column) {
         setState(getState().placeToken(line, column));
     }
 
-    public void returnToken(int line, int column)
-    {
+    public void returnToken(int line, int column) {
         setState(getState().returnToken(line, column));
     }
 
-    public void quit()
-    {
+    public void quit() {
         setState(getState().quit());
     }
 

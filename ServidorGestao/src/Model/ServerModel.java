@@ -36,7 +36,8 @@ public class ServerModel
         
         try
         {
-            pesquisasGestaoUtilizadores.AdicionaUtilizador(registoUtilizador.getNome(), registoUtilizador.getUsername(), registoUtilizador.getPassword());
+            if(devolve==1)
+                pesquisasGestaoUtilizadores.AdicionaUtilizador(registoUtilizador.getNome(), registoUtilizador.getUsername(), registoUtilizador.getPassword());
         } catch (NoSuchAlgorithmException ex)
         {
             Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -49,7 +50,7 @@ public class ServerModel
     {
         int ret=ModelGestaoUtilizadores.LoginUtil(login,pesquisasGestaoUtilizadores);
         
-        if(ret!=-1)
+        if(ret!=-1 && ret!=0)
         {
             cliente.setNomeUtilizador(login.getNome());
             cliente.setNome(pesquisasGestaoUtilizadores.getNome(ret));

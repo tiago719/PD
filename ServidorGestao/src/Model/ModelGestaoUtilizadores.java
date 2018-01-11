@@ -54,7 +54,7 @@ public class ModelGestaoUtilizadores {
             }
             else
             {
-                return -1;
+                return 0;
             }
         } catch (SQLException ex) {
             Logger.getLogger(ModelGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);

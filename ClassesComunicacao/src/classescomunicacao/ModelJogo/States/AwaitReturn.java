@@ -1,8 +1,11 @@
-package Cliente.logic.states;
+package classescomunicacao.ModelJogo.States;
 
-import Cliente.logic.Player;
-import Cliente.logic.GameData;
-import Cliente.logic.Token;
+import static classescomunicacao.ModelJogo.Constants.DIM;
+import classescomunicacao.ModelJogo.GameData;
+import classescomunicacao.ModelJogo.Player;
+import classescomunicacao.ModelJogo.Token;
+
+
 
 public class AwaitReturn extends StateAdapter
 {

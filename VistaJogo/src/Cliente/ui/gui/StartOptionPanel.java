@@ -1,6 +1,8 @@
 
 package Cliente.ui.gui;
 
+import classescomunicacao.ModelJogo.ObservableGame;
+import classescomunicacao.ModelJogo.States.AwaitBeginning;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -12,8 +14,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import Cliente.logic.ObservableGame;
-import Cliente.logic.states.AwaitBeginning;
 
 /** Painel que apresenta as varias opcoes de configuracao e permite iniciar o game
  *  Observa o game para se tornar invisivel/visivel conforme um game esteja em curso ou nao.

@@ -63,6 +63,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         observableGame.addObserver(this);
 
         initComponents();
+
         modeloTabela = new DefaultTableModel();
         botoesFormarPar = new ButtonColumn(jTableUtilizadores, 3);
         botoesFormarPar.setText("Formar Par");
@@ -162,6 +163,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -186,6 +188,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,6 +212,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
         if (jTextField1.getText().length() != 0) {
             observableGame.EnviaSMSTodos(jTextField1.getText());
 
@@ -326,6 +330,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     // End of variables declaration//GEN-END:variables
 
     @Override
+
     public void update(Observable o, Object arg) {
         int guardasel = 0;
         if (jList1.getSelectedIndex() != -1) {
@@ -334,6 +339,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         String parFormado;
         modeloTabela = (DefaultTableModel) (jTableUtilizadores.getModel());
         modeloTabela.setRowCount(0);
+
 
         if (observableGame.getClientes() == null) {
             return;
@@ -578,6 +584,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         }
 
         @Override
+
         public void mouseClicked(MouseEvent e) {
             if (table.getSelectedColumn() == 4) {
                 Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);

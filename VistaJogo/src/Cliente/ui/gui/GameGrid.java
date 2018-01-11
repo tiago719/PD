@@ -1,10 +1,10 @@
 
 package Cliente.ui.gui;
 
+import classescomunicacao.ModelJogo.Constants;
+import classescomunicacao.ModelJogo.ObservableGame;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
-import Cliente.logic.Constants;
-import Cliente.logic.ObservableGame;
 
 /** Grelha de celulas... E' apenas um contentor
  * 

@@ -1,4 +1,4 @@
-package Cliente.logic;
+package classescomunicacao.ModelJogo;
 
 import java.io.Serializable;
 

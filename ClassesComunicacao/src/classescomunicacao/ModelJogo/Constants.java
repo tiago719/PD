@@ -1,4 +1,4 @@
-package Cliente.logic;
+package classescomunicacao.ModelJogo;
 
 public interface Constants {
     public static final int DIM = 3;

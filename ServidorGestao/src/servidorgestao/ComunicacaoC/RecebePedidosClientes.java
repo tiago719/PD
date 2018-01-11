@@ -52,6 +52,7 @@ public class RecebePedidosClientes extends Thread {
         int a = 0, ret;
         while (a == 0)//TODO: define condicao de paragem
         {
+
             try {
                 Object returnedObject = in.readObject();
                 if (returnedObject instanceof RegistoUtilizador) {
@@ -82,14 +83,20 @@ public class RecebePedidosClientes extends Thread {
                         observableGame.FormaPar((FormarPar)returnedObject);
                     }
                 }
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+                else if(returnedObject instanceof Integer){//pedir SocketModeloServJogo
+                    
+                }
+            } catch (IOException | ClassNotFoundException ex)
+            {
+                System.out.println(ex);
+
             }
         }
         try {
             socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex)
+        {
+            System.out.println(ex);
         }
     }
 

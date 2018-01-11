@@ -1,4 +1,4 @@
-package Model.ModelJogo.States;
+package classescomunicacao.ModelJogo.States;
 
 import java.io.Serializable;
 

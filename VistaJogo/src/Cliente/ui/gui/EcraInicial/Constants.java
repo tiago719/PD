@@ -1,10 +1,11 @@
 package Cliente.ui.gui.EcraInicial;
 
+
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 public class Constants
-{
-    static final int DIM_X_FRAME =  1000;
-    static final int DIM_Y_FRAME =  500;
-    
+{   
     public static final int DIM_X_REGISTO=200;
     public static final int DIM_Y_REGISTO=400;
     
@@ -16,4 +17,9 @@ public class Constants
     
     public static final int DIM_X_TEXT_FIELD=50;
     public static final int DIM_Y_TEXT_FIELD=400;
+    
+    static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    
+    static final int DIM_X_FRAME = (int) screenSize.getWidth();
+    static final int DIM_Y_FRAME = (int) screenSize.getHeight();
 }

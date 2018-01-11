@@ -55,8 +55,7 @@ public class Login extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPasswordField1 = new javax.swing.JPasswordField();
         jLabel1 = new javax.swing.JLabel();
@@ -73,6 +72,7 @@ public class Login extends javax.swing.JPanel {
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
         jUsername.setText("Username");
         jUsername.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+
         jUsername.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -117,6 +117,7 @@ public class Login extends javax.swing.JPanel {
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));
         jPassword.setText("Password");
+
         jPassword.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -130,6 +131,7 @@ public class Login extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(66, 66, 66)
@@ -160,6 +162,7 @@ public class Login extends javax.swing.JPanel {
                 .addComponent(jErro)
                 .addGap(18, 18, 18)
                 .addComponent(jEntrar)
+
                 .addGap(37, 37, 37))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -215,7 +218,8 @@ public class Login extends javax.swing.JPanel {
         {
             CardLayout cl = (CardLayout) CardPanel.getLayout();
             cl.next(CardPanel);
-            RegistoLoginView.setSize(Constants.DIM_X_ECRA_PRINCIPAL,Constants.DIM_Y_ECRA_PRINCIPAL );
+
+            RegistoLoginView.setSize(Constants.DIM_X_FRAME,Constants.DIM_Y_FRAME);
         }
         else
         {
