@@ -43,7 +43,6 @@ public class EnviaAtualizacoesJogadores implements Observer
         for (Map.Entry<RecebePedidosClientes, Cliente> en : temp2.entrySet())
         {
             RecebePedidosClientes key = en.getKey();
-            Cliente cliente = en.getValue();
             
             temp.getClientes().clear();
             String nomeClienteAtual=observableGame.getCliente(key).getNomeUtilizador();

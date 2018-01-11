@@ -38,8 +38,9 @@ public class ObservableGame extends java.util.Observable {
         mapa = new HashMap<>();
         serverModel.setLogados(false);
     }
-
-    public void novoCliente(RecebePedidosClientes recebePedidosClientes, Cliente cliente) {
+    
+    public synchronized void novoCliente(RecebePedidosClientes recebePedidosClientes, Cliente cliente)
+    {
         mapa.put(recebePedidosClientes, cliente);
     }
 
@@ -50,8 +51,9 @@ public class ObservableGame extends java.util.Observable {
     public HashMap<RecebePedidosClientes, Cliente> getTodosClientes() {
         return mapa;
     }
-
-    public void removeCliente(RecebePedidosClientes recebePedidosClientes) {
+    
+    public synchronized void removeCliente(RecebePedidosClientes recebePedidosClientes)
+    {
         recebePedidosClientes.stop();
         serverModel.setLogOut(mapa.get(recebePedidosClientes));
         mapa.remove(recebePedidosClientes);
@@ -76,9 +78,10 @@ public class ObservableGame extends java.util.Observable {
             novoCliente(recebePedidosClientes, cliente);
         }
         return ret;
-    }
-
-    public void update() {
+    } 
+    
+    public synchronized void update()
+    { 
         setChanged();
         notifyObservers();
     }
