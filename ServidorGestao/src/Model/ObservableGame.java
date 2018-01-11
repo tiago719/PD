@@ -116,7 +116,7 @@ public class ObservableGame extends java.util.Observable {
             }
         } else {
              PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
-             p.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+             formarPar.setIdPar(p.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util()));
              
               for (Map.Entry<RecebePedidosClientes, Cliente> entry : mapa.entrySet()) {
                 RecebePedidosClientes key = entry.getKey();

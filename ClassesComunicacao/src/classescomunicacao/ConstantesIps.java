@@ -14,4 +14,5 @@ public interface ConstantesIps
 {
     public static final int PORTO = 5001;
     public static final int PORTO2 = 5002;
+    public static final int PORTOSERVIDORJOGO = 6006;
 }
