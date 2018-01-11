@@ -13,6 +13,7 @@ import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -117,5 +118,19 @@ public class ObservableGame extends java.util.Observable {
              PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
              p.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
         }
+    }
+
+    public boolean ExistePar(FormarPar formarPar) {
+        try {
+            PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
+            
+            int id = p.GetidByUserName(formarPar.getNik1Util());
+            int id1 = p.GetidByUserName(formarPar.getNik2Util());
+            return p.VeirficaExiste(id,id1);
+        } catch (SQLException ex) {
+            Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+        
+        }
+        return false;
     }
 }

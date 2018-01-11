@@ -10,11 +10,11 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import Cliente.logic.Player;
-import Cliente.logic.ObservableGame;
-import Cliente.logic.Token;
-import Cliente.logic.states.AwaitBeginning;
-import Cliente.logic.states.AwaitPlacement;
+import classescomunicacao.Jogadas;
+import classescomunicacao.ModelJogo.ObservableGame;
+import classescomunicacao.ModelJogo.Player;
+import classescomunicacao.ModelJogo.States.*;
+import classescomunicacao.ModelJogo.Token;
 
 /** Componente grafico que representa uma celula da grelha.
  *  Define o listener do rato de forma a enviar para a logica do game as mensagens 
@@ -27,6 +27,8 @@ class GameCell extends JPanel
 {
     int row, col;
     ObservableGame game;
+    
+   
 
     static final String imageFiles[]={"images/sun.gif","images/moon.png"};
     static Image playerIcons[]=new Image[imageFiles.length];
@@ -72,11 +74,14 @@ class GameCell extends JPanel
         addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent ev){
-                if(game.getState() instanceof AwaitPlacement){
-                    game.placeToken(row, col);
-                }else{
-                    game.returnToken(row, col);
-                }
+                Jogadas jog = new Jogadas(game.getCurrentPlayerName(), row, col, game.getGameModel().getIdJogo());
+                
+                
+//                if(game.getState() instanceof AwaitPlacement){
+//                    game.placeToken(row, col);
+//                }else{
+//                    game.returnToken(row, col);
+//                }
             }
         });
         

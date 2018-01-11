@@ -66,6 +66,7 @@ public class Registo extends javax.swing.JPanel
         jUsername.setText("Nome de Utilizador");
         jUsername.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
+
         jUsername.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -82,6 +83,7 @@ public class Registo extends javax.swing.JPanel
         jNome.setForeground(new java.awt.Color(204, 204, 204));
         jNome.setText("Nome");
 
+
         jNome.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)
@@ -96,6 +98,7 @@ public class Registo extends javax.swing.JPanel
         });
 
         jRegistar.setText("Registar");
+
 
         jRegistar.addMouseListener(new java.awt.event.MouseAdapter()
         {
@@ -114,6 +117,7 @@ public class Registo extends javax.swing.JPanel
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));
         jPassword.setText("Password");
+
 
         jPassword.addFocusListener(new java.awt.event.FocusAdapter()
         {
@@ -137,6 +141,7 @@ public class Registo extends javax.swing.JPanel
 
         jCPassword.setForeground(new java.awt.Color(204, 204, 204));
         jCPassword.setText("Confirmar Password");
+
         jCPassword.addFocusListener(new java.awt.event.FocusAdapter()
         {
             public void focusGained(java.awt.event.FocusEvent evt)

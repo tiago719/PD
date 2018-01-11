@@ -1,6 +1,7 @@
-package Cliente.logic.states;
+package classescomunicacao.ModelJogo.States;
 
-import Cliente.logic.GameData;
+import classescomunicacao.ModelJogo.GameData;
+
 
 public class AwaitBeginning extends StateAdapter 
 {

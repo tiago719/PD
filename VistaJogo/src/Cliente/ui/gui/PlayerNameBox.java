@@ -1,6 +1,7 @@
 
 package Cliente.ui.gui;
 
+import classescomunicacao.ModelJogo.ObservableGame;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import Cliente.logic.ObservableGame;
 //import java.awt.event.ActionEvent;
 //import java.awt.event.ActionListener;
 /** Apresenta um label e campo de texto para alteracao do nome de um jogador..

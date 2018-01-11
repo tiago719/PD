@@ -52,6 +52,7 @@ public class RecebePedidosClientes extends Thread {
         int a = 0, ret;
         while (a == 0)//TODO: define condicao de paragem
         {
+
             try {
                 Object returnedObject = in.readObject();
                 if (returnedObject instanceof RegistoUtilizador) {
@@ -76,18 +77,26 @@ public class RecebePedidosClientes extends Thread {
                     if((Integer)returnedObject == CLIENT_LEFT)
                         observableGame.removeCliente(this);
                 }
-                else if(returnedObject instanceof FormarPar)
-                {
-                    observableGame.FormaPar((FormarPar)returnedObject);
+                else if(returnedObject instanceof FormarPar){
+                    if(!observableGame.ExistePar((FormarPar)returnedObject))
+                    {
+                        observableGame.FormaPar((FormarPar)returnedObject);
+                    }
                 }
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+                else if(returnedObject instanceof Integer){//pedir SocketModeloServJogo
+                    
+                }
+            } catch (IOException | ClassNotFoundException ex)
+            {
+                System.out.println(ex);
+
             }
         }
         try {
             socket.close();
-        } catch (IOException ex) {
-            Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex)
+        {
+            System.out.println(ex);
         }
     }
 
@@ -130,9 +139,7 @@ public class RecebePedidosClientes extends Thread {
                     try {
                         key.getOut().writeObject(sms);
                         key.getOut().flush();
-
                         PesquisasGestaoUtilizadores pesq = new PesquisasGestaoUtilizadores();
-
                         pesq.AdicionaSMS(sms);
                         break;
                     } catch (IOException ex) {

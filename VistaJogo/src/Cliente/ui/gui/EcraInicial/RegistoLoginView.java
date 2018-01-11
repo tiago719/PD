@@ -72,7 +72,11 @@ public class RegistoLoginView extends JFrame implements Observer
             @Override
             public void windowClosing(WindowEvent e)
             {
-                ObservableGame.logOut();
+                try {
+                    ObservableGame.logOut();
+                    
+                } catch (Exception ex) {
+                }
                 System.exit(0);
             }
         });

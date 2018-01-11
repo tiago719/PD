@@ -1,6 +1,7 @@
 package ComunicacaoP;
 
 import classescomunicacao.*;
+import static classescomunicacao.ConstantesIps.PORTO2;
 import static classescomunicacao.Constantes.CLIENT_LEFT;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,8 +15,7 @@ import javafx.beans.Observable;
 
 public class Comunicacao extends java.util.Observable {
 
-    public static final int PORTO = 5001;
-    public static final int PORTO2 = 5002;
+
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
@@ -129,6 +129,7 @@ public class Comunicacao extends java.util.Observable {
             }
         } while (returnedObjec != null);
         return sms;
+
     }
     
     public void logOut() {

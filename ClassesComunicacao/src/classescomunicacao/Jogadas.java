@@ -6,16 +6,17 @@ import java.io.Serializable;
  *
  * @author edu_f
  */
-public class Jogadas implements Serializable{
-    String nickname;
-    int linha, coluna;
-    boolean colocar;
+public class Jogadas implements Serializable {
 
-    public Jogadas(String nickname, String peca, int linha, int coluna, boolean colocar) {
+    String nickname;
+    int linha, coluna, idJogo;
+    static final long serialVersionUID = 1L;
+
+    public Jogadas(String nickname, int linha, int coluna, int idJogo) {
         this.nickname = nickname;
         this.linha = linha;
         this.coluna = coluna;
-        this.colocar = colocar;
+        this.idJogo = idJogo;
     }
 
     public String getNickname() {
@@ -42,14 +43,8 @@ public class Jogadas implements Serializable{
         this.coluna = coluna;
     }
 
-    public boolean isColocar() {
-        return colocar;
+    public int getIdJogo() {
+        return idJogo;
     }
 
-    public void setColocar(boolean colocar) {
-        this.colocar = colocar;
-    }
-    
-    
-    
 }

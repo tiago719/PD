@@ -1,19 +1,15 @@
 package Cliente.logic;
 
 import ComunicacaoP.Comunicacao;
-import static ComunicacaoP.Comunicacao.TIMEOUT;
-import static Cliente.logic.Constants.PORTO_SERVIDOR_GESTAO;
-import java.util.Observable;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import Cliente.logic.states.IStates;
-import Cliente.ui.gui.EcraInicial.PedidoPar;
 import ComunicacaoP.RecebeAtualizacoes;
+import java.util.Observable;
 import classescomunicacao.*;
+import classescomunicacao.ModelJogo.GameData;
+import classescomunicacao.ModelJogo.GameModel;
+import classescomunicacao.ModelJogo.Player;
+import classescomunicacao.ModelJogo.States.IStates;
+import classescomunicacao.ModelJogo.Token;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,9 +34,9 @@ public class ObservableGame extends Observable {
     public void setMensagensPrivadas(ArrayList<Mensagem> MensagensPrivadas) {
         this.MensagensPrivadas = MensagensPrivadas;
     }
-       
+
     public ObservableGame() {
-        gameModel = new GameModel();
+        this.gameModel = null;
         comunicacao = new Comunicacao();
     }
     

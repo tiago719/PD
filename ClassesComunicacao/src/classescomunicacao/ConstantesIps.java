@@ -1,4 +1,4 @@
-package servidorgestao;
+package classescomunicacao;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -10,7 +10,8 @@ package servidorgestao;
  *
  * @author Tiago Coutinho
  */
-public interface Constantes
+public interface ConstantesIps
 {
-    public static final int PORTO2=5002;
+    public static final int PORTO = 5001;
+    public static final int PORTO2 = 5002;
 }

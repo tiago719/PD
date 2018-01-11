@@ -1,8 +1,8 @@
 
 package Cliente.ui.gui;
 
-import Cliente.logic.Player;
-import Cliente.logic.ObservableGame;
+import classescomunicacao.ModelJogo.ObservableGame;
+import classescomunicacao.ModelJogo.Player;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
