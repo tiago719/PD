@@ -1,15 +1,18 @@
 package Cliente.logic;
 
 import ComunicacaoP.Comunicacao;
+import ComunicacaoP.RecebeAtualizacoes;
 import java.util.Observable;
-import ComunicacaoP.RecebeAtualizacoesClientesLogados;
 import classescomunicacao.*;
 import classescomunicacao.ModelJogo.GameData;
 import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.Player;
 import classescomunicacao.ModelJogo.States.IStates;
 import classescomunicacao.ModelJogo.Token;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Jose Marinho
@@ -33,7 +36,7 @@ public class ObservableGame extends Observable {
     }
 
     public ObservableGame() {
-        gameModel = new GameModel();
+        this.gameModel = null;
         comunicacao = new Comunicacao();
     }
     
