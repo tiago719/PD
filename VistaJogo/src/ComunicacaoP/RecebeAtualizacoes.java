@@ -8,10 +8,12 @@ package ComunicacaoP;
 import Cliente.logic.ObservableGame;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
+import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,10 +27,20 @@ public class RecebeAtualizacoes extends Thread {
     ObservableGame observableGame;
     ObjectInputStream in;
     public Mensagem mensagem;
+    public List<FormarPar> pares;
+
+    public List<FormarPar> getPares() {
+        return pares;
+    }
+
+    public void setPares(List<FormarPar> pares) {
+        this.pares = pares;
+    }
 
     public RecebeAtualizacoes(ObservableGame observableGame, ObjectInputStream in) {
         this.observableGame = observableGame;
         this.in = in;
+        pares = new ArrayList<>();
     }
 
     @Override
@@ -43,11 +55,16 @@ public class RecebeAtualizacoes extends Thread {
                         observableGame.setClientesLogados((ArrayClienteEnviar) returnedObject);
                     } else if (returnedObject instanceof Mensagem) {
                         mensagem = (Mensagem)returnedObject;
-                         observableGame.Update();
+                        observableGame.Update();
+                    } else if(returnedObject instanceof FormarPar){
+                        pares.add((FormarPar)returnedObject);
+                        observableGame.Update();
                     }
                 }
             } 
-            catch (Exception e) { }
+            catch (Exception e) { 
+                Logger.getLogger("ERRO : " + e.getMessage());
+            }
         }
     
     public Mensagem getMensagem() {
@@ -57,5 +74,12 @@ public class RecebeAtualizacoes extends Thread {
     public void LimpaMensagem()
     {
         mensagem = null;
+    }
+
+    public void RemovePar(int i) {
+        if(pares.size() >=i)
+        {
+            pares.remove(i);
+        }
     }
 }
