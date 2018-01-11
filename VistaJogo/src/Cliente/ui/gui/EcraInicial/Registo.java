@@ -44,7 +44,9 @@ public class Registo extends javax.swing.JPanel
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+
+    private void initComponents()
+    {
 
         jLabel1 = new javax.swing.JLabel();
         jUsername = new javax.swing.JTextField();
@@ -63,66 +65,99 @@ public class Registo extends javax.swing.JPanel
         jUsername.setForeground(new java.awt.Color(204, 204, 204));
         jUsername.setText("Nome de Utilizador");
         jUsername.setDisabledTextColor(new java.awt.Color(204, 204, 204));
-        jUsername.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+
+
+        jUsername.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 jUsernameFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+
                 jUsernameFocusLost(evt);
             }
         });
 
         jNome.setForeground(new java.awt.Color(204, 204, 204));
         jNome.setText("Nome");
-        jNome.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+
+
+        jNome.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 jNomeFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
+
                 jNomeFocusLost(evt);
             }
         });
 
         jRegistar.setText("Registar");
-        jRegistar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+
+
+        jRegistar.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jRegistarMouseClicked(evt);
             }
         });
-        jRegistar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRegistar.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRegistarActionPerformed(evt);
             }
         });
 
         jPassword.setForeground(new java.awt.Color(204, 204, 204));
         jPassword.setText("Password");
-        jPassword.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+
+
+        jPassword.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 jPasswordFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
                 jPasswordFocusLost(evt);
             }
         });
-        jPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jPassword.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+
                 jPasswordActionPerformed(evt);
             }
         });
 
         jCPassword.setForeground(new java.awt.Color(204, 204, 204));
         jCPassword.setText("Confirmar Password");
-        jCPassword.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
+
+        jCPassword.addFocusListener(new java.awt.event.FocusAdapter()
+        {
+            public void focusGained(java.awt.event.FocusEvent evt)
+            {
                 jCPasswordFocusGained(evt);
             }
-            public void focusLost(java.awt.event.FocusEvent evt) {
+            public void focusLost(java.awt.event.FocusEvent evt)
+            {
                 jCPasswordFocusLost(evt);
             }
         });
-        jCPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jCPassword.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+
                 jCPasswordActionPerformed(evt);
             }
         });
@@ -242,11 +277,23 @@ public class Registo extends javax.swing.JPanel
 
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
+        jErroUser.setVisible(false);
+        jErroPass.setVisible(false);
+        jErroNome.setVisible(false);
+        jErroCPass.setVisible(false);
+        if(jUsername.getText().equals("Nome de Utilizador") || jNome.getText().equals("Nome") || jPassword.getText().equals("Password"))
+        {
+            jErroCPass.setText("Preencha todos os campos");
+            jErroCPass.setVisible(true);
+            jErroCPass.setForeground(Color.RED);
+            return;
+        }
         if(!jPassword.getText().equals(jCPassword.getText()))
         {
             jErroCPass.setText("As Duas Palavras-Passe não correspondem");
             jErroCPass.setVisible(true);
             jErroCPass.setForeground(Color.RED);
+            return;
         }
         
         switch(ObservableGame.Regista(jUsername.getText(), jNome.getText(), jPassword.getText()))

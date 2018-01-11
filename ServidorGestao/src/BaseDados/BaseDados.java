@@ -29,11 +29,14 @@ public class BaseDados {
     
     public int Modifica (String q)
     {
-        int resposta = 0;
+        int resposta = -1;
         try{
-            resposta = St.executeUpdate(q);
+            resposta = St.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
+            ResultSet t  = St.getGeneratedKeys();
             
-            
+            if(t.next()){
+                resposta=t.getInt(1);
+            }
             return resposta;
         }catch(Exception ex)
         {

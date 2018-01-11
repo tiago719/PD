@@ -6,25 +6,11 @@
 package Cliente.ui.gui.EcraInicial;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import Cliente.logic.ObservableGame;
 import static Cliente.ui.gui.EcraInicial.Constants.DIM_X_LOGIN;
 import static Cliente.ui.gui.EcraInicial.Constants.DIM_X_REGISTO;

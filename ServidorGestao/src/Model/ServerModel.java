@@ -6,6 +6,7 @@
 package Model;
 
 import BaseDados.PesquisasGestaoUtilizadores;
+import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
@@ -20,14 +21,12 @@ import java.util.logging.Logger;
  */
 public class ServerModel
 {
-    private ArrayList<Cliente> clientes;
-    private ArrayList<ClienteEnviar> clientesEnviar;
     private PesquisasGestaoUtilizadores pesquisasGestaoUtilizadores;
-    
+    private ArrayClienteEnviar arrayClienteEnviar;
+
     public ServerModel()
     {
-        clientes=new ArrayList<>();
-        clientesEnviar=new ArrayList<>();
+        arrayClienteEnviar=new ArrayClienteEnviar();
         pesquisasGestaoUtilizadores=new PesquisasGestaoUtilizadores();
     }
     
@@ -37,7 +36,8 @@ public class ServerModel
         
         try
         {
-            pesquisasGestaoUtilizadores.AdicionaUtilizador(registoUtilizador.getNome(), registoUtilizador.getUsername(), registoUtilizador.getPassword());
+            if(devolve==1)
+                pesquisasGestaoUtilizadores.AdicionaUtilizador(registoUtilizador.getNome(), registoUtilizador.getUsername(), registoUtilizador.getPassword());
         } catch (NoSuchAlgorithmException ex)
         {
             Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -50,18 +50,32 @@ public class ServerModel
     {
         int ret=ModelGestaoUtilizadores.LoginUtil(login,pesquisasGestaoUtilizadores);
         
-        if(ret!=-1)
+        if(ret!=-1 && ret!=0)
         {
-            cliente=new Cliente(login.getNome(), pesquisasGestaoUtilizadores.getNome(ret), true, ret);
-            clientes.add(cliente);
-            clientesEnviar.add(cliente.getClienteEnviar());
+            cliente.setNomeUtilizador(login.getNome());
+            cliente.setNome(pesquisasGestaoUtilizadores.getNome(ret));
+            cliente.setLogado(true);
+            cliente.setId(ret);
+            cliente.setClienteEnviar();
+            arrayClienteEnviar.addCliente(cliente.getClienteEnviar());
             return 1;
         }        
         return ret;
     }
     
-    public ArrayList<ClienteEnviar> getClientesEnviar()
+    public ArrayClienteEnviar getClientesEnviar()
     {
-        return clientesEnviar;
+        return arrayClienteEnviar;
+    }
+
+    void setLogados(boolean b)
+    {
+        pesquisasGestaoUtilizadores.setLogados(b);
+    }
+
+    void setLogOut(Cliente cliente)
+    {
+        arrayClienteEnviar.removeCliente(cliente.getClienteEnviar());
+        pesquisasGestaoUtilizadores.setLogout(cliente);
     }
 }
