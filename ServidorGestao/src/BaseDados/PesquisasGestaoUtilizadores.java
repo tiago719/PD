@@ -195,7 +195,6 @@ public class PesquisasGestaoUtilizadores {
         bd = new BaseDados();
         BaseDados bdModifica = new BaseDados();
         int ret;
-        int id;
 
         try {
             ret = bd.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + cliente.getId() + ";");
@@ -205,5 +204,84 @@ public class PesquisasGestaoUtilizadores {
         } catch (Exception e) {
 
         }
+    }
+
+    private boolean VeirficaExiste(int id1, int id2) {
+        bd = new BaseDados();
+        ResultSet Rt, Rt1;
+
+        Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+
+        try {
+            if (Rt.next()) {
+
+                return true;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        bd.CloseConnection();
+        return false;
+    }
+
+    public void FormaPar(String nik1Util, String nik2Util) {
+        bd = new BaseDados();
+        int id2 = -1;
+        int id1 = -1;
+
+        try {
+            id1 = GetidByUserName(nik1Util);
+            id2 = GetidByUserName(nik2Util);
+        } catch (SQLException ex) {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (id2 != -1 && id1 != -1) {
+            if (VeirficaExiste(id1, id2)) {
+                return;
+            }
+
+            try {
+                bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, 0 ," + id1 + ", " + id2 + ")");
+                bd.CloseConnection();
+            } catch (Exception e) {
+
+            }
+        }
+    }
+
+    private int GetidByUserName(String username) throws SQLException {
+        bd = new BaseDados();
+        ResultSet Rt1;
+
+        Rt1 = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + username + "';");
+        if (Rt1.next()) {
+            return Rt1.getInt("IDUTILIZADOR");
+
+        } else {
+            return -1;
+        }
+    }
+
+    public void ConfirmaPar(String nik1Util, String nik2Util) {
+        int id1, id2;
+        bd = new BaseDados();
+
+        try {
+            id1 = GetidByUserName(nik1Util);
+            id2 = GetidByUserName(nik2Util);
+        } catch (SQLException ex) {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+
+        try {
+            bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+            bd.CloseConnection();
+        } catch (Exception e) {
+            bd.CloseConnection();
+        }
+
     }
 }

@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import Model.Cliente;
 import Model.ObservableGame;
 import static classescomunicacao.Constantes.CLIENT_LEFT;
+import classescomunicacao.FormarPar;
 import com.sun.java.accessibility.util.EventID;
 import java.net.Socket;
 import java.sql.SQLException;
@@ -62,11 +63,10 @@ public class RecebePedidosClientes extends Thread {
                 } else if (returnedObject instanceof Login) {
                     Cliente cliente=new Cliente();
                     ret = observableGame.login((Login) returnedObject, cliente, this);
-                   
                     Integer novo = new Integer(ret);
                     out.writeObject(novo);
                     out.flush();
-
+                    
                     observableGame.update();
                 } else if (returnedObject instanceof Mensagem) {
                     TrataMensagens((Mensagem)returnedObject);
@@ -75,6 +75,10 @@ public class RecebePedidosClientes extends Thread {
                 {
                     if((Integer)returnedObject == CLIENT_LEFT)
                         observableGame.removeCliente(this);
+                }
+                else if(returnedObject instanceof FormarPar)
+                {
+                    observableGame.FormaPar((FormarPar)returnedObject);
                 }
             } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);

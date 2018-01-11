@@ -37,7 +37,7 @@ public class ObservableGame extends Observable {
     public void setMensagensPrivadas(ArrayList<Mensagem> MensagensPrivadas) {
         this.MensagensPrivadas = MensagensPrivadas;
     }
-    
+       
     public ObservableGame() {
         gameModel = new GameModel();
         comunicacao = new Comunicacao();
@@ -216,5 +216,34 @@ public class ObservableGame extends Observable {
     public void logOut()
     {
         comunicacao.logOut();
+    }
+    
+    public void PedePar(String Nikname)
+    {
+        comunicacao.PedePar(Nikname);
+    }
+    
+    public int getSizePares()
+    {
+        return threadRecebeAtualizacoes.getPares().size();
+    }
+    
+    public ArrayList<FormarPar> getPares()
+    {
+        return (ArrayList<FormarPar>) threadRecebeAtualizacoes.getPares();
+    }
+    
+    public void SetPares(ArrayList<FormarPar> par)
+    {
+        threadRecebeAtualizacoes.setPares(par);
+    }
+
+    public void RemovePar(int i) {
+        threadRecebeAtualizacoes.RemovePar(i);
+    }
+
+    public void EnviaConfirmacao(int i) {
+        
+        comunicacao.EnviaConfirmacaoPar(threadRecebeAtualizacoes.getPares().get(i));
     }
 }
