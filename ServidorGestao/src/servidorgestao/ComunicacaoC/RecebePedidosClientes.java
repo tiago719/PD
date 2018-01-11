@@ -52,7 +52,7 @@ public class RecebePedidosClientes extends Thread
         while(a==0)//TODO: define condicao de paragem
         {
             try
-            {            
+            {
                 Object returnedObject=in.readObject();
                 if(returnedObject instanceof RegistoUtilizador)
                 {
@@ -74,9 +74,12 @@ public class RecebePedidosClientes extends Thread
                 {
                     //TODO: Trabalha preto
                 }
+                else if(returnedObject instanceof Integer){//pedir SocketModeloServJogo
+                    
+                }
             } catch (IOException | ClassNotFoundException ex)
             {
-                Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println(ex);
             }
         }
         try
@@ -84,7 +87,7 @@ public class RecebePedidosClientes extends Thread
             socket.close();
         } catch (IOException ex)
         {
-            Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
     }
 

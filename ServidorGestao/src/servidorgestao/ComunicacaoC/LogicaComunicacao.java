@@ -17,7 +17,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static servidorgestao.Constantes.PORTO2;
+import static classescomunicacao.ConstantesIps.*;
 
 /**
  *

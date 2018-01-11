@@ -1,8 +1,6 @@
 package Model;
 
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  *
@@ -11,19 +9,14 @@ import java.util.Map;
 public class JogosDecorrer{
 
     //key -> idJogo | value -> thread do Jogo
-    Map<Integer, Thread> jogos;
+    ArrayList<ThreadJogos> jogos;
 
     public JogosDecorrer() {
-        jogos = new HashMap<>();
+        jogos = new ArrayList<>();
     }
     
-    public void addNovoJogo(int id, String nick1, String nick2, Socket socket){
-        jogos.put(id, new ThreadJogos(nick1, nick2, socket, id));
+    public void addNovoJogo(int id, String nick1, String nick2){
+        jogos.add(new ThreadJogos(nick1, nick2, id, this));
     }
-    
-    public Thread getJogoDecorrer(int id){
-        return jogos.get(id);    
-    }
-    
     
 }

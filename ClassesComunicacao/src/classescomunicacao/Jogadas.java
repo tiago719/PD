@@ -10,15 +10,13 @@ public class Jogadas implements Serializable {
 
     String nickname;
     int linha, coluna, idJogo;
-    boolean colocar;
     static final long serialVersionUID = 1L;
 
-    public Jogadas(String nickname, int linha, int coluna, int idJogo, boolean colocar) {
+    public Jogadas(String nickname, int linha, int coluna, int idJogo) {
         this.nickname = nickname;
         this.linha = linha;
         this.coluna = coluna;
         this.idJogo = idJogo;
-        this.colocar = colocar;
     }
 
     public String getNickname() {
@@ -43,14 +41,6 @@ public class Jogadas implements Serializable {
 
     public void setColuna(int coluna) {
         this.coluna = coluna;
-    }
-
-    public boolean isColocar() {
-        return colocar;
-    }
-
-    public void setColocar(boolean colocar) {
-        this.colocar = colocar;
     }
 
     public int getIdJogo() {

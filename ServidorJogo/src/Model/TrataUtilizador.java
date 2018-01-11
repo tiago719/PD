@@ -2,6 +2,7 @@ package Model;
 
 import classescomunicacao.AcoesPartida;
 import classescomunicacao.Jogadas;
+import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.ObservableGame;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,11 +18,11 @@ public class TrataUtilizador extends Thread {
 
     private int porto = 5000;
     private BaseDados BD;
-    JogosDecorrer jd;
+    JogosDecorrer jogosDecorrer;
 
-    public TrataUtilizador() {
+    public TrataUtilizador(JogosDecorrer jd) {
         BD = new BaseDados();
-        jd = new JogosDecorrer();
+        this.jogosDecorrer = jd;
     }
 
     @Override
@@ -38,43 +39,8 @@ public class TrataUtilizador extends Thread {
 
                 Object objectRecebidoUtilizador = in.readObject();
 
-                if (objectRecebidoUtilizador instanceof Jogadas) {
-                    Jogadas jog = (Jogadas) objectRecebidoUtilizador;
-                    ResultSet rs = BD.Le("SELECT count (*) FROM par JOIN "
-                            + "utilizador on utilizador.IDUTILIZADOR = par.IDU1"
-                            + " or utilizador.IDUTILIZADOR = par.IDU2 "
-                            + "where utilizador.USERNAME = "
-                            + jog.getNickname() + " and par.FORMADO = 1");
-                    rs.next();
-                    
-                    if (rs.getInt(1) != 0) {
-                        rs = BD.Le("SELECT jogo.EMCURSO, jogo.TERMINOU, "
-                                + "jogo.INTERROMPIDO FROM jogo WHERE "
-                                + "jogo.IDJOGO = " + jog.getIdJogo());
-                        rs.next();
-
-                        if (rs.getInt("jogo.EMCURSO") == 1) {
-                            //TODO: aplica jogada e envia no model
-                            
-                            
-                            
-                            ObservableGame og = ((ThreadJogos)
-                                    jd.getJogoDecorrer(jog.getIdJogo())).getOg();
-                            og.placeToken(jog.getLinha(), jog.getColuna());
-                            
-                            
-                            
-                            out.writeObject(og.getGameData());
-                            
-                            
-
-                        } else if (rs.getInt("jogo.TERMINOU") == 1) {
-
-                        } else if (rs.getInt("jogo.INTERROMPIDO") == 1) {
-
-                        }
-                    }
-                } else if (objectRecebidoUtilizador instanceof AcoesPartida) {
+                if (objectRecebidoUtilizador instanceof AcoesPartida) {
+                    //TODO: PROCURAR NA BD SE EXISTE PAR FORMADO 
                     AcoesPartida ap = (AcoesPartida) objectRecebidoUtilizador;
 
                     ResultSet rs;
@@ -84,9 +50,9 @@ public class TrataUtilizador extends Thread {
                             rs = BD.Modifica("INSERT INTO jogo (IDJOGO, "
                                     + "IDUTILIZADOR, IDPAR, RESULTADO, VENCEDOR,"
                                     + " EMCURSO, TERMINOU, INTERROMPIDO) "
-                                    + "VALUES (NULL, '" + ap.getIdUser() + "', '" 
+                                    + "VALUES (NULL, '" + ap.getIdUser() + "', '"
                                     + ap.getIdPar() + "', '-1', '-1', '1', '0', '0')");
-                            
+
                             int idJogo = rs.getInt("IDJOGO");
                             if (idJogo > 0) {
                                 rs = BD.Le("SELECT jogo.IDPAR FROM `jogo` JOIN"
@@ -112,7 +78,9 @@ public class TrataUtilizador extends Thread {
                                 String nick2 = rs.getString("USERNAME");
 
                                 rs.next();
-                                jd.addNovoJogo(idJogo, nick1, nick2, nextCliente);
+                                jogosDecorrer.addNovoJogo(idJogo, nick1, nick2);
+                                //TODO: Se existir ficheiro de modelo jogo usar esse e nao fazer novo gamemodel
+                                out.writeObject(new GameModel(nick1, nick2, idJogo));
                             }
                             break;
                         case 2:

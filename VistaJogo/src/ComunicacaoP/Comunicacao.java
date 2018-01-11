@@ -1,6 +1,7 @@
 package ComunicacaoP;
 
 import classescomunicacao.*;
+import static classescomunicacao.ConstantesIps.PORTO2;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,8 +11,7 @@ import java.util.logging.Logger;
 
 public class Comunicacao {
 
-    public static final int PORTO = 5001;
-    public static final int PORTO2 = 5002;
+
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
@@ -136,5 +136,34 @@ public class Comunicacao {
         } while (returnedObjec != null);
         return sms;
     }*/
+    
+    public Socket getSocketModeloServJogo(int idJogo){
+        Socket ret = null;
+        
+         ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(socket.getOutputStream());
+            
+            out.writeObject(new Integer(idJogo));
+            out.flush();
+            
+            
+            
+            ret = (Socket)in.readObject();
+            out.flush();
+
+        } catch (IOException ex) {
+            System.out.println("erro EnviaSMSDestinatario: " + ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                out.close();
+            } catch (IOException ex) {
+                System.out.println("erro EnviaSMSDestinatario finally: " + ex);
+            }
+        }
+        return ret;
+    }
 
 }

@@ -12,10 +12,16 @@ import java.util.Observable;
 public class ObservableGame extends Observable
 {
     private GameModel gameModel;
+    int idJogo;
     
     public ObservableGame(String nickName1,String nickName2, int idJogo)
     {
+        this.idJogo = idJogo;
         gameModel = new GameModel(nickName1, nickName2, idJogo);
+    }
+    
+    public int getIdJogo() {
+        return idJogo;
     }
 
     public GameModel getGameModel()
