@@ -146,22 +146,10 @@ public class PesquisasGestaoUtilizadores {
         return null;
     }
 
-    public void setLogados(boolean b) {
-        BaseDados bdModifica = new BaseDados();
-        ResultSet Rt = null;
-        int id;
+    public void setLogados() {
+        bd.Modifica("UPDATE utilizador SET LOGADO=0;");
+        bd.Modifica("DELETE FROM par;");
 
-        try {
-            Rt = bd.Le("SELECT * FROM utilizador;");
-
-            while (Rt.next()) {
-                id = Rt.getInt("IDUTILIZADOR");
-                bdModifica.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + id + ";");
-            }
-
-        } catch (Exception e) {
-
-        }
     }
 
     public void AdicionaSMS(Mensagem sms) throws SQLException {
