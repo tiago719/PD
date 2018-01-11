@@ -1,8 +1,9 @@
-package Cliente.logic.states;
+package classescomunicacao.ModelJogo.States;
 
-import Cliente.logic.GameData;
+import classescomunicacao.ModelJogo.Constants;
+import classescomunicacao.ModelJogo.GameData;
 
-public class StateAdapter implements IStates, Cliente.logic.Constants 
+public class StateAdapter implements IStates, Constants
 {
     private GameData game;
 

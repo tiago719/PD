@@ -1,9 +1,8 @@
 
-package Model.ModelJogo;
+package classescomunicacao.ModelJogo;
 
-import Model.ModelJogo.States.IStates;
+import classescomunicacao.ModelJogo.States.IStates;
 import java.util.Observable;
-import java.util.ArrayList;
 
 /** 
  * @author Jose Marinho
@@ -13,13 +12,16 @@ import java.util.ArrayList;
 public class ObservableGame extends Observable
 {
     private GameModel gameModel;
-    private String nickName1, nickName2;
+    int idJogo;
     
-    public ObservableGame( String nickName1,String nickName2)
+    public ObservableGame(String nickName1,String nickName2, int idJogo)
     {
-        this.nickName1 = nickName1;
-        this.nickName2 = nickName2;
-        gameModel = new GameModel(nickName1, nickName2);
+        this.idJogo = idJogo;
+        gameModel = new GameModel(nickName1, nickName2, idJogo);
+    }
+    
+    public int getIdJogo() {
+        return idJogo;
     }
 
     public GameModel getGameModel()
