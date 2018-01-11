@@ -10,8 +10,10 @@ import java.util.Observer;
 import Cliente.logic.ObservableGame;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
+import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
 import com.sun.java.accessibility.util.AWTEventMonitor;
+import java.awt.Button;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -54,6 +56,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private ButtonColumn botoesFormarPar, botoesEnviarSms;
     private DefaultTableModel modeloTabela;
     private ArrayList<Mensagem> mensagensClientes = new ArrayList<>();
+    private int Npares = -1;
 
     public EcraPrincipal(ObservableGame o) {
         observableGame = o;
@@ -67,7 +70,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         botoesEnviarSms.setText("Enviar Mensagem");
         jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
         jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
-        
+
     }
 
     /**
@@ -140,6 +143,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
         jScrollPane4.setViewportView(jTextPane2);
 
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextField2KeyPressed(evt);
+            }
+        });
+
         jButton2.setText("->");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -208,6 +217,22 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         if (jTextField2.getText().length() != 0 && jList1.getSelectedIndex() != -1) {
+            
+            if(jTextField2.getText().trim().toUpperCase().equals("ACEITO"))
+            {
+                int i=0;
+                for(FormarPar s : observableGame.getPares())
+                {
+                    if(s.getNik1Util().equals(jList1.getSelectedValue())) 
+                    {
+                        observableGame.EnviaConfirmacao(i);
+                        observableGame.RemovePar(i);
+                        Npares = observableGame.getSizePares();
+                        return;
+                    }
+                    i++;
+                }
+            }
             observableGame.EnviaSMS(jTextField2.getText(), jList1.getSelectedValue());
 
             Mensagem temp = new Mensagem(jTextField2.getText(), null, "Eu");
@@ -267,6 +292,23 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
     }//GEN-LAST:event_jList1MouseClicked
 
+    private void jTextField2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyPressed
+        if (evt.getKeyCode() == 10) {
+            if (jTextField2.getText().length() != 0 && jList1.getSelectedIndex() != -1) {
+                observableGame.EnviaSMS(jTextField2.getText(), jList1.getSelectedValue());
+
+                Mensagem temp = new Mensagem(jTextField2.getText(), null, "Eu");
+                jTextField2.setText("");
+
+                mensagensClientes.add(temp);
+
+                jTextPane2.setText(jTextPane2.getText() + "\n" + temp.getRemetente() + ": " + temp.getMensagem());
+                jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+
+            }
+        }
+    }//GEN-LAST:event_jTextField2KeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -286,7 +328,9 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         int guardasel = 0;
-        if(jList1.getSelectedIndex() != -1) guardasel = jList1.getSelectedIndex();
+        if (jList1.getSelectedIndex() != -1) {
+            guardasel = jList1.getSelectedIndex();
+        }
         String parFormado;
         modeloTabela = (DefaultTableModel) (jTableUtilizadores.getModel());
         modeloTabela.setRowCount(0);
@@ -368,6 +412,77 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
                 }
             }
+        }
+
+        if (Npares != observableGame.getSizePares()) {
+
+            if (observableGame.getSizePares() == 0) {
+                Npares = observableGame.getSizePares();
+                return;
+            }
+            Mensagem sms1 = new Mensagem();
+            ArrayList<FormarPar> pares = observableGame.getPares();
+
+            sms1.setDistinatario(pares.get(pares.size() - 1).getNik2Util());
+            sms1.setMensagem("Gostavas de jogar contigo? Envia-me uma mensagems \n a dir 'aceito'");
+            sms1.setRemetente(pares.get(pares.size() - 1).getNik1Util());
+            mensagensClientes.add(sms1);
+            
+            if (sms1.getRemetente().equals(jList1.getSelectedValue())) {
+                jTextPane2.setText(jTextPane2.getText() + "\n" + sms1.getRemetente() + ": " + sms1.getMensagem());
+                jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+            } else {
+                //VERIFICA SE Já EXISTE NA LIST O UTILIZADOR QUE RECEBEU 
+                for (int i = 0; i < jList1.getModel().getSize(); i++) {
+                    if (jList1.getModel().getElementAt(i).equals(sms1.getRemetente()) || jList1.getModel().getElementAt(i).substring(0, jList1.getModel().getElementAt(i).length() - 1).equals(sms1.getRemetente())) {
+                        DefaultListModel<String> dlm = new DefaultListModel<>();
+                        for (int j = 0; j < jList1.getModel().getSize(); j++) {
+                            if (j == i) {
+                                dlm.addElement(jList1.getModel().getElementAt(j) + "*");
+                            } else {
+                                dlm.addElement(jList1.getModel().getElementAt(j));
+                            }
+                        }
+                        jList1.setModel(dlm);
+                        if (guardasel != -1) {
+                            jList1.setSelectedIndex(guardasel);
+                        }
+                        return;
+                    }
+                }
+
+                /// CASO NAO EXITA ADICIONAR 
+                DefaultListModel<String> dlm = new DefaultListModel<>();
+                for (int i = 0; i < jList1.getModel().getSize(); i++) {
+                    dlm.addElement(jList1.getModel().getElementAt(i));
+                }
+
+                if (jList1.getModel().getSize() > 0) {
+                    dlm.addElement(sms1.getRemetente() + "*");
+                } else {
+                    dlm.addElement(sms1.getRemetente());
+                }
+
+                jList1.setModel(dlm);
+
+                if (jList1.getSelectedIndex() == -1 && jList1.getModel().getSize() == 1) {
+                    jList1.setSelectedIndex(0);
+                    jTextPane2.setText("");
+                    for (Mensagem s : mensagensClientes) {
+                        if (s.getRemetente().equals(jList1.getSelectedValue()) || s.getRemetente().equals("Eu")) {
+                            jTextPane2.setText(jTextPane2.getText() + "\n" + s.getRemetente() + ": " + s.getMensagem());
+                            jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
+                        }
+                    }
+                }
+
+                if (guardasel != -1) {
+                    jList1.setSelectedIndex(guardasel);
+                }
+
+            }
+            Npares = observableGame.getSizePares();
+
         }
     }
 
@@ -480,6 +595,9 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 jList1.setModel(dlm);
 
                 jList1.setSelectedIndex(jList1.getModel().getSize() - 1);
+            } else if (table.getSelectedColumn() == 3) {
+                Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
+                observableGame.PedePar((String) Nikname);
             }
         }
 
