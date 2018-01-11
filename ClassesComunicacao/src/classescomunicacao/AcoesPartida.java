@@ -17,10 +17,13 @@ public class AcoesPartida implements Serializable {
     int Acao;
     int idPar, idUser;
 
-    public AcoesPartida(int Acao, int idPar, int idUser) {
+    /**
+     * @param Acao 1: Novo Jogo | 2: Concluir Jogo | 3: Cancelar Jogo
+     * @param idPar Id da BD do Par
+     */
+    public AcoesPartida(int Acao, int idPar) {
         this.Acao = Acao;
         this.idPar = idPar;
-        this.idUser = idUser;
     }
 
 
