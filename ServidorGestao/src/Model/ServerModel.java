@@ -70,7 +70,7 @@ public class ServerModel
 
     void setLogados(boolean b)
     {
-        pesquisasGestaoUtilizadores.setLogados(b);
+        pesquisasGestaoUtilizadores.setLogados();
     }
 
     void setLogOut(Cliente cliente)

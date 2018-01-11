@@ -117,6 +117,24 @@ public class ObservableGame extends java.util.Observable {
         } else {
              PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
              p.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+             
+              for (Map.Entry<RecebePedidosClientes, Cliente> entry : mapa.entrySet()) {
+                RecebePedidosClientes key = entry.getKey();
+                Cliente value = entry.getValue();
+
+                if (formarPar.getNik2Util().equals(value.getNomeUtilizador()) || formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
+                    try {
+                        key.getOut().writeObject(formarPar);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        key.getOut().flush();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         }
     }
 
