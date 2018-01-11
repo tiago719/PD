@@ -77,9 +77,11 @@ public class RecebePedidosClientes extends Thread {
                     if((Integer)returnedObject == CLIENT_LEFT)
                         observableGame.removeCliente(this);
                 }
-                else if(returnedObject instanceof FormarPar)
-                {
-                    observableGame.FormaPar((FormarPar)returnedObject);
+                else if(returnedObject instanceof FormarPar){
+                    if(!observableGame.ExistePar((FormarPar)returnedObject))
+                    {
+                        observableGame.FormaPar((FormarPar)returnedObject);
+                    }
                 }
                 else if(returnedObject instanceof Integer){//pedir SocketModeloServJogo
                     
@@ -137,9 +139,7 @@ public class RecebePedidosClientes extends Thread {
                     try {
                         key.getOut().writeObject(sms);
                         key.getOut().flush();
-
                         PesquisasGestaoUtilizadores pesq = new PesquisasGestaoUtilizadores();
-
                         pesq.AdicionaSMS(sms);
                         break;
                     } catch (IOException ex) {
