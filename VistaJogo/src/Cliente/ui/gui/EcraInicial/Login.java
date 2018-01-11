@@ -215,7 +215,7 @@ public class Login extends javax.swing.JPanel {
         {
             CardLayout cl = (CardLayout) CardPanel.getLayout();
             cl.next(CardPanel);
-            RegistoLoginView.setSize(Constants.DIM_X_ECRA_PRINCIPAL,Constants.DIM_Y_ECRA_PRINCIPAL );
+            RegistoLoginView.setSize(Constants.DIM_X_FRAME,Constants.DIM_Y_FRAME);
         }
         else
         {

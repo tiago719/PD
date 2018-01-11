@@ -272,11 +272,23 @@ public class Registo extends javax.swing.JPanel
 
     private void jRegistarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRegistarMouseClicked
     {//GEN-HEADEREND:event_jRegistarMouseClicked
+        jErroUser.setVisible(false);
+        jErroPass.setVisible(false);
+        jErroNome.setVisible(false);
+        jErroCPass.setVisible(false);
+        if(jUsername.getText().equals("Nome de Utilizador") || jNome.getText().equals("Nome") || jPassword.getText().equals("Password"))
+        {
+            jErroCPass.setText("Preencha todos os campos");
+            jErroCPass.setVisible(true);
+            jErroCPass.setForeground(Color.RED);
+            return;
+        }
         if(!jPassword.getText().equals(jCPassword.getText()))
         {
             jErroCPass.setText("As Duas Palavras-Passe não correspondem");
             jErroCPass.setVisible(true);
             jErroCPass.setForeground(Color.RED);
+            return;
         }
         
         switch(ObservableGame.Regista(jUsername.getText(), jNome.getText(), jPassword.getText()))
