@@ -171,4 +171,9 @@ public class Comunicacao extends java.util.Observable {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public void getPedidosPares()
+    {
+        
+    }
 }
