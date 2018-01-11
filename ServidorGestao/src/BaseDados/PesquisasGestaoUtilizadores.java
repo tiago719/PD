@@ -26,15 +26,24 @@ public class PesquisasGestaoUtilizadores {
     private BaseDados bd;
 
     public PesquisasGestaoUtilizadores() {
+        bd = new BaseDados();
+    }
+
+    @Override
+    protected void finalize() {
+        bd.CloseConnection();
+        try {
+            super.finalize();
+        } catch (Throwable ex) {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /// FUNÇAO PARA REGISTAR UTILIZADORES
     public void AdicionaUtilizador(String Nome, String Username, String PalavraChave) throws NoSuchAlgorithmException {
-        bd = new BaseDados();
-
         bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, USERNAME, PASSWORD, LOGADO) VALUES ( null,'" + Nome.trim() + "','" + Username.trim() + "','" + SHA1(PalavraChave) + "', false);");
 
-        bd.CloseConnection();
     }
 
     ///FUNÇAO CONVERTE STRING PARA SHA1
@@ -51,16 +60,16 @@ public class PesquisasGestaoUtilizadores {
 
     //VERIFICA SE O Username EXISTE NA BASE DE DADOS
     public boolean ExisteUsername(String Username) throws SQLException {
-        bd = new BaseDados();
+
         ResultSet Rt;
 
         Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + Username + "';");
 
         if (Rt.next()) {
-            bd.CloseConnection();
+
             return true;
         } else {
-            bd.CloseConnection();
+
             return false;
         }
 
@@ -68,7 +77,6 @@ public class PesquisasGestaoUtilizadores {
 
     //VERIFICA SE O Username E Password ESTÁ REGISTADO NA BASE DE DADOS
     public int VerificaLogin(String Username, String Password) throws SQLException {
-        bd = new BaseDados();
         ResultSet Rt;
         try {
             Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + Username + "'and PASSWORD='" + SHA1(Password) + "';");
@@ -78,10 +86,9 @@ public class PesquisasGestaoUtilizadores {
                     return -1;
                 }
 
-                bd.CloseConnection();
                 return id;
             } else {
-                bd.CloseConnection();
+
                 return -1;
             }
         } catch (NoSuchAlgorithmException ex) {
@@ -91,40 +98,35 @@ public class PesquisasGestaoUtilizadores {
     }
 
     public void setClienteLogado(int id) {
-        bd = new BaseDados();
+
         try {
             bd.Modifica("UPDATE UTILIZADOR SET LOGADO=1 WHERE IDUTILIZADOR=" + id + ";");
         } catch (Exception e) {
         }
-
-        bd.CloseConnection();
     }
 
     public String getNome(String username) {
-        bd = new BaseDados();
         ResultSet Rt = null;
         try {
             Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + username + "';");
 
             if (Rt.next()) {
                 String nome = Rt.getString("NOME");
-                bd.CloseConnection();
+
                 return nome;
             } else {
-                bd.CloseConnection();
+
                 return null;
             }
 
         } catch (SQLException e) {
         }
 
-        bd.CloseConnection();
         return null;
     }
 
     public String getNome(int id) {
 
-        bd = new BaseDados();
         ResultSet Rt = null;
 
         try {
@@ -132,22 +134,19 @@ public class PesquisasGestaoUtilizadores {
 
             if (Rt.next()) {
                 String nome = Rt.getString("NOME");
-                bd.CloseConnection();
                 return nome;
             } else {
-                bd.CloseConnection();
+
                 return null;
             }
 
         } catch (SQLException e) {
         }
 
-        bd.CloseConnection();
         return null;
     }
 
     public void setLogados(boolean b) {
-        bd = new BaseDados();
         BaseDados bdModifica = new BaseDados();
         ResultSet Rt = null;
         int id;
@@ -159,15 +158,14 @@ public class PesquisasGestaoUtilizadores {
                 id = Rt.getInt("IDUTILIZADOR");
                 bdModifica.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + id + ";");
             }
-            bd.CloseConnection();
-            bdModifica.CloseConnection();
+
         } catch (Exception e) {
 
         }
     }
 
     public void AdicionaSMS(Mensagem sms) throws SQLException {
-        bd = new BaseDados();
+
         ResultSet Rt, Rt1;
         int idmensagem;
 
@@ -188,26 +186,21 @@ public class PesquisasGestaoUtilizadores {
 
         }
 
-        bd.CloseConnection();
     }
 
     public void setLogout(Cliente cliente) {
-        bd = new BaseDados();
-        BaseDados bdModifica = new BaseDados();
+
         int ret;
 
         try {
             ret = bd.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + cliente.getId() + ";");
-
-            bd.CloseConnection();
-            bdModifica.CloseConnection();
         } catch (Exception e) {
 
         }
     }
 
-    private boolean VeirficaExiste(int id1, int id2) {
-        bd = new BaseDados();
+    public boolean VeirficaExiste(int id1, int id2) {
+
         ResultSet Rt, Rt1;
 
         Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
@@ -215,18 +208,22 @@ public class PesquisasGestaoUtilizadores {
         try {
             if (Rt.next()) {
 
+                if (Rt.getBoolean("FORMADO") == false) {
+
+                    return false;
+                }
+
                 return true;
             }
         } catch (SQLException ex) {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        bd.CloseConnection();
         return false;
     }
 
     public void FormaPar(String nik1Util, String nik2Util) {
-        bd = new BaseDados();
+
         int id2 = -1;
         int id1 = -1;
 
@@ -241,32 +238,29 @@ public class PesquisasGestaoUtilizadores {
             if (VeirficaExiste(id1, id2)) {
                 return;
             }
+            bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, '0' ,'" + id1 + "', '" + id2 + "');");
 
-            try {
-                bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, 0 ," + id1 + ", " + id2 + ")");
-                bd.CloseConnection();
-            } catch (Exception e) {
-
-            }
         }
     }
 
-    private int GetidByUserName(String username) throws SQLException {
-        bd = new BaseDados();
+    public int GetidByUserName(String username) throws SQLException {
+
         ResultSet Rt1;
 
         Rt1 = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + username + "';");
         if (Rt1.next()) {
-            return Rt1.getInt("IDUTILIZADOR");
+            int responsta = Rt1.getInt("IDUTILIZADOR");
+
+            return responsta;
 
         } else {
+
             return -1;
         }
     }
 
     public void ConfirmaPar(String nik1Util, String nik2Util) {
         int id1, id2;
-        bd = new BaseDados();
 
         try {
             id1 = GetidByUserName(nik1Util);
@@ -278,10 +272,9 @@ public class PesquisasGestaoUtilizadores {
 
         try {
             bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
-            bd.CloseConnection();
-        } catch (Exception e) {
-            bd.CloseConnection();
-        }
 
+        } catch (Exception e) {
+
+        }
     }
 }

@@ -21,48 +21,43 @@ import java.util.logging.Logger;
  *
  * @author Tiago Coutinho
  */
-public class EnviaAtualizacoesJogadores implements Observer
-{
+public class EnviaAtualizacoesJogadores implements Observer {
+
     private ObservableGame observableGame;
     private LogicaComunicacao logicaComunicacao;
-    
-    public EnviaAtualizacoesJogadores(ObservableGame observableGame, LogicaComunicacao logicaComunicacao)
-    {
-        this.observableGame=observableGame;
-        this.logicaComunicacao=logicaComunicacao;
+
+    public EnviaAtualizacoesJogadores(ObservableGame observableGame, LogicaComunicacao logicaComunicacao) {
+        this.observableGame = observableGame;
+        this.logicaComunicacao = logicaComunicacao;
         observableGame.addObserver(this);
     }
-    
+
     @Override
-    public void update(Observable o, Object arg)
-    {
+    public void update(Observable o, Object arg) {
         ArrayClienteEnviar temp = new ArrayClienteEnviar();
-        
-        HashMap<RecebePedidosClientes, Cliente> temp2=observableGame.getMapa();
-        
-        for (Map.Entry<RecebePedidosClientes, Cliente> en : temp2.entrySet())
-        {
+
+        HashMap<RecebePedidosClientes, Cliente> temp2 = observableGame.getMapa();
+
+        for (Map.Entry<RecebePedidosClientes, Cliente> en : temp2.entrySet()) {
             RecebePedidosClientes key = en.getKey();
             Cliente cliente = en.getValue();
-            
+
             temp.getClientes().clear();
-            String nomeClienteAtual=observableGame.getCliente(key).getNomeUtilizador();
-            for(ClienteEnviar clienteEnviar : observableGame.getClientesEnviar().getClientes())               
-                if(!nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador()))
-                {
+            String nomeClienteAtual = observableGame.getCliente(key).getNomeUtilizador();
+            for (ClienteEnviar clienteEnviar : observableGame.getClientesEnviar().getClientes()) {
+                if (!nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador())) {
                     temp.addCliente(clienteEnviar);
                 }
-            try
-            {
+            }
+            try {
                 key.getOut().reset();
                 key.getOut().writeObject(temp);
                 key.getOut().flush();
-            } catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 observableGame.removeCliente(key);
             }
-            
+
         }
     }
-    
+
 }
