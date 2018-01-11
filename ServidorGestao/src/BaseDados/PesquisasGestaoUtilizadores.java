@@ -206,10 +206,11 @@ public class PesquisasGestaoUtilizadores {
         Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
 
         try {
-            if (Rt.next()) {
+            if (Rt.next()) 
+            {
 
-                if (Rt.getBoolean("FORMADO") == false) {
-
+                if (Rt.getBoolean("FORMADO") == false) 
+                {
                     return false;
                 }
 
@@ -219,6 +220,30 @@ public class PesquisasGestaoUtilizadores {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        return false;
+    }
+    
+    public boolean temPar(int id1, int id2)
+    {
+        try
+        {
+            ResultSet Rt;
+
+            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " OR IDU2 = " + id1 + " OR IDU1= "+ id2 + " OR IDU2= "+id2+" ;");
+            
+            while(Rt.next()) 
+            {
+                if (Rt.getBoolean("FORMADO") != false) 
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(SQLException e)
+        {
+            
+        }
         return false;
     }
 
@@ -235,7 +260,8 @@ public class PesquisasGestaoUtilizadores {
         }
 
         if (id2 != -1 && id1 != -1) {
-            if (VeirficaExiste(id1, id2)) {
+            if (VeirficaExiste(id1, id2)) 
+            {
                 return;
             }
             bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, '0' ,'" + id1 + "', '" + id2 + "');");
@@ -276,5 +302,22 @@ public class PesquisasGestaoUtilizadores {
         } catch (Exception e) {
 
         }
+    }
+
+    public void EliminaPar(String nik1Util, String nik2Util)
+    {
+        int id1, id2;
+
+        try {
+            id1 = GetidByUserName(nik1Util);
+            id2 = GetidByUserName(nik2Util);
+            
+            bd.Modifica("DELETE FROM par WHERE (IDU1=" + id1 + " AND IDU2=" + id2 + ") OR (IDU1=" + id2 + " AND IDU2=" + id1 +";");
+
+        } catch (SQLException ex) {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        
     }
 }

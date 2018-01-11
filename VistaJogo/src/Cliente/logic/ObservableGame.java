@@ -244,7 +244,7 @@ public class ObservableGame extends Observable {
         comunicacao.EnviaConfirmacaoPar(threadRecebeAtualizacoes.getPares().get(i));
     }
 
-    public void EnviaConfirmacao(FormarPar pedidoPar, boolean resposta)
+    public void EnviaConfirmacao(FormarPar pedidoPar, int resposta)
     {
         for(FormarPar p : threadRecebeAtualizacoes.getPares())
         {
