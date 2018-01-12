@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -17,46 +18,18 @@ public class TrataServidorJogo extends Thread {
     public static final String HEARTBEAT = "1";
 
     private String IpBaseDados;
+    private String IpServidorJogo;
+    private int Porta;
+    private double HeartBeatAntigo = -1;
+
     private DatagramSocket socket;
-    private DatagramPacket packet; //para receber os pedidos e enviar as respostas
+    private DatagramPacket packet;
 
-    public TrataServidorJogo(String IpBaseDados) throws SocketException {
+    public TrataServidorJogo(int listeningPort) throws SocketException {
+        Porta = listeningPort;
+        socket = null;
         packet = null;
-        socket = new DatagramSocket();
-        this.IpBaseDados = IpBaseDados;
-    }
-
-    @Override
-    public void run() {
-        String receivedMsg;
-
-        if (socket == null) {
-            return;
-        }
-
-        while (true) {
-
-            try {
-                receivedMsg = waitDatagram();
-
-                if (receivedMsg == null) {
-                    continue;
-                }
-
-                ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-                ObjectOutputStream out = new ObjectOutputStream(bOut);
-
-                out.writeObject(IpBaseDados);
-                out.flush();
-
-                packet.setData(bOut.toByteArray());
-                packet.setLength(bOut.size());
-
-                socket.send(packet);
-            } catch (IOException ex) {
-                Logger.getLogger(TrataServidorJogo.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        socket = new DatagramSocket(Porta);
     }
 
     public String waitDatagram() throws IOException {
@@ -81,8 +54,85 @@ public class TrataServidorJogo extends Thread {
 
     }
 
+    @Override
+    public void run() {
+        String receivedMsg, timeMsg;
+        Calendar calendar;
+
+        if (socket == null) {
+            return;
+        }
+
+        while (true) {
+
+            try {
+                receivedMsg = waitDatagram();
+                socket.setSoTimeout(3 * 1000);
+
+                if (receivedMsg == null) {
+                    continue;
+                }
+                if (HeartBeatAntigo == -1) {
+                    HeartBeatAntigo = Double.parseDouble(receivedMsg);
+                } else if (Double.parseDouble(receivedMsg) != HeartBeatAntigo && HeartBeatAntigo != -1) {
+                    continue;
+                }
+
+                String Ip = new String(IpBaseDados);
+
+                ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+                ObjectOutputStream out = new ObjectOutputStream(bOut);
+
+                out.writeObject(Ip);
+                out.flush();
+
+                packet.setData(bOut.toByteArray());
+                packet.setLength(bOut.size());
+
+                socket.send(packet);
+            } catch (SocketException ex) {
+                Logger.getLogger(TrataServidorJogo.class.getName()).log(Level.SEVERE, null, ex);
+
+            } catch (IOException ex) {
+                HeartBeatAntigo = -1;
+                try {
+                    socket.setSoTimeout(0);
+                } catch (SocketException ex1) {
+                    Logger.getLogger(TrataServidorJogo.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            }
+
+        }
+    }
+
+    public String getIpBaseDados() {
+        return IpBaseDados;
+    }
+
     public void setIpBaseDados(String IpBaseDados) {
         this.IpBaseDados = IpBaseDados;
+    }
+
+    public String getIpServidorJogo() {
+        return IpServidorJogo;
+    }
+
+    public void setIpServidorJogo(String IpServidorJogo) {
+        this.IpServidorJogo = IpServidorJogo;
+    }
+
+    public int getPorta() {
+        return Porta;
+    }
+
+    public void setPorta(int Porta) {
+        this.Porta = Porta;
+    }
+
+    public void closeSocket() {
+        if (socket != null) {
+            socket.close();
+        }
     }
 
 }

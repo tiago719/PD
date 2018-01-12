@@ -15,7 +15,7 @@ public class ServidorJogo {
         TrataUtilizador trataUtilizador = new TrataUtilizador(jogosDecorrer);
         trataUtilizador.start();
         
-        TrataServidorGestao thread1 = new TrataServidorGestao("localhost",6005);
+        TrataServidorGestao thread1 = new TrataServidorGestao("localhost",6009);
         thread1.start();
 
     }

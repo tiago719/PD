@@ -25,11 +25,13 @@ public class ServidorGestao {
         
         TrataServidorJogo thread1 = null;
         try {
-            thread1 = new TrataServidorJogo("localhost");
+            thread1 = new TrataServidorJogo(6009);
+            thread1.setIpBaseDados("localhost");
         } catch (SocketException ex) {
             Logger.getLogger(ServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
+        
         thread1.start();
 
         ObservableGame observableGame=new ObservableGame();
