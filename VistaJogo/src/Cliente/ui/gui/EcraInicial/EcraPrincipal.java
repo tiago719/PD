@@ -414,7 +414,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         }
 
         for (ClienteEnviar cliente : observableGame.getClientes().getClientes()) {
-            if (cliente.getNome().equals("Nome User 3")) {
+            if (cliente.isParFormado()) {
                 parFormado = "Tem par";
             } else {
                 parFormado = "Não tem par";
@@ -489,7 +489,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         }
         
         PedidoPar novoPedidoPar;
-        mapaPedidos.clear();
+        
+        jPedidosPar.removeAll();
         
         for(FormarPar pedidoPar : observableGame.getPares())
         {

@@ -104,13 +104,16 @@ public class ServerModel
     {
         if (formarPar.getAceite()==Constantes.PEDIDO_FEITO) 
         {
+            if(pesquisasGestaoUtilizadores.ExistePedido(formarPar.getNik1Util(), formarPar.getNik2Util()))
+                return;
+                
             for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
                 RecebePedidosClientes key = entry.getKey();
                 Cliente value = entry.getValue();
 
                 if (formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
                     try {
-                        value.setParFormado(true);
+
                         key.getOut().writeObject(formarPar);
                     } catch (IOException ex) {
                         Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
@@ -138,6 +141,7 @@ public class ServerModel
                 Cliente value = entry.getValue();
 
                 if (formarPar.getNik1Util().equals(value.getNomeUtilizador()) || formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
+                    value.setParFormado(true);
                     try {
                         key.getOut().writeObject(formarPar);
                     } catch (IOException ex) {
@@ -151,5 +155,15 @@ public class ServerModel
                 }
 }
         }
+    }
+
+    ArrayClienteEnviar getClientesEnviar(HashMap<RecebePedidosClientes, Cliente> mapa)
+    {
+        arrayClienteEnviar.clear();
+        for(Cliente cliente : mapa.values())
+        {
+            arrayClienteEnviar.addCliente(cliente.getClienteEnviar());
+        }
+        return arrayClienteEnviar;
     }
 }

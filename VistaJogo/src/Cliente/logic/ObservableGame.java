@@ -270,4 +270,17 @@ public class ObservableGame extends Observable {
         ParAtual = null;
         comunicacao.Desiste(ParAtual);
     }
+
+    public void RemovePar(FormarPar pedidoPar)
+    {
+        threadRecebeAtualizacoes.RemovePar(pedidoPar);
+        
+        setChanged();
+        notifyObservers();
+    }
+
+    public void RemoveAllPar()
+    {
+        threadRecebeAtualizacoes.RemoveAllPar();
+    }
 }

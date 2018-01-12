@@ -92,4 +92,19 @@ public class RecebeAtualizacoes extends Thread {
             pares.remove(i);
         }
     }
+
+    public void RemovePar(FormarPar pedidoPar)
+    {
+        for(FormarPar formarPar:pares)
+            if(pedidoPar==formarPar)
+            {
+                pares.remove(pedidoPar);
+                return;
+            }
+    }
+
+    public void RemoveAllPar()
+    {
+        pares.clear();
+    }
 }
