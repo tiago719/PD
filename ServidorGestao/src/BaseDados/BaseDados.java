@@ -37,6 +37,7 @@ public class BaseDados {
             ResultSet t  = St.getGeneratedKeys();
             
             if(t.next()){
+                
                 resposta=t.getInt(1);
             }
             return resposta;
