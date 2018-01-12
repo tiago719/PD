@@ -90,65 +90,28 @@ public class ObservableGame extends java.util.Observable {
     public HashMap getMapa() {
         return mapa;
     }
-
-    public void FormaPar(FormarPar formarPar) {
-
-        if (!formarPar.isAceite()) {
-            for (Map.Entry<RecebePedidosClientes, Cliente> entry : mapa.entrySet()) {
-                RecebePedidosClientes key = entry.getKey();
-                Cliente value = entry.getValue();
-
-                if (formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
-                    try {
-                        key.getOut().writeObject(formarPar);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        key.getOut().flush();
-                    } catch (IOException ex) {
-                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
-                    p.FormaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
-                    break;
-                }
-            }
-        } else {
-             PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
-             formarPar.setIdPar(p.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util()));
-             
-              for (Map.Entry<RecebePedidosClientes, Cliente> entry : mapa.entrySet()) {
-                RecebePedidosClientes key = entry.getKey();
-                Cliente value = entry.getValue();
-
-                if (formarPar.getNik2Util().equals(value.getNomeUtilizador()) || formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
-                    try {
-                        key.getOut().writeObject(formarPar);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    try {
-                        key.getOut().flush();
-                    } catch (IOException ex) {
-                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }
+    public void FormaPar(FormarPar formarPar) 
+    {
+        serverModel.formarPar(formarPar,mapa.entrySet());
     }
 
-    public boolean ExistePar(FormarPar formarPar) {
-        try {
-            PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
-            
-            int id = p.GetidByUserName(formarPar.getNik1Util());
-            int id1 = p.GetidByUserName(formarPar.getNik2Util());
-            return p.VeirficaExiste(id,id1);
-        } catch (SQLException ex) {
-            Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
-        
-        }
-        return false;
+    public boolean temPar(FormarPar formarPar)
+    {
+        return serverModel.temPar(formarPar);
     }
+    
+    
+//    public boolean ExistePar(FormarPar formarPar) {
+//        try {
+//            PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
+//            
+//            int id = p.GetidByUserName(formarPar.getNik1Util());
+//            int id1 = p.GetidByUserName(formarPar.getNik2Util());
+//            return p.VeirficaExiste(id,id1);
+//        } catch (SQLException ex) {
+//            Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+//        
+//        }
+//        return false;
+//    }
 }

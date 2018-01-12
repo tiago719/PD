@@ -12,4 +12,9 @@ package classescomunicacao;
 public interface Constantes
 {
     public static final int CLIENT_LEFT=1;
+    
+    public static final int PEDIDO_FEITO=0;
+    public static final int PEDIDO_RECUSADO=1;
+    public static final int PEDIDO_ACEITE=2;
+
 }

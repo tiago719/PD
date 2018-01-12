@@ -8,12 +8,20 @@ package Model;
 import BaseDados.PesquisasGestaoUtilizadores;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
+import classescomunicacao.Constantes;
+import classescomunicacao.FormarPar;
 import classescomunicacao.Login;
 import classescomunicacao.RegistoUtilizador;
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import servidorgestao.ComunicacaoC.RecebePedidosClientes;
 
 /**
  *
@@ -68,14 +76,62 @@ public class ServerModel
         return arrayClienteEnviar;
     }
 
-    void setLogados(boolean b)
+    public void setLogados(boolean b)
     {
         pesquisasGestaoUtilizadores.setLogados();
     }
 
-    void setLogOut(Cliente cliente)
+    public void setLogOut(Cliente cliente)
     {
         arrayClienteEnviar.removeCliente(cliente.getClienteEnviar());
         pesquisasGestaoUtilizadores.setLogout(cliente);
+    }
+
+    public boolean temPar(FormarPar formarPar)
+    {
+        try
+        {
+            int id1=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik1Util());
+            int id2=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik2Util());
+            return pesquisasGestaoUtilizadores.temPar(id1, id2);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+    
+    public void formarPar(FormarPar formarPar, Set<Map.Entry<RecebePedidosClientes, Cliente>> entrySet)
+    {
+        if (formarPar.getAceite()==Constantes.PEDIDO_FEITO) 
+        {
+            for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
+                RecebePedidosClientes key = entry.getKey();
+                Cliente value = entry.getValue();
+
+                if (formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
+                    try {
+                        key.getOut().writeObject(formarPar);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        key.getOut().flush();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    pesquisasGestaoUtilizadores.FormaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+                    break;
+                }
+            }
+        } 
+        else if(formarPar.getAceite()==Constantes.PEDIDO_RECUSADO)
+        {
+             pesquisasGestaoUtilizadores.EliminaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+        }
+        else if(formarPar.getAceite()==Constantes.PEDIDO_ACEITE)
+        {
+            pesquisasGestaoUtilizadores.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+        }
     }
 }

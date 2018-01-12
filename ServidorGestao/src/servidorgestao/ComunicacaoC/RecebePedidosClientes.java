@@ -77,8 +77,9 @@ public class RecebePedidosClientes extends Thread {
                     if((Integer)returnedObject == CLIENT_LEFT)
                         observableGame.removeCliente(this);
                 }
-                else if(returnedObject instanceof FormarPar){
-                    if(!observableGame.ExistePar((FormarPar)returnedObject))
+                else if(returnedObject instanceof FormarPar)
+                {
+                    if(!observableGame.temPar((FormarPar)returnedObject))
                     {
                         observableGame.FormaPar((FormarPar)returnedObject);
                     }
