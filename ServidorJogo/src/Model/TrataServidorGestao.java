@@ -15,72 +15,62 @@ import java.util.logging.Logger;
 
 public class TrataServidorGestao extends Thread {
 
-    public String IpDB = null, IpSG;
-    public int PortoSG;
-    public static final int MAX_SIZE = 10000;
-    public BaseDados BD;
-    
-    public TrataServidorGestao(BaseDados BD) {
-        this.BD = BD;
+    private static int BUFSIZE = 100;
+    private String IpServidorGestao;
+    private int PortoServidorGestao;
+    private String IpBaseDados;
+    double HeartBeatnumero;
+
+    public TrataServidorGestao(String IpServidorGestao, int PortoServidorGestao) {
+        this.HeartBeatnumero = Math.random() * 1000;
+        this.IpServidorGestao = IpServidorGestao;
+        this.PortoServidorGestao = PortoServidorGestao;
     }
-    
+
     @Override
     public void run() {
 
-        InetAddress serverAddr = null;
-        try {
-            serverAddr = InetAddress.getByName(IpSG);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int serverPort = PortoSG;
+        InetAddress addr = null;
         DatagramSocket socket = null;
-        ByteArrayOutputStream bOut;
-        ObjectOutputStream out;
-        DatagramPacket packet;
-        ObjectInputStream in;
-        String request;
 
         try {
+
+            addr = InetAddress.getByName(IpServidorGestao);
+
             socket = new DatagramSocket();
-        } catch (SocketException ex) {
-            Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        while (true) {
-            try {
-                //ENVIA HEARTBEAT
-                bOut = new ByteArrayOutputStream();
+            String message = new String();
+            message =""+ HeartBeatnumero;
 
-                out = new ObjectOutputStream(bOut);
-
-                out.writeObject(new Boolean(true));
+            ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bOut);
+            while (true) {
+                out.writeObject(message);
                 out.flush();
 
-                packet = new DatagramPacket(bOut.toByteArray(), bOut.size(),
-                        serverAddr, serverPort);
-                socket.send(packet);
+                DatagramPacket Packet = new DatagramPacket(bOut.toByteArray(), bOut.size(), addr, PortoServidorGestao);
 
-                //RECEBE IP 
-                packet = new DatagramPacket(new byte[MAX_SIZE], MAX_SIZE);
-                socket.receive(packet);
+                socket.send(Packet);
 
-                in = new ObjectInputStream(new ByteArrayInputStream(packet.getData(), 0, packet.getLength()));
+                Packet = new DatagramPacket(new byte[BUFSIZE], BUFSIZE);
 
-                try {
-                    request = (String) (in.readObject());
-                    IpDB = request;
-                    BD.setIpBD(IpDB);
-                } catch (ClassCastException | ClassNotFoundException e) {
-                    request = null;
-                }
+                socket.receive(Packet);
 
-                if (request == null) {
-                    Thread.currentThread().stop();
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
+                ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(Packet.getData(), 0, Packet.getLength()));
+
+                String returnedObject = (String) in.readObject();
+                IpBaseDados = returnedObject;
+
+                System.out.println("Ip: " + returnedObject);
+                Thread.sleep(classescomunicacao.Constantes.TEMPOPERIODOGESTAOJOGO);
             }
 
+        } catch (Exception erro) {
+            System.out.println("Erro: " + erro);
+
+        } finally {
+            socket.close();
         }
+
     }
+
 }

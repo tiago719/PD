@@ -103,7 +103,7 @@ public class Comunicacao extends java.util.Observable {
             if(returnedObject==1)
                 NomeUtilizador=novo.getNome();
 
-            return returnedObject;
+          return returnedObject;
 
         } catch (Exception e) {
             System.out.println("erro login: " + e);
