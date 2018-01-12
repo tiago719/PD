@@ -15,7 +15,7 @@ public class AcoesPartida implements Serializable {
 
     static final long serialVersionUID = 1L;
     int Acao;
-    int idPar, idUser;
+    int idPar;
 
     /**
      * @param Acao 1: Novo Jogo | 2: Concluir Jogo | 3: Cancelar Jogo
@@ -39,10 +39,6 @@ public class AcoesPartida implements Serializable {
         return idPar;
     }
 
-    public int getIdUser() {
-        return idUser;
-    }
-    
     
     
     

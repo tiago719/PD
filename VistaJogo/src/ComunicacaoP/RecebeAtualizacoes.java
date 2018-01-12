@@ -57,7 +57,12 @@ public class RecebeAtualizacoes extends Thread {
                         mensagem = (Mensagem)returnedObject;
                         observableGame.Update();
                     } else if(returnedObject instanceof FormarPar){
-                        pares.add((FormarPar)returnedObject);
+                        if(!((FormarPar) returnedObject).isAceite())                        
+                            pares.add((FormarPar)returnedObject);
+                        else
+                        {
+                            observableGame.TemPar((FormarPar)returnedObject);
+                        }
                         observableGame.Update();
                     }
                 }

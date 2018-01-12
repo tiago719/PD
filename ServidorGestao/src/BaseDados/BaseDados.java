@@ -3,6 +3,8 @@ package BaseDados;
 
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class BaseDados {
@@ -38,8 +40,12 @@ public class BaseDados {
                 resposta=t.getInt(1);
             }
             return resposta;
-        }catch(Exception ex)
-        {
+        }catch(Exception ex){
+            try {
+                resposta = St.executeUpdate(q);
+            } catch (SQLException ex1) {
+                Logger.getLogger(BaseDados.class.getName()).log(Level.SEVERE, null, ex1);
+            }
             System.out.println("Erro: " + ex);
         }
         return resposta;

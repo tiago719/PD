@@ -13,26 +13,35 @@ import java.io.Serializable;
  */
 public class FormarPar implements Serializable
 {
-    public String Nik1Util;
-    public String Nik2Util;
-    boolean aceite = false;
+    private String Nik1Util;
+    private String Nik2Util;
+    private int aceite = 0;
+    int IdPar;
+
+    public int getIdPar() {
+        return IdPar;
+    }
+
+    public void setIdPar(int IdPar) {
+        this.IdPar = IdPar;
+    }
     
     public String getNik1Util() {
         return Nik1Util;
     }
 
-    public boolean isAceite() {
+    public int getAceite() {
         return aceite;
     }
 
-    public void setAceite(boolean aceite) {
+    public void setAceite(int aceite) {
         this.aceite = aceite;
     }
 
     public FormarPar(String Nik1Util, String Nik2Util) {
         this.Nik1Util = Nik1Util;
         this.Nik2Util = Nik2Util;
-        aceite = false;
+        aceite = 0;
     }
 
     public void setNik1Util(String Nik1Util) {
