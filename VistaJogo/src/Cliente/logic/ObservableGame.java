@@ -1,15 +1,18 @@
 package Cliente.logic;
 
+import Cliente.ui.gui.EcraInicial.PedidoPar;
 import ComunicacaoP.Comunicacao;
 import ComunicacaoP.RecebeAtualizacoes;
 import java.util.Observable;
 import classescomunicacao.*;
+import static classescomunicacao.Constantes.PEDIDO_RECUSADO;
 import classescomunicacao.ModelJogo.GameData;
 import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.Player;
 import classescomunicacao.ModelJogo.States.IStates;
 import classescomunicacao.ModelJogo.Token;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -260,6 +263,9 @@ public class ObservableGame extends Observable {
    public void TemPar(FormarPar formarPar) {
 
         ParAtual = formarPar;
+        
+        setChanged();
+        notifyObservers();
     }
 
     public void EnviaInicioJogo() {
@@ -281,6 +287,19 @@ public class ObservableGame extends Observable {
 
     public void RemoveAllPar()
     {
+        for(FormarPar formarPar : threadRecebeAtualizacoes.getPedidosPares()) 
+        {
+            formarPar.setAceite(PEDIDO_RECUSADO);
+            comunicacao.EnviaConfirmacaoPar(formarPar);
+        }
         threadRecebeAtualizacoes.RemoveAllPar();
+        
+        setChanged();
+        notifyObservers();
+    }
+    
+    public String getUserName()
+    {
+        return comunicacao.getUserName();
     }
 }

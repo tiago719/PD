@@ -11,6 +11,7 @@ import java.io.ObjectOutputStream;
 import static java.lang.Thread.sleep;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.Observable;
@@ -20,7 +21,7 @@ public class Comunicacao extends java.util.Observable {
     public static final int BUFSIZE = 4000;
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
-    public String NomeUtilizador;
+    private String NomeUtilizador;
 
     private Socket socket;
     private ObjectInputStream in;
@@ -86,6 +87,9 @@ public class Comunicacao extends java.util.Observable {
             out.flush();
 
             Integer returnedObject = (Integer) in.readObject();
+            
+            if(returnedObject==1)
+                NomeUtilizador=novo.getNome();
 
             return returnedObject;
 
@@ -186,10 +190,6 @@ public class Comunicacao extends java.util.Observable {
         }
     }
 
-    public void getPedidosPares() {
-
-    }
-
     public void EnviaIniciodoJogo(FormarPar par) {
         try {
 
@@ -215,6 +215,10 @@ public class Comunicacao extends java.util.Observable {
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+    }
+    
+    public String getUserName()
+    {
+        return NomeUtilizador;
     }
 }

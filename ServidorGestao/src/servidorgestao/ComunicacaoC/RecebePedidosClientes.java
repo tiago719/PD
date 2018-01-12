@@ -18,6 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.Cliente;
 import Model.ObservableGame;
+import classescomunicacao.Constantes;
 import static classescomunicacao.Constantes.CLIENT_LEFT;
 import classescomunicacao.FormarPar;
 import com.sun.java.accessibility.util.EventID;
@@ -79,7 +80,7 @@ public class RecebePedidosClientes extends Thread {
                 }
                 else if(returnedObject instanceof FormarPar)
                 {
-                    if(!observableGame.temPar((FormarPar)returnedObject))
+                    if(!observableGame.temPar((FormarPar)returnedObject) || ((FormarPar) returnedObject).getAceite()==Constantes.PEDIDO_RECUSADO)
                     {
                         observableGame.FormaPar((FormarPar)returnedObject);
                     }

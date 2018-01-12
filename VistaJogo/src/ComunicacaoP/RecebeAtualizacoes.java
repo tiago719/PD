@@ -6,6 +6,7 @@
 package ComunicacaoP;
 
 import Cliente.logic.ObservableGame;
+import Cliente.ui.gui.EcraInicial.PedidoPar;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Constantes;
@@ -106,5 +107,10 @@ public class RecebeAtualizacoes extends Thread {
     public void RemoveAllPar()
     {
         pares.clear();
+    }
+
+    public ArrayList<FormarPar> getPedidosPares()
+    {
+        return (ArrayList) pares;
     }
 }
