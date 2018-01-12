@@ -55,12 +55,13 @@ public class ObservableGame extends java.util.Observable {
     
     public synchronized void removeCliente(RecebePedidosClientes recebePedidosClientes)
     {
-        recebePedidosClientes.stop();
         serverModel.setLogOut(mapa.get(recebePedidosClientes));
         mapa.remove(recebePedidosClientes);
 
         setChanged();
         notifyObservers();
+        recebePedidosClientes.stop();
+        
     }
 
     //getters

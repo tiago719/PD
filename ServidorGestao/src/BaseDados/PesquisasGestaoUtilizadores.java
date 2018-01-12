@@ -82,7 +82,7 @@ public class PesquisasGestaoUtilizadores {
             Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + Username + "'and PASSWORD='" + SHA1(Password) + "';");
             if (Rt.next()) {
                 int id = Rt.getInt("IDUTILIZADOR");
-                if (Rt.getBoolean("LOGADO")) {
+                if (Rt.getBoolean("LOGADO")==true) {
                     return -1;
                 }
 

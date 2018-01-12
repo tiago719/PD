@@ -105,7 +105,12 @@ public class PedidoPar extends javax.swing.JPanel
     private void jAceitarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAceitarMouseClicked
     {//GEN-HEADEREND:event_jAceitarMouseClicked
         observableGame.EnviaConfirmacao(pedidoPar, PEDIDO_ACEITE);
+        observableGame.RemovePar(pedidoPar);
         observableGame.RemoveAllPar();
+        if(observableGame.getUserName().equals(pedidoPar.getNik1Util()))
+            ecraPrincipal.setParNome(pedidoPar.getNik2Util());
+        else
+            ecraPrincipal.setParNome(pedidoPar.getNik1Util());
         this.setVisible(false);
     }//GEN-LAST:event_jAceitarMouseClicked
 
