@@ -167,6 +167,7 @@ public class Comunicacao extends java.util.Observable {
     public void PedePar(String Nikname) {
         try {
             FormarPar p = new FormarPar(NomeUtilizador, Nikname);
+            p.setAceite(Constantes.PEDIDO_FEITO);
             out.writeObject(p);
             out.flush();
 
@@ -177,7 +178,6 @@ public class Comunicacao extends java.util.Observable {
 
     public void EnviaConfirmacaoPar(FormarPar par) {
         try {
-            par.setAceite(true);
             out.writeObject(par);
             out.flush();
 

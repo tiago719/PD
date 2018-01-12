@@ -63,6 +63,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private int Npares = -1;
     private int idPar;
     private HashMap<Integer,PedidoPar> mapaPedidos;
+    private boolean primeira;
 
     public EcraPrincipal(ObservableGame o) {
         observableGame = o;
@@ -78,8 +79,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         botoesFormarPar.setText("Formar Par");
         botoesEnviarSms = new ButtonColumn(jTableUtilizadores, 4);
         botoesEnviarSms.setText("Enviar Mensagem");
-        //jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
-        //jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
+        jTableUtilizadores.getColumn("Jogar").setCellRenderer(botoesFormarPar);
+        jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
         
         jPedidosPar.setLayout(new GridLayout(6,0));       
     }
@@ -579,7 +580,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
         for(FormarPar pedidoPar : observableGame.getPares())
         {
-            novoPedidoPar = new PedidoPar(observableGame,pedidoPar.Nik1Util,this,pedidoPar);
+            novoPedidoPar = new PedidoPar(observableGame,pedidoPar.getNik1Util(),this,pedidoPar);
             mapaPedidos.put(idPar++, novoPedidoPar);
             jPedidosPar.add(novoPedidoPar);
         }
@@ -603,8 +604,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         private JButton renderButton;
         private JButton editButton;
         private Object editorValue;
-        private boolean isButtonColumnEditor;
-
+        
         public ButtonColumn(JTable table, int column) {
             this.table = table;
             renderButton = new JButton();
@@ -621,7 +621,15 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 @Override
                 public void mouseClicked(MouseEvent e)
                 {
-                    if (table.getSelectedColumn() == 4) {
+                    if(!primeira)
+                        primeira=true;
+                    else
+                    {
+                        primeira=false;
+                        return;
+                    }
+                    if (table.getSelectedColumn() == 4) 
+                    {
                     Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
                     for (int i = 0; i < jList1.getModel().getSize(); i++) {
                         if (jList1.getModel().getElementAt(i).trim().equals(Nikname.toString().trim())) {
@@ -637,12 +645,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                     jList1.setModel(dlm);
 
                     jList1.setSelectedIndex(jList1.getModel().getSize() - 1);
-                } else if (table.getSelectedColumn() == 3) {
-                    Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
-                    observableGame.PedePar((String) Nikname);
-
-                    JOptionPane.showMessageDialog(table, "Ola");
                 }
+                    else if (table.getSelectedColumn() == 3) 
+                    {
+                        Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
+                        observableGame.PedePar((String) Nikname);
+                    }
                 }
 
                 @Override

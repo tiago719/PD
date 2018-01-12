@@ -71,7 +71,7 @@ public class Cliente
 
     public ClienteEnviar getClienteEnviar()
     {
-        return informacaoEnviar;
+        return new ClienteEnviar(nomeUtilizador, nome, parFormado);
     }
 
     public boolean isLogado()
@@ -82,10 +82,5 @@ public class Cliente
     public void setLogado(boolean logado)
     {
         this.logado = logado;
-    }
-
-    void setClienteEnviar()
-    {
-        informacaoEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
     }
 }

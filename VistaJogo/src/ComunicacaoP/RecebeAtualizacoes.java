@@ -8,6 +8,8 @@ package ComunicacaoP;
 import Cliente.logic.ObservableGame;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
+import classescomunicacao.Constantes;
+import static classescomunicacao.Constantes.PEDIDO_ACEITE;
 import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
 import java.io.IOException;
@@ -56,10 +58,13 @@ public class RecebeAtualizacoes extends Thread {
                     } else if (returnedObject instanceof Mensagem) {
                         mensagem = (Mensagem)returnedObject;
                         observableGame.Update();
-                    } else if(returnedObject instanceof FormarPar){
-                        if(!((FormarPar) returnedObject).isAceite())                        
+                    } 
+                    else if(returnedObject instanceof FormarPar)
+                    {
+                        int ret=((FormarPar) returnedObject).getAceite();
+                        if(ret==Constantes.PEDIDO_FEITO)                        
                             pares.add((FormarPar)returnedObject);
-                        else
+                        else if(ret==Constantes.PEDIDO_ACEITE)
                         {
                             observableGame.TemPar((FormarPar)returnedObject);
                         }
