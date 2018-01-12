@@ -1,7 +1,10 @@
 package Model;
 
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //teste
+
 public class BaseDados {
 
     private Connection Con;
@@ -13,18 +16,26 @@ public class BaseDados {
     private String IpBD = null;
 
     public BaseDados() {
-
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            
+            Con = DriverManager.getConnection("jdbc:mysql://localhost/" + BDName, User, Pass);
+            St = Con.createStatement();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BaseDados.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public ResultSet Modifica(String q) {
         ResultSet resposta = null;
         try {
             St.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
-            resposta= St.getGeneratedKeys();
+            resposta = St.getGeneratedKeys();
         } catch (Exception ex) {
             System.out.println("Erro: " + ex);
-        }
-        finally{
+        } finally {
             return resposta;
         }
     }

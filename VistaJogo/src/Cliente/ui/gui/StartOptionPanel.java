@@ -1,7 +1,7 @@
 
 package Cliente.ui.gui;
 
-import classescomunicacao.ModelJogo.ObservableGame;
+import Cliente.logic.ObservableGame;
 import classescomunicacao.ModelJogo.States.AwaitBeginning;
 import java.awt.Color;
 import java.awt.Component;
