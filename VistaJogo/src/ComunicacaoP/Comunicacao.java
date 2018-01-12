@@ -86,7 +86,7 @@ public class Comunicacao extends java.util.Observable {
             out.flush();
 
             Integer returnedObject = (Integer) in.readObject();
-
+              
             return returnedObject;
 
         } catch (Exception e) {

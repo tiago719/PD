@@ -26,7 +26,17 @@ public class ObservableGame extends Observable {
     private RecebeAtualizacoes threadRecebeAtualizacoes;
     private ArrayList<Mensagem> MensagensPrivadas;
     private FormarPar ParAtual = null;
+    private int IdUtilizador = -1;
 
+    public int getIdUtilizador() {
+        return IdUtilizador;
+    }
+
+    public void setIdUtilizador(int IdUtilizador) {
+        this.IdUtilizador = IdUtilizador;
+    }
+    
+    
     public FormarPar getParAtual() {
         return ParAtual;
     }
@@ -169,9 +179,9 @@ public class ObservableGame extends Observable {
 
     public int Login(String username, String password) {
         int ret = comunicacao.login(username, password);
-        if (ret == 1) {
-//MensagensPrivadas = DevolveMensagens();
+        if (ret > 0) {
             comunicacao.setNomeUtilizador(username);
+            IdUtilizador = ret;
             threadRecebeAtualizacoes = new RecebeAtualizacoes(this, comunicacao.getObjectInputStream());
             threadRecebeAtualizacoes.start();
         }
@@ -267,7 +277,7 @@ public class ObservableGame extends Observable {
     }
 
     public void Desiste() {
-        ParAtual = null;
         comunicacao.Desiste(ParAtual);
+        ParAtual = null;
     }
 }

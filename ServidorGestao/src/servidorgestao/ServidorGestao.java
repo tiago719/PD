@@ -13,17 +13,24 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import servidorgestao.ComunicacaoC.LogicaComunicacao;
 
 public class ServidorGestao {
     
     public static void main(String[] args) {
         
-//        TrataServidorJogo thread1 = new TrataServidorJogo();
-//        thread1.IpDB = "localhost";
-//        thread1.PortoSG = 6000;
-//        thread1.start();
+        TrataServidorJogo thread1 = null;
+        try {
+            thread1 = new TrataServidorJogo("localhost");
+        } catch (SocketException ex) {
+            Logger.getLogger(ServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        thread1.start();
 
         ObservableGame observableGame=new ObservableGame();
         LogicaComunicacao logicaComunicacao=new LogicaComunicacao(observableGame);

@@ -15,72 +15,74 @@ import java.util.logging.Logger;
 
 public class TrataServidorGestao extends Thread {
 
-    public String IpDB = null, IpSG;
-    public int PortoSG;
-    public static final int MAX_SIZE = 10000;
-    public BaseDados BD;
-    
-    public TrataServidorGestao(BaseDados BD) {
-        this.BD = BD;
+    private String IpServidorGestao;
+    private int PortoServidorGestao;
+    private String IpBaseDados;
+    private static int BUFSIZE = 100;
+
+    public TrataServidorGestao(String IpServidorGestao, int PortoServidorGestao) {
+        this.IpServidorGestao = IpServidorGestao;
+        this.PortoServidorGestao = PortoServidorGestao;
     }
-    
+
     @Override
     public void run() {
-
-        InetAddress serverAddr = null;
         try {
-            serverAddr = InetAddress.getByName(IpSG);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        int serverPort = PortoSG;
-        DatagramSocket socket = null;
-        ByteArrayOutputStream bOut;
-        ObjectOutputStream out;
-        DatagramPacket packet;
-        ObjectInputStream in;
-        String request;
-
-        try {
+            InetAddress addr = null;
+            DatagramSocket socket = null;
+            
+            addr = InetAddress.getByName(IpServidorGestao);
+            
             socket = new DatagramSocket();
+            
+            socket.setSoTimeout(2 * 1000);
+            
+            String message = new String("1");
+            
+            ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bOut);
+            
+            while (true) {
+                try {
+                    out.writeObject(message);
+                    out.flush();
+                    
+                    DatagramPacket Packet = new DatagramPacket(bOut.toByteArray(), bOut.size(), addr, PortoServidorGestao);
+                    
+                    socket.send(Packet);
+                    
+                    Packet = new DatagramPacket(new byte[BUFSIZE], BUFSIZE);
+                    
+                    socket.receive(Packet);
+                    
+                    ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(Packet.getData(), 0, Packet.getLength()));
+                    
+                    String returnedObject = (String) in.readObject();
+                    
+                } catch (Exception erro) {
+                    System.out.println("Erro: " + erro);
+                }
+            }
         } catch (SocketException ex) {
             Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
         }
-        while (true) {
-            try {
-                //ENVIA HEARTBEAT
-                bOut = new ByteArrayOutputStream();
 
-                out = new ObjectOutputStream(bOut);
-
-                out.writeObject(new Boolean(true));
-                out.flush();
-
-                packet = new DatagramPacket(bOut.toByteArray(), bOut.size(),
-                        serverAddr, serverPort);
-                socket.send(packet);
-
-                //RECEBE IP 
-                packet = new DatagramPacket(new byte[MAX_SIZE], MAX_SIZE);
-                socket.receive(packet);
-
-                in = new ObjectInputStream(new ByteArrayInputStream(packet.getData(), 0, packet.getLength()));
-
-                try {
-                    request = (String) (in.readObject());
-                    IpDB = request;
-                    BD.setIpBD(IpDB);
-                } catch (ClassCastException | ClassNotFoundException e) {
-                    request = null;
-                }
-
-                if (request == null) {
-                    Thread.currentThread().stop();
-                }
-            } catch (IOException ex) {
-                Logger.getLogger(TrataServidorGestao.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-        }
     }
+
+    public String getIpBaseDados() {
+        return IpBaseDados;
+    }
+
+    public void setIpServidorGestao(String IpServidorGestao) {
+        this.IpServidorGestao = IpServidorGestao;
+    }
+
+    public void setPortoServidorGestao(int PortoServidorGestao) {
+        this.PortoServidorGestao = PortoServidorGestao;
+    }
+
 }

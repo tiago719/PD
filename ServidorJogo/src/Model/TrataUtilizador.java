@@ -50,7 +50,7 @@ public class TrataUtilizador extends Thread {
                             rs = BD.Modifica("INSERT INTO jogo (IDJOGO, "
                                     + "IDUTILIZADOR, IDPAR, RESULTADO, VENCEDOR,"
                                     + " EMCURSO, TERMINOU, INTERROMPIDO) "
-                                    + "VALUES (NULL, '" + ap.getIdUser() + "', '"
+                                    + "VALUES (NULL, '" + 1 + "', '"
                                     + ap.getIdPar() + "', '-1', '-1', '1', '0', '0')");
 
                             int idJogo = rs.getInt("IDJOGO");
