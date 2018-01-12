@@ -53,9 +53,9 @@ public class TrataUtilizador extends Thread {
 
                     switch (ap.getAcao()) {
                         case 1:
-                            rs = BD.Le("select count (*) as 'jogoCriado' from jogo where emcurso = 1 and idpar = " + ap.getIdPar());
+                            rs = BD.Le("select count(*) as 'jogoCriado' from jogo where emcurso = 1 and idpar = " + ap.getIdPar());
                             rs.next();
-                            if (rs.getInt("jogoCriado") > 0){
+                            if (rs.getInt("jogoCriado") != 0){
                                 out.writeObject(jogosDecorrer.getGameModel(ap.getIdPar()));
                                 out.flush();
                                 break;
@@ -66,8 +66,9 @@ public class TrataUtilizador extends Thread {
                                     + " EMCURSO, TERMINOU, INTERROMPIDO) "
                                     + "VALUES (NULL, '" + ap.getIdPar()
                                     + "', '-1', '-1', '1', '0', '0')");
+                            rs.next();
 
-                            int idJogo = rs.getInt("IDJOGO");
+                            int idJogo = rs.getInt(1);
                             if (idJogo > 0) {
 
                                 int idPar = ap.getIdPar();

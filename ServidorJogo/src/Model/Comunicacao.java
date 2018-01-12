@@ -45,8 +45,9 @@ public class Comunicacao extends Thread {
             while (true) {
                 Socket nextCliente = server.accept();
 
-                ObjectInputStream in = new ObjectInputStream(nextCliente.getInputStream());
                 ObjectOutputStream out = new ObjectOutputStream(nextCliente.getOutputStream());
+                out.flush();
+                ObjectInputStream in = new ObjectInputStream(nextCliente.getInputStream());
 
                 Object objectRecebidoUtilizador = in.readObject();
 

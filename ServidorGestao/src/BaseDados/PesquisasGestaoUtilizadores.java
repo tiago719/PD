@@ -287,7 +287,12 @@ public class PesquisasGestaoUtilizadores {
         }
 
         try {
-           return bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           int idPar;
+           
+           ResultSet rs = bd.Le("select idPar from par where IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           rs.next();
+           return rs.getInt("idPar");
 
         } catch (Exception e) {
 

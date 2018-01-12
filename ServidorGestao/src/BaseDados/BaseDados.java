@@ -40,6 +40,7 @@ public class BaseDados {
                 
                 resposta=t.getInt(1);
             }
+            
             return resposta;
         }catch(Exception ex){
             try {
