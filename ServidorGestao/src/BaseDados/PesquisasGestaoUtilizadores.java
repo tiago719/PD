@@ -147,6 +147,8 @@ public class PesquisasGestaoUtilizadores {
     }
 
     public void setLogados() {
+        bd.Modifica("delete from jogo");
+        
         bd.Modifica("UPDATE utilizador SET LOGADO=0;");
         bd.Modifica("DELETE FROM par;");
 

@@ -65,7 +65,7 @@ public class ServerModel
             cliente.setLogado(true);
             cliente.setId(ret);
             arrayClienteEnviar.addCliente(cliente.getClienteEnviar());
-            return 1;
+            return ret;
         }        
         return ret;
     }

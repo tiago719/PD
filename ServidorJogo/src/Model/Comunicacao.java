@@ -17,16 +17,16 @@ public class Comunicacao extends Thread {
     public static final String IP = "localhost";
     public static final int TIMEOUT = 50000;
 
-    Socket socket;
+    ServerSocket socket;
     ObjectInputStream in;
+    
     ObjectOutputStream out;
     ObservableGame observableGame;
 
-    public Comunicacao(ObservableGame og) {
+    public Comunicacao(ObservableGame og, int idPar) {
         this.observableGame = og;
         try {
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
+            socket = new ServerSocket(5000+ idPar);
         } catch (IOException ex) {
             System.out.println("Comunicacao: " + ex);
         }

@@ -1,6 +1,7 @@
 
 package Cliente.ui.gui;
 
+import Cliente.logic.ObservableGame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import classescomunicacao.Jogadas;
-import classescomunicacao.ModelJogo.ObservableGame;
 import classescomunicacao.ModelJogo.Player;
 import classescomunicacao.ModelJogo.States.*;
 import classescomunicacao.ModelJogo.Token;
@@ -74,14 +74,11 @@ class GameCell extends JPanel
         addMouseListener(new MouseAdapter(){
             @Override
             public void mousePressed(MouseEvent ev){
-                Jogadas jog = new Jogadas(game.getCurrentPlayerName(), row, col, game.getGameModel().getIdJogo());
-                
-                
-//                if(game.getState() instanceof AwaitPlacement){
-//                    game.placeToken(row, col);
-//                }else{
-//                    game.returnToken(row, col);
-//                }
+                if(game.getState() instanceof AwaitPlacement){
+                    game.placeToken(row, col);
+                }else{
+                    game.returnToken(row, col);
+                }
             }
         });
         
