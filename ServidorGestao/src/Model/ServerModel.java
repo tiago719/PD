@@ -111,6 +111,8 @@ public class ServerModel
 
                 if (formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
                     try {
+                        value.setLogado(true);
+                        value.setClienteEnviar();
                         key.getOut().writeObject(formarPar);
                     } catch (IOException ex) {
                         Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);

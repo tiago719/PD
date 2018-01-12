@@ -251,16 +251,13 @@ public class ObservableGame extends Observable {
         {
             if(p==pedidoPar)
             {
-    public void EnviaConfirmacao(FormarPar pedidoPar, boolean resposta) {
-        for (FormarPar p : threadRecebeAtualizacoes.getPares()) {
-            if (p == pedidoPar) {
                 p.setAceite(resposta);
                 comunicacao.EnviaConfirmacaoPar(p);
             }
         }
     }
 
-    public void TemPar(FormarPar formarPar) {
+   public void TemPar(FormarPar formarPar) {
 
         ParAtual = formarPar;
     }
