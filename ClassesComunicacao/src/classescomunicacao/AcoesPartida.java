@@ -16,6 +16,21 @@ public class AcoesPartida implements Serializable {
     static final long serialVersionUID = 1L;
     int Acao;
     int idPar;
+    String UserName;
+
+    public String getUserName() {
+        return UserName;
+    }
+
+    public void setUserName(String UserName) {
+        this.UserName = UserName;
+    }
+
+    public AcoesPartida(int Acao, int idPar, String UserName) {
+        this.Acao = Acao;
+        this.idPar = idPar;
+        this.UserName = UserName;
+    }
 
     public AcoesPartida(int Acao, int idPar) {
         this.Acao = Acao;
