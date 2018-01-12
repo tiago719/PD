@@ -194,6 +194,11 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
         jButton3.setText("Desistir");
         jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Jogar");
         jButton4.setEnabled(false);
@@ -380,6 +385,10 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         ThreeInRowView v=new ThreeInRowView(new classescomunicacao.ModelJogo.ObservableGame(observableGame.getParAtual().getNik1Util(), observableGame.getParAtual().getNik2Util(), 0));
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        observableGame.Desiste();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

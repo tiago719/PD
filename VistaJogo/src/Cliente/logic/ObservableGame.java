@@ -262,4 +262,8 @@ public class ObservableGame extends Observable {
     public void EnviaInicioJogo() {
         comunicacao.EnviaIniciodoJogo(ParAtual);
     }
+
+    public void Desiste() {
+        comunicacao.Desiste(ParAtual);
+    }
 }
