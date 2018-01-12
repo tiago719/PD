@@ -90,7 +90,6 @@ public class ObservableGame extends java.util.Observable {
     public HashMap getMapa() {
         return mapa;
     }
-
     public void FormaPar(FormarPar formarPar) 
     {
         serverModel.formarPar(formarPar,mapa.entrySet());

@@ -23,9 +23,17 @@ public class ObservableGame extends Observable {
     private GameModel gameModel;
     private Comunicacao comunicacao;
     private ArrayClienteEnviar clientes;
-    private RecebeAtualizacoes threadRecebeAtualizacoes;
-    
+    private RecebeAtualizacoes threadRecebeAtualizacoes;   
     private ArrayList<Mensagem> MensagensPrivadas;
+    private FormarPar ParAtual = null;
+
+    public FormarPar getParAtual() {
+        return ParAtual;
+    }
+
+    public void setParAtual(FormarPar ParAtual) {
+        this.ParAtual = ParAtual;
+    }
     
     public ArrayList<Mensagem> getMensagensPrivadas() {
         return MensagensPrivadas;
@@ -254,5 +262,10 @@ public class ObservableGame extends Observable {
                 comunicacao.EnviaConfirmacaoPar(p);
             }
         }
+    }
+
+    public void TemPar(FormarPar formarPar) {
+       
+        ParAtual = formarPar;
     }
 }

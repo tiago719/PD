@@ -35,7 +35,8 @@ class PlayerNameBox extends JPanel
         nome = (playerNr==1) ? g.getPlayer1().getName():g.getPlayer2().getName();
         
         nameField = new JTextField(15);
-        nameField.setText(nome);        
+        nameField.setText(nome);  
+        nameField.setEnabled(false);
         
         // Listen for changes in the text
         nameField.getDocument().addDocumentListener(new DocumentListener(){

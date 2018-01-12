@@ -8,6 +8,7 @@ package Cliente.ui.gui.EcraInicial;
 import java.util.Observable;
 import java.util.Observer;
 import Cliente.logic.ObservableGame;
+import Cliente.ui.gui.ThreeInRowView;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.FormarPar;
@@ -91,8 +92,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableUtilizadores = new javax.swing.JTable();
@@ -108,35 +108,30 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         jButton2 = new javax.swing.JButton();
         jPedidosPar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         jTableUtilizadores.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][]
-            {
+            new Object [][] {
 
             },
-            new String []
-            {
+            new String [] {
                 "Nome de Utilizador", "Nome", "Estado", "Jogar", "Enviar Mensagem"
             }
-        )
-        {
-            boolean[] canEdit = new boolean []
-            {
+        ) {
+            boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
 
-            public boolean isCellEditable(int rowIndex, int columnIndex)
-            {
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
         jTableUtilizadores.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableUtilizadores);
 
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyPressed(java.awt.event.KeyEvent evt)
-            {
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField1KeyPressed(evt);
             }
         });
@@ -144,25 +139,19 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         jScrollPane2.setViewportView(jTextPane1);
 
         jButton1.setText("->");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jList1.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mouseClicked(java.awt.event.MouseEvent evt)
-            {
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
             }
         });
@@ -170,19 +159,15 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
         jScrollPane4.setViewportView(jTextPane2);
 
-        jTextField2.addKeyListener(new java.awt.event.KeyAdapter()
-        {
-            public void keyPressed(java.awt.event.KeyEvent evt)
-            {
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
                 jTextField2KeyPressed(evt);
             }
         });
 
         jButton2.setText("->");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -208,13 +193,23 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jButton3.setText("Desistir");
+        jButton3.setEnabled(false);
+
+        jButton4.setText("Jogar");
+        jButton4.setEnabled(false);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -224,23 +219,25 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton2)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 592, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jPedidosPar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton1)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addComponent(jButton1))))
+                    .addComponent(jScrollPane1))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPedidosPar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(76, 76, 76))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -252,9 +249,17 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane4))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(75, 75, 75)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(52, 52, 52)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -366,15 +371,21 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
                 jTextPane2.setText(jTextPane2.getText() + "\n" + temp.getRemetente() + ": " + temp.getMensagem());
                 jTextPane2.setCaretPosition(jTextPane2.getText().length() - 1);
-
             }
         }
     }//GEN-LAST:event_jTextField2KeyPressed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        ThreeInRowView v=new ThreeInRowView(new classescomunicacao.ModelJogo.ObservableGame(observableGame.getParAtual().getNik1Util(), observableGame.getParAtual().getNik2Util(), 0));
+        
+    }//GEN-LAST:event_jButton4ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPedidosPar;
@@ -559,6 +570,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             novoPedidoPar = new PedidoPar(observableGame,pedidoPar.getNik1Util(),this,pedidoPar);
             mapaPedidos.put(idPar++, novoPedidoPar);
             jPedidosPar.add(novoPedidoPar);
+        }
+        
+        if(observableGame.getParAtual()!= null)
+        {
+            jButton3.setEnabled(true);
+            jButton4.setEnabled(true);
         }
     }
 
