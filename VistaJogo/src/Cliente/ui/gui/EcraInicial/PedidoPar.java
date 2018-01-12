@@ -105,12 +105,14 @@ public class PedidoPar extends javax.swing.JPanel
     private void jAceitarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jAceitarMouseClicked
     {//GEN-HEADEREND:event_jAceitarMouseClicked
         observableGame.EnviaConfirmacao(pedidoPar, PEDIDO_ACEITE);
+        observableGame.RemoveAllPar();
         this.setVisible(false);
     }//GEN-LAST:event_jAceitarMouseClicked
 
     private void jRejeitarMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jRejeitarMouseClicked
     {//GEN-HEADEREND:event_jRejeitarMouseClicked
         observableGame.EnviaConfirmacao(pedidoPar, Constantes.PEDIDO_RECUSADO);
+        observableGame.RemovePar(pedidoPar);
         this.setVisible(false);
     }//GEN-LAST:event_jRejeitarMouseClicked
 

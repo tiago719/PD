@@ -25,7 +25,7 @@ public class Comunicacao extends java.util.Observable {
     private Socket socket;
     private ObjectInputStream in;
     private ObjectOutputStream out;
-    
+
     private Socket socketServidorJogo;
     private ObjectInputStream inc;
     private ObjectOutputStream outc;
@@ -37,7 +37,6 @@ public class Comunicacao extends java.util.Observable {
     public void setOutc(ObjectOutputStream outc) {
         this.outc = outc;
     }
-    
 
     public void setNomeUtilizador(String NomeUtilizador) {
         this.NomeUtilizador = NomeUtilizador;
@@ -56,6 +55,8 @@ public class Comunicacao extends java.util.Observable {
             socket = new Socket(IP, PORTO2);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
+            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
         } catch (IOException ex) {
             System.out.println("Comunicacao: " + ex);
         }
@@ -191,16 +192,29 @@ public class Comunicacao extends java.util.Observable {
 
     public void EnviaIniciodoJogo(FormarPar par) {
         try {
-            socketServidorJogo = new Socket("localhost",PORTOSERVIDORJOGO);
+
             AcoesPartida x = new AcoesPartida(1, par.getIdPar());
-            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
-            
-            out.writeObject(x);
-            out.flush();
-            
+
+            outc.writeObject(x);
+            outc.flush();
+
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
-          
+
+    }
+
+    public void Desiste(FormarPar ParAtual) {
+        try {
+
+            AcoesPartida x = new AcoesPartida(3, ParAtual.getIdPar(), NomeUtilizador);
+
+            outc.writeObject(x);
+            outc.flush();
+
+        } catch (IOException ex) {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
