@@ -264,6 +264,7 @@ public class ObservableGame extends Observable {
     }
 
     public void Desiste() {
+        ParAtual = null;
         comunicacao.Desiste(ParAtual);
     }
 }

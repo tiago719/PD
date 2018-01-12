@@ -388,6 +388,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         observableGame.Desiste();
+        jButton3.setEnabled(false);
+        jButton4.setEnabled(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
 
