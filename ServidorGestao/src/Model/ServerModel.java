@@ -64,7 +64,8 @@ public class ServerModel
             cliente.setNome(pesquisasGestaoUtilizadores.getNome(ret));
             cliente.setLogado(true);
             cliente.setId(ret);
-            return 1;
+
+          return ret;
         }        
         return ret;
     }
