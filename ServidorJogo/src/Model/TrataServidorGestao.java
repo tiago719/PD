@@ -12,7 +12,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import classescomunicacao.Constantes.*;
 
 public class TrataServidorGestao extends Thread {
 
@@ -62,7 +61,7 @@ public class TrataServidorGestao extends Thread {
                 IpBaseDados = returnedObject;
 
                 System.out.println("Ip: " + returnedObject);
-                Thread.sleep(1000);
+                Thread.sleep(classescomunicacao.Constantes.TEMPOPERIODOGESTAOJOGO);
             }
 
         } catch (Exception erro) {
