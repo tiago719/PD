@@ -32,7 +32,7 @@ public class RecebeAtualizacoes extends Thread {
     public Mensagem mensagem;
     public List<FormarPar> pares;
 
-    public List<FormarPar> getPares() {
+    public synchronized List<FormarPar> getPares() {
         return pares;
     }
 
@@ -49,6 +49,7 @@ public class RecebeAtualizacoes extends Thread {
     @Override
     public void run() 
     {
+        boolean flag=false;
             try {
                 while (true)
                 {
@@ -62,7 +63,21 @@ public class RecebeAtualizacoes extends Thread {
                     } 
                     else if(returnedObject instanceof FormarPar)
                     {
-                        int ret=((FormarPar) returnedObject).getAceite();
+                        FormarPar pedido=((FormarPar) returnedObject);
+                        
+                        for(FormarPar formarPar:pares)
+                        {
+                            if((formarPar.getNik1Util().equals(pedido.getNik1Util()) && formarPar.getNik2Util().equals(pedido.getNik2Util())) || (formarPar.getNik1Util().equals(pedido.getNik2Util()) && formarPar.getNik2Util().equals(pedido.getNik1Util())))
+                            {
+                                formarPar.setAceite(pedido.getAceite());
+                                flag=true;
+                                break;
+                            }
+                        }
+                        if(flag)
+                            continue;
+                        
+                        int ret=pedido.getAceite();
                         if(ret==Constantes.PEDIDO_FEITO)                        
                             pares.add((FormarPar)returnedObject);
                         else if(ret==Constantes.PEDIDO_ACEITE)
@@ -73,7 +88,7 @@ public class RecebeAtualizacoes extends Thread {
                     }
                 }
             } 
-            catch (Exception e) { 
+            catch (IOException | ClassNotFoundException e) { 
                 Logger.getLogger("ERRO : " + e.getMessage());
             }
         }
@@ -87,14 +102,14 @@ public class RecebeAtualizacoes extends Thread {
         mensagem = null;
     }
 
-    public void RemovePar(int i) {
+    public synchronized void RemovePar(int i) {
         if(pares.size() >=i)
         {
             pares.remove(i);
         }
     }
 
-    public void RemovePar(FormarPar pedidoPar)
+    public synchronized void RemovePar(FormarPar pedidoPar)
     {
         for(FormarPar formarPar:pares)
             if(pedidoPar==formarPar)
@@ -104,7 +119,7 @@ public class RecebeAtualizacoes extends Thread {
             }
     }
 
-    public void RemoveAllPar()
+    public synchronized void RemoveAllPar()
     {
         pares.clear();
     }
