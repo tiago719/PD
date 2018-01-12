@@ -110,7 +110,7 @@ public class ServerModel
 
                 if (formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
                     try {
-                        value.setLogado(true);
+                        value.setParFormado(true);
                         key.getOut().writeObject(formarPar);
                     } catch (IOException ex) {
                         Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
@@ -131,7 +131,25 @@ public class ServerModel
         }
         else if(formarPar.getAceite()==Constantes.PEDIDO_ACEITE)
         {
-            pesquisasGestaoUtilizadores.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+             formarPar.setIdPar(pesquisasGestaoUtilizadores.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util()));
+             
+              for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
+                RecebePedidosClientes key = entry.getKey();
+                Cliente value = entry.getValue();
+
+                if (formarPar.getNik1Util().equals(value.getNomeUtilizador()) || formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
+                    try {
+                        key.getOut().writeObject(formarPar);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                        key.getOut().flush();
+                    } catch (IOException ex) {
+                        Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+}
         }
     }
 }
