@@ -15,12 +15,11 @@ public class AcoesPartida implements Serializable {
 
     static final long serialVersionUID = 1L;
     int Acao;
-    int idPar, idUser;
+    int idPar;
 
-    public AcoesPartida(int Acao, int idPar, int idUser) {
+    public AcoesPartida(int Acao, int idPar) {
         this.Acao = Acao;
         this.idPar = idPar;
-        this.idUser = idUser;
     }
 
 
@@ -36,10 +35,6 @@ public class AcoesPartida implements Serializable {
         return idPar;
     }
 
-    public int getIdUser() {
-        return idUser;
-    }
-    
     
     
     

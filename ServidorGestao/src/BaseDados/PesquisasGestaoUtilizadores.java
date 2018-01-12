@@ -210,7 +210,7 @@ public class PesquisasGestaoUtilizadores {
         return false;
     }
 
-    public void FormaPar(String nik1Util, String nik2Util) {
+    public int FormaPar(String nik1Util, String nik2Util) {
 
         int id2 = -1;
         int id1 = -1;
@@ -224,11 +224,12 @@ public class PesquisasGestaoUtilizadores {
 
         if (id2 != -1 && id1 != -1) {
             if (VeirficaExiste(id1, id2)) {
-                return;
+                return -1;
             }
-            bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, '0' ,'" + id1 + "', '" + id2 + "');");
-
+            return bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, '0' ,'" + id1 + "', '" + id2 + "');");
+            
         }
+        return -1;
     }
 
     public int GetidByUserName(String username) throws SQLException {
@@ -247,7 +248,7 @@ public class PesquisasGestaoUtilizadores {
         }
     }
 
-    public void ConfirmaPar(String nik1Util, String nik2Util) {
+    public int ConfirmaPar(String nik1Util, String nik2Util) {
         int id1, id2;
 
         try {
@@ -255,14 +256,16 @@ public class PesquisasGestaoUtilizadores {
             id2 = GetidByUserName(nik2Util);
         } catch (SQLException ex) {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-            return;
+            return -1;
         }
 
         try {
-            bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           return bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
 
         } catch (Exception e) {
 
         }
+        
+        return -1;
     }
 }

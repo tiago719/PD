@@ -13,6 +13,15 @@ import java.io.Serializable;
  */
 public class FormarPar implements Serializable
 {
+    int IdPar;
+
+    public int getIdPar() {
+        return IdPar;
+    }
+
+    public void setIdPar(int IdPar) {
+        this.IdPar = IdPar;
+    }
     public String Nik1Util;
     public String Nik2Util;
     boolean aceite = false;
