@@ -1,6 +1,6 @@
 package Cliente.ui.gui;
 
-import classescomunicacao.ModelJogo.ObservableGame;
+import Cliente.logic.ObservableGame;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;

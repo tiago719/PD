@@ -214,7 +214,7 @@ public class Login extends javax.swing.JPanel {
         if (ret==0) {
             jErro.setText("Credenciais Incorretas!");
             jErro.setVisible(true);
-        } else if(ret==1) 
+        } else if(ret>0) 
         {
             CardLayout cl = (CardLayout) CardPanel.getLayout();
             cl.next(CardPanel);

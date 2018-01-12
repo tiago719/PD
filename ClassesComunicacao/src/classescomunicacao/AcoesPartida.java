@@ -26,6 +26,11 @@ public class AcoesPartida implements Serializable {
         this.UserName = UserName;
     }
 
+    /**
+     * @param Acao 1: Novo Jogo | 2: Concluir Jogo | 3: Cancelar Jogo
+     * @param UserName Username do Jogador que cria Acao
+     * @param idPar ID da BD do PAR
+     */
     public AcoesPartida(int Acao, int idPar, String UserName) {
         this.Acao = Acao;
         this.idPar = idPar;

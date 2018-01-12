@@ -75,7 +75,7 @@ public class ObservableGame extends java.util.Observable {
 
     public int login(Login login, Cliente cliente, RecebePedidosClientes recebePedidosClientes) {
         int ret = serverModel.login(login, cliente);
-        if (ret == 1) {
+        if (ret > 0) {
             novoCliente(recebePedidosClientes, cliente);
         }
         return ret;

@@ -367,7 +367,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         
         observableGame.EnviaInicioJogo();
-        ThreeInRowView v=new ThreeInRowView(new classescomunicacao.ModelJogo.ObservableGame(observableGame.getParAtual().getNik1Util(), observableGame.getParAtual().getNik2Util(), 0));
+        
+        ThreeInRowView v=new ThreeInRowView(observableGame);
         
     }//GEN-LAST:event_jButton4ActionPerformed
 

@@ -40,26 +40,35 @@ public class TrataUtilizador extends Thread {
                 Object objectRecebidoUtilizador = in.readObject();
 
                 if (objectRecebidoUtilizador instanceof AcoesPartida) {
-                    //TODO: PROCURAR NA BD SE EXISTE PAR FORMADO 
                     AcoesPartida ap = (AcoesPartida) objectRecebidoUtilizador;
 
                     ResultSet rs;
 
+                    rs = BD.Le("select count(*) as 'hasPar' from par where idPar = " + ap.getIdPar());
+                    rs.next();
+                    if (rs.getInt("hasPar") < 1) {
+                        continue;
+                    }
+
                     switch (ap.getAcao()) {
                         case 1:
+                            rs = BD.Le("select count (*) as 'jogoCriado' from jogo where emcurso = 1 and idpar = " + ap.getIdPar());
+                            rs.next();
+                            if (rs.getInt("jogoCriado") > 0){
+                                out.writeObject(jogosDecorrer.getGameModel(ap.getIdPar()));
+                                break;
+                            }
+                            
                             rs = BD.Modifica("INSERT INTO jogo (IDJOGO, "
-                                    + "IDUTILIZADOR, IDPAR, RESULTADO, VENCEDOR,"
+                                    + "IDPAR, RESULTADO, VENCEDOR,"
                                     + " EMCURSO, TERMINOU, INTERROMPIDO) "
-                                    + "VALUES (NULL, '" + ap.getIdUser() + "', '"
-                                    + ap.getIdPar() + "', '-1', '-1', '1', '0', '0')");
+                                    + "VALUES (NULL, '" + ap.getIdPar()
+                                    + "', '-1', '-1', '1', '0', '0')");
 
                             int idJogo = rs.getInt("IDJOGO");
                             if (idJogo > 0) {
-                                rs = BD.Le("SELECT jogo.IDPAR FROM `jogo` JOIN"
-                                        + " par on par.IDPAR = jogo.IDPAR "
-                                        + "WHERE jogo.IDJOGO = " + idJogo);
-                                rs.next();
-                                int idPar = rs.getInt("jogo.IDPAR");
+
+                                int idPar = ap.getIdPar();
 
                                 rs = BD.Le("SELECT IDU1, IDU2 FROM `par`"
                                         + " WHERE `IDPAR` = " + idPar);
@@ -78,7 +87,7 @@ public class TrataUtilizador extends Thread {
                                 String nick2 = rs.getString("USERNAME");
 
                                 rs.next();
-                                jogosDecorrer.addNovoJogo(idJogo, nick1, nick2);
+                                jogosDecorrer.addNovoJogo(idJogo, nick1, nick2, ap.getIdPar());
                                 //TODO: Se existir ficheiro de modelo jogo usar esse e nao fazer novo gamemodel
                                 out.writeObject(new GameModel(nick1, nick2, idJogo));
                             }

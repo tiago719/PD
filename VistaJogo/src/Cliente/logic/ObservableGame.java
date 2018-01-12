@@ -45,7 +45,7 @@ public class ObservableGame extends Observable {
 
     public ObservableGame() {
         this.gameModel = null;
-        comunicacao = new Comunicacao();
+        comunicacao = new Comunicacao(this);
     }
 
     public GameModel getGameModel() {
@@ -143,7 +143,9 @@ public class ObservableGame extends Observable {
     }
 
     public void placeToken(int line, int column) {
-        gameModel.placeToken(line, column);
+        
+        comunicacao.novaJogada(line, column, this.gameModel.getIdJogo(), this.gameModel.getPlayer1().getName());
+//        gameModel.placeToken(line, column);
 
         setChanged();
         notifyObservers();
@@ -169,7 +171,7 @@ public class ObservableGame extends Observable {
 
     public int Login(String username, String password) {
         int ret = comunicacao.login(username, password);
-        if (ret == 1) {
+        if (ret > 0) {
 //MensagensPrivadas = DevolveMensagens();
             comunicacao.setNomeUtilizador(username);
             threadRecebeAtualizacoes = new RecebeAtualizacoes(this, comunicacao.getObjectInputStream());
@@ -270,7 +272,10 @@ public class ObservableGame extends Observable {
         ParAtual = null;
         comunicacao.Desiste(ParAtual);
     }
-
+    
+    public int getIdJogo() {
+        return this.gameModel.getIdJogo();
+    }
     public void RemovePar(FormarPar pedidoPar)
     {
         threadRecebeAtualizacoes.RemovePar(pedidoPar);
