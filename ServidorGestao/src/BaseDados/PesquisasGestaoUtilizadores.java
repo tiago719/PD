@@ -15,7 +15,10 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.Cliente;
+import classescomunicacao.Constantes;
+import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
+import java.util.ArrayList;
 
 /**
  *
@@ -332,5 +335,72 @@ public class PesquisasGestaoUtilizadores {
             
         }
         return false;
+    }
+
+    public void EliminaPedidos(String nik1Util, String nik2Util)
+    {
+        try
+        {
+            int id1=GetidByUserName(nik1Util);
+            int id2=GetidByUserName(nik2Util);
+            
+            bd.Modifica("DELETE FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;");
+
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String getUsername(int id)
+    {
+        ResultSet Rt = null;
+
+        try {
+            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
+
+            if (Rt.next()) {
+                String nome = Rt.getString("USERNAME");
+                return nome;
+            } else {
+
+                return null;
+            }
+
+        } catch (SQLException e) {
+        }
+
+        return null;
+    }
+
+    public ArrayList<FormarPar> getPedidosUtilizadores(String nik1Util, String nik2Util)
+    {
+        int id1ret, id2ret;
+        ArrayList<FormarPar> temp=new ArrayList<>();
+
+        try
+        {
+            int id1=GetidByUserName(nik1Util);
+            int id2=GetidByUserName(nik2Util);
+            
+            ResultSet Rt;
+            
+            Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;");
+            
+            while(!Rt.isClosed() && Rt.next())
+            {
+                id1ret=Rt.getInt("IDU1");
+                id2ret=Rt.getInt("IDU2");
+                
+                FormarPar formarPar=new FormarPar(getUsername(id1ret), getUsername(id2ret));
+                formarPar.setAceite(Constantes.PEDIDO_RECUSADO);
+                temp.add(formarPar);
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return temp;
     }
 }

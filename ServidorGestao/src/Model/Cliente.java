@@ -6,6 +6,7 @@
 package Model;
 
 import classescomunicacao.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,10 +14,10 @@ import classescomunicacao.*;
  */
 public class Cliente
 {
-    private ClienteEnviar informacaoEnviar;
     private String nomeUtilizador, nome;
     private boolean parFormado, logado;
     private int id;
+    private ArrayList<FormarPar> pedidos;
 
     public Cliente(String nomeUtilizador, String nome,boolean parFormado, int id)
     {
@@ -24,7 +25,7 @@ public class Cliente
         this.id=id;
         this.nome = nome;
         this.parFormado = parFormado;
-        informacaoEnviar = new ClienteEnviar(nomeUtilizador, nome, parFormado);
+        pedidos=new ArrayList<>();
     }
     
     public Cliente(){}
@@ -82,5 +83,22 @@ public class Cliente
     public void setLogado(boolean logado)
     {
         this.logado = logado;
+    }
+    
+    public void addPedido(FormarPar formarPar)
+    {
+        pedidos.add(formarPar);
+    }
+    
+    public void removePedido(FormarPar formarPar)
+    {
+        for(FormarPar f : pedidos)
+        {
+            if(f==formarPar)
+            {
+                pedidos.remove(f);
+                return;
+            }
+        }
     }
 }

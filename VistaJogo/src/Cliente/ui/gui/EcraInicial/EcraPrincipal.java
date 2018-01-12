@@ -11,6 +11,7 @@ import Cliente.logic.ObservableGame;
 import Cliente.ui.gui.ThreeInRowView;
 import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
+import classescomunicacao.Constantes;
 import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
 import com.sun.java.accessibility.util.AWTEventMonitor;
@@ -564,6 +565,11 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
         for(FormarPar pedidoPar : observableGame.getPares())
         {
+            if(pedidoPar.getAceite()!=Constantes.PEDIDO_FEITO)
+            {
+                observableGame.RemovePar(pedidoPar);
+                continue;
+            }
             novoPedidoPar = new PedidoPar(observableGame,pedidoPar.getNik1Util(),this,pedidoPar);
             mapaPedidos.put(idPar++, novoPedidoPar);
             jPedidosPar.add(novoPedidoPar);

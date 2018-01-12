@@ -181,8 +181,9 @@ public class ObservableGame extends Observable {
         return ret;
     }
 
-    public void setClientesLogados(ArrayClienteEnviar clientes) {
+    public synchronized void setClientesLogados(ArrayClienteEnviar clientes) {
         this.clientes = clientes;
+
         setChanged();
         notifyObservers();
     }
@@ -223,32 +224,32 @@ public class ObservableGame extends Observable {
         comunicacao.logOut();
     }
 
-    public void PedePar(String Nikname) {
+    public synchronized void PedePar(String Nikname) {
         comunicacao.PedePar(Nikname);
     }
 
-    public int getSizePares() {
+    public synchronized int getSizePares() {
         return threadRecebeAtualizacoes.getPares().size();
     }
 
-    public ArrayList<FormarPar> getPares() {
+    public synchronized ArrayList<FormarPar> getPares() {
         return (ArrayList<FormarPar>) threadRecebeAtualizacoes.getPares();
     }
 
-    public void SetPares(ArrayList<FormarPar> par) {
+    public synchronized void SetPares(ArrayList<FormarPar> par) {
         threadRecebeAtualizacoes.setPares(par);
     }
 
-    public void RemovePar(int i) {
+    public synchronized void RemovePar(int i) {
         threadRecebeAtualizacoes.RemovePar(i);
     }
 
-    public void EnviaConfirmacao(int i) {
+    public synchronized void EnviaConfirmacao(int i) {
 
         comunicacao.EnviaConfirmacaoPar(threadRecebeAtualizacoes.getPares().get(i));
     }
 
-    public void EnviaConfirmacao(FormarPar pedidoPar, int resposta)
+    public synchronized void EnviaConfirmacao(FormarPar pedidoPar, int resposta)
     {
         for(FormarPar p : threadRecebeAtualizacoes.getPares())
         {
@@ -260,7 +261,7 @@ public class ObservableGame extends Observable {
         }
     }
 
-   public void TemPar(FormarPar formarPar) {
+   public synchronized void TemPar(FormarPar formarPar) {
 
         ParAtual = formarPar;
         
@@ -268,24 +269,21 @@ public class ObservableGame extends Observable {
         notifyObservers();
     }
 
-    public void EnviaInicioJogo() {
+    public synchronized void EnviaInicioJogo() {
         comunicacao.EnviaIniciodoJogo(ParAtual);
     }
 
-    public void Desiste() {
+    public synchronized void Desiste() {
         ParAtual = null;
         comunicacao.Desiste(ParAtual);
     }
 
-    public void RemovePar(FormarPar pedidoPar)
+    public synchronized void RemovePar(FormarPar pedidoPar)
     {
         threadRecebeAtualizacoes.RemovePar(pedidoPar);
-        
-        setChanged();
-        notifyObservers();
     }
 
-    public void RemoveAllPar()
+    public synchronized void RemoveAllPar()
     {
         for(FormarPar formarPar : threadRecebeAtualizacoes.getPedidosPares()) 
         {
