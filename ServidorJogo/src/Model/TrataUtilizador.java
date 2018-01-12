@@ -40,22 +40,18 @@ public class TrataUtilizador extends Thread {
                 Object objectRecebidoUtilizador = in.readObject();
 
                 if (objectRecebidoUtilizador instanceof AcoesPartida) {
-                    ResultSet rs;
+                    //TODO: PROCURAR NA BD SE EXISTE PAR FORMADO 
                     AcoesPartida ap = (AcoesPartida) objectRecebidoUtilizador;
-                    
-                    rs = BD.Le("SELECT count(*) as 'temPar' from par where par.IDPAR = "+ ap.getIdPar());
-                    rs.next();
-                    if (rs.getInt("temPar") < 1)
-                        continue;
 
+                    ResultSet rs;
 
                     switch (ap.getAcao()) {
                         case 1:
                             rs = BD.Modifica("INSERT INTO jogo (IDJOGO, "
-                                    + "IDPAR, RESULTADO, VENCEDOR,"
+                                    + "IDUTILIZADOR, IDPAR, RESULTADO, VENCEDOR,"
                                     + " EMCURSO, TERMINOU, INTERROMPIDO) "
-                                    + "VALUES (NULL, '" + ap.getIdPar() + 
-                                    "', '-1', '-1', '1', '0', '0')");
+                                    + "VALUES (NULL, '" + ap.getIdUser() + "', '"
+                                    + ap.getIdPar() + "', '-1', '-1', '1', '0', '0')");
 
                             int idJogo = rs.getInt("IDJOGO");
                             if (idJogo > 0) {

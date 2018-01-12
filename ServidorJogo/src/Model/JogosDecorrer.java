@@ -16,7 +16,7 @@ public class JogosDecorrer{
     }
     
     public void addNovoJogo(int id, String nick1, String nick2){
-        jogos.add(new ThreadJogos(nick1, nick2, id));
+        jogos.add(new ThreadJogos(nick1, nick2, id, this));
     }
     
 }

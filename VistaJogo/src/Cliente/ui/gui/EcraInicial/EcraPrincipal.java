@@ -73,9 +73,6 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
 
         initComponents();
-        
-        
-        
 
         modeloTabela = new DefaultTableModel();
         botoesFormarPar = new ButtonColumn(jTableUtilizadores, 3);
@@ -596,8 +593,8 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         private JButton renderButton;
         private JButton editButton;
         private Object editorValue;
+        
         public ButtonColumn(JTable table, int column) {
-            flag = true;
             this.table = table;
             renderButton = new JButton();
             editButton = new JButton();
@@ -607,140 +604,6 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
             TableColumnModel columnModel = table.getColumnModel();
             columnModel.getColumn(column).setCellRenderer(this);
-            table.addMouseListener(this);
-        }
-
-        public void setEnable(boolean val) {
-            renderButton.setEnabled(val);
-        }
-
-        public Border getFocusBorder() {
-            return focusBorder;
-        }
-
-        public void setFocusBorder(Border focusBorder) {
-            this.focusBorder = focusBorder;
-            editButton.setBorder(focusBorder);
-        }
-
-        public int getMnemonic() {
-            return mnemonic;
-        }
-
-        public void setMnemonic(int mnemonic) {
-            this.mnemonic = mnemonic;
-            renderButton.setMnemonic(mnemonic);
-            editButton.setMnemonic(mnemonic);
-        }
-
-        
-        @Override
-        public Object getCellEditorValue() {
-            return editorValue;
-        }
-
-        public void setText(String text) {
-            renderButton.setText(text);
-        }
-
-        public Component getTableCellRendererComponent(
-                JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-            if (isSelected) {
-                renderButton.setForeground(table.getSelectionForeground());
-                renderButton.setBackground(table.getSelectionBackground());
-            } else {
-                renderButton.setForeground(table.getForeground());
-                renderButton.setBackground(UIManager.getColor("Button.background"));
-            }
-
-            if (hasFocus) {
-                renderButton.setBorder(focusBorder);
-            } else {
-                renderButton.setBorder(originalBorder);
-            }
-
-            return renderButton;
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (flag){
-                flag = false;
-            }
-            else{
-                flag = true;
-                return;
-            }
-            
-            System.out.println("Cliente.ui.gui.EcraInicial.EcraPrincipal.ButtonColumn.mouseClicked()");
-            if (table.getSelectedColumn() == 4) {
-                Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
-                for (int i = 0; i < jList1.getModel().getSize(); i++) {
-                    if (jList1.getModel().getElementAt(i).trim().equals(Nikname.toString().trim())) {
-                        return;
-                    }
-                }
-
-                DefaultListModel<String> dlm = new DefaultListModel<String>();
-                for (int i = 0; i < jList1.getModel().getSize(); i++) {
-                    dlm.addElement(jList1.getModel().getElementAt(i));
-                }
-                dlm.addElement(Nikname.toString());
-                jList1.setModel(dlm);
-
-                jList1.setSelectedIndex(jList1.getModel().getSize() - 1);
-            } else if (table.getSelectedColumn() == 3) {
-                Object Nikname = table.getModel().getValueAt(table.getSelectedRow(), 0);
-                observableGame.PedePar((String) Nikname);
-            }
-        }
-
-        @Override
-        public void mouseReleased(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-
-        }
-
-    }
-    
-    public class ButtonColumn1 extends AbstractCellEditor
-            implements TableCellEditor, MouseListener {
-
-        private JTable table;
-        private Action action;
-        private int mnemonic;
-        private Border originalBorder;
-        private Border focusBorder;
-
-        private JButton renderButton;
-        private JButton editButton;
-        private Object editorValue;
-        private boolean isButtonColumnEditor;
-        boolean flag;
-
-        public ButtonColumn1(JTable table, int column) {
-            flag = true;
-            this.table = table;
-            renderButton = new JButton();
-            editButton = new JButton();
-            editButton.setFocusPainted(false);
-            originalBorder = editButton.getBorder();
-            setFocusBorder(new LineBorder(Color.BLUE));
-
-            TableColumnModel columnModel = table.getColumnModel();
             columnModel.getColumn(column).setCellEditor(this);
             table.addMouseListener(new MouseListener()
             {
