@@ -1,6 +1,7 @@
 package Model;
 
 import classescomunicacao.AcoesPartida;
+import classescomunicacao.ConstantesIps;
 import classescomunicacao.Jogadas;
 import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.ObservableGame;
@@ -16,7 +17,6 @@ import java.sql.ResultSet;
  */
 public class TrataUtilizador extends Thread {
 
-    private int porto = 5000;
     private BaseDados BD;
     JogosDecorrer jogosDecorrer;
 
@@ -30,12 +30,13 @@ public class TrataUtilizador extends Thread {
         ServerSocket server;
         try {
 
-            server = new ServerSocket(porto);
+            server = new ServerSocket(ConstantesIps.PORTOSERVIDORJOGO);
             while (true) {
                 Socket nextCliente = server.accept();
 
-                ObjectInputStream in = new ObjectInputStream(nextCliente.getInputStream());
                 ObjectOutputStream out = new ObjectOutputStream(nextCliente.getOutputStream());
+                out.flush();
+                ObjectInputStream in = new ObjectInputStream(nextCliente.getInputStream());
 
                 Object objectRecebidoUtilizador = in.readObject();
 
@@ -56,6 +57,7 @@ public class TrataUtilizador extends Thread {
                             rs.next();
                             if (rs.getInt("jogoCriado") > 0){
                                 out.writeObject(jogosDecorrer.getGameModel(ap.getIdPar()));
+                                out.flush();
                                 break;
                             }
                             
@@ -90,6 +92,7 @@ public class TrataUtilizador extends Thread {
                                 jogosDecorrer.addNovoJogo(idJogo, nick1, nick2, ap.getIdPar());
                                 //TODO: Se existir ficheiro de modelo jogo usar esse e nao fazer novo gamemodel
                                 out.writeObject(new GameModel(nick1, nick2, idJogo));
+                                out.flush();
                             }
                             break;
                         case 2:

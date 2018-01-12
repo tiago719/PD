@@ -29,15 +29,15 @@ public class Comunicacao extends java.util.Observable {
     private ObjectOutputStream out;
 
     private Socket socketServidorJogo;
+    private ObjectOutputStream outc;
 
     private Socket socketModeloJogo;
     private ObjectOutputStream outSocketModeloJogo;
-    
+
     private ObjectInputStream inSocketModeloJogo;
 
     private ObjectInputStream inc;
-    private ObjectOutputStream outc;
-    
+
     FormarPar par;
     ObservableGame observableGame;
 
@@ -46,14 +46,14 @@ public class Comunicacao extends java.util.Observable {
         try {
             socket = new Socket(IP, PORTO2);
             out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
             in = new ObjectInputStream(socket.getInputStream());
-            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
-            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
+
         } catch (IOException ex) {
             System.out.println("Comunicacao: " + ex);
         }
     }
-    
+
     public ObjectOutputStream getOutc() {
         return outc;
     }
@@ -73,7 +73,6 @@ public class Comunicacao extends java.util.Observable {
     public Socket getSocket() {
         return socket;
     }
-
 
     public int registo(String nome, String username, String password) {
         try {
@@ -194,6 +193,11 @@ public class Comunicacao extends java.util.Observable {
             out.writeObject(par);
             out.flush();
 
+            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
+            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
+            outc.flush();
+            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
+
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -216,7 +220,7 @@ public class Comunicacao extends java.util.Observable {
                 outSocketModeloJogo = new ObjectOutputStream(socketModeloJogo.getOutputStream());
                 inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
             }
-            observableGame.setGameModel((GameModel)inc.readObject());
+            observableGame.setGameModel((GameModel) inc.readObject());
 
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
@@ -239,11 +243,11 @@ public class Comunicacao extends java.util.Observable {
         }
 
     }
-    
+
     public void novaJogada(int line, int column, int idJogo, String name) {
         try {
             outSocketModeloJogo.writeObject(new Jogadas(name, line, column, idJogo));
-            this.observableGame.setGameModel((GameModel)inSocketModeloJogo.readObject());
+            this.observableGame.setGameModel((GameModel) inSocketModeloJogo.readObject());
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
