@@ -304,12 +304,35 @@ public class PesquisasGestaoUtilizadores {
             id1 = GetidByUserName(nik1Util);
             id2 = GetidByUserName(nik2Util);
             
-            bd.Modifica("DELETE FROM par WHERE (IDU1=" + id1 + " AND IDU2=" + id2 + ") OR (IDU1=" + id2 + " AND IDU2=" + id1 +";");
+            bd.Modifica("DELETE FROM par WHERE (IDU1= " + id1 + " AND IDU2= " + id2 + " ) OR (IDU1= " + id2 + " AND IDU2= " + id1 +" ) ;");
 
         } catch (SQLException ex) {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
         
+    }
+
+    public boolean ExistePedido(String nik1Util, String nik2Util)
+    {
+        try
+        {
+            int id1=GetidByUserName(nik1Util);
+            int id2=GetidByUserName(nik2Util);
+            
+            ResultSet Rt;
+
+            Rt = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id1 + " AND IDU2 = " + id2 + " ) OR ( IDU1= "+ id2 + " AND IDU2= "+id1+" ) ;");
+            
+            if(Rt.next())
+                return true;
+            else
+                return false;
+        }
+        catch(SQLException e)
+        {
+            
+        }
+        return false;
     }
 }

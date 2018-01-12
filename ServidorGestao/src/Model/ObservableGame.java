@@ -65,7 +65,7 @@ public class ObservableGame extends java.util.Observable {
 
     //getters
     public ArrayClienteEnviar getClientesEnviar() {
-        return serverModel.getClientesEnviar();
+        return serverModel.getClientesEnviar(mapa);
     }
 
     //
@@ -93,6 +93,9 @@ public class ObservableGame extends java.util.Observable {
     public void FormaPar(FormarPar formarPar) 
     {
         serverModel.formarPar(formarPar,mapa.entrySet());
+        
+        setChanged();
+        notifyObservers();
     }
 
     public boolean temPar(FormarPar formarPar)

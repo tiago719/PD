@@ -269,10 +269,23 @@ public class ObservableGame extends Observable {
     }
 
     public void Desiste() {
+        ParAtual = null;
         comunicacao.Desiste(ParAtual);
     }
     
     public int getIdJogo() {
         return this.gameModel.getIdJogo();
+    }
+    public void RemovePar(FormarPar pedidoPar)
+    {
+        threadRecebeAtualizacoes.RemovePar(pedidoPar);
+        
+        setChanged();
+        notifyObservers();
+    }
+
+    public void RemoveAllPar()
+    {
+        threadRecebeAtualizacoes.RemoveAllPar();
     }
 }
