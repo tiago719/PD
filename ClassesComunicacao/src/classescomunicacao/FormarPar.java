@@ -16,6 +16,15 @@ public class FormarPar implements Serializable
     private String Nik1Util;
     private String Nik2Util;
     private int aceite = 0;
+    int IdPar;
+
+    public int getIdPar() {
+        return IdPar;
+    }
+
+    public void setIdPar(int IdPar) {
+        this.IdPar = IdPar;
+    }
     
     public String getNik1Util() {
         return Nik1Util;
