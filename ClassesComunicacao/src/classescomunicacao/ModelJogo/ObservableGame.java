@@ -136,7 +136,8 @@ public class ObservableGame extends Observable
 
     public void placeToken(int line, int column)
     {
-        gameModel.placeToken(line, column);
+//        gameModel.placeToken(line, column);
+        
         
         setChanged();
         notifyObservers();

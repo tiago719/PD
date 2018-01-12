@@ -12,10 +12,11 @@ public class GameModel implements Serializable {
 
     private GameData gameData;
     private IStates state;
-    int idJogo;
+    int idJogo;//, idPar;
 
-    public GameModel(String nickName1, String nickName2, int idJogo) {
+    public GameModel(String nickName1, String nickName2, int idJogo/*, int idPar*/) {
         this.idJogo = idJogo;
+//        this.idPar = idPar;
         gameData = new GameData(nickName1, nickName2);
         setState(new AwaitBeginning(gameData));
     }

@@ -1,8 +1,8 @@
 
 package Cliente.ui.gui;
 
+import Cliente.logic.ObservableGame;
 import classescomunicacao.ModelJogo.Constants;
-import classescomunicacao.ModelJogo.ObservableGame;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 

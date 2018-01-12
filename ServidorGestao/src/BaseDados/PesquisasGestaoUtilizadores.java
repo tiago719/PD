@@ -15,7 +15,10 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import Model.Cliente;
+import classescomunicacao.Constantes;
+import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
+import java.util.ArrayList;
 
 /**
  *
@@ -82,7 +85,7 @@ public class PesquisasGestaoUtilizadores {
             Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + Username + "'and PASSWORD='" + SHA1(Password) + "';");
             if (Rt.next()) {
                 int id = Rt.getInt("IDUTILIZADOR");
-                if (Rt.getBoolean("LOGADO")) {
+                if (Rt.getBoolean("LOGADO")==true) {
                     return -1;
                 }
 
@@ -147,6 +150,8 @@ public class PesquisasGestaoUtilizadores {
     }
 
     public void setLogados() {
+        bd.Modifica("delete from jogo");
+        
         bd.Modifica("UPDATE utilizador SET LOGADO=0;");
         bd.Modifica("DELETE FROM par;");
 
@@ -285,7 +290,12 @@ public class PesquisasGestaoUtilizadores {
         }
 
         try {
-           return bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           int idPar;
+           
+           ResultSet rs = bd.Le("select idPar from par where IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           rs.next();
+           return rs.getInt("idPar");
 
         } catch (Exception e) {
 
@@ -302,12 +312,102 @@ public class PesquisasGestaoUtilizadores {
             id1 = GetidByUserName(nik1Util);
             id2 = GetidByUserName(nik2Util);
             
-            bd.Modifica("DELETE FROM par WHERE (IDU1=" + id1 + " AND IDU2=" + id2 + ") OR (IDU1=" + id2 + " AND IDU2=" + id1 +";");
+            bd.Modifica("DELETE FROM par WHERE (IDU1= " + id1 + " AND IDU2= " + id2 + " ) OR (IDU1= " + id2 + " AND IDU2= " + id1 +" ) ;");
 
         } catch (SQLException ex) {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             return;
         }
         
+    }
+
+    public boolean ExistePedido(String nik1Util, String nik2Util)
+    {
+        try
+        {
+            int id1=GetidByUserName(nik1Util);
+            int id2=GetidByUserName(nik2Util);
+            
+            ResultSet Rt;
+
+            Rt = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id1 + " AND IDU2 = " + id2 + " ) OR ( IDU1= "+ id2 + " AND IDU2= "+id1+" ) ;");
+            
+            if(Rt.next())
+                return true;
+            else
+                return false;
+        }
+        catch(SQLException e)
+        {
+            
+        }
+        return false;
+    }
+
+    public void EliminaPedidos(String nik1Util, String nik2Util)
+    {
+        try
+        {
+            int id1=GetidByUserName(nik1Util);
+            int id2=GetidByUserName(nik2Util);
+            
+            bd.Modifica("DELETE FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;");
+
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public String getUsername(int id)
+    {
+        ResultSet Rt = null;
+
+        try {
+            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
+
+            if (Rt.next()) {
+                String nome = Rt.getString("USERNAME");
+                return nome;
+            } else {
+
+                return null;
+            }
+
+        } catch (SQLException e) {
+        }
+
+        return null;
+    }
+
+    public ArrayList<FormarPar> getPedidosUtilizadores(String nik1Util, String nik2Util)
+    {
+        int id1ret, id2ret;
+        ArrayList<FormarPar> temp=new ArrayList<>();
+
+        try
+        {
+            int id1=GetidByUserName(nik1Util);
+            int id2=GetidByUserName(nik2Util);
+            
+            ResultSet Rt;
+            
+            Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;");
+            
+            while(!Rt.isClosed() && Rt.next())
+            {
+                id1ret=Rt.getInt("IDU1");
+                id2ret=Rt.getInt("IDU2");
+                
+                FormarPar formarPar=new FormarPar(getUsername(id1ret), getUsername(id2ret));
+                formarPar.setAceite(Constantes.PEDIDO_RECUSADO);
+                temp.add(formarPar);
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return temp;
     }
 }

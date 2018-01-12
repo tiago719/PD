@@ -55,17 +55,18 @@ public class ObservableGame extends java.util.Observable {
     
     public synchronized void removeCliente(RecebePedidosClientes recebePedidosClientes)
     {
-        recebePedidosClientes.stop();
         serverModel.setLogOut(mapa.get(recebePedidosClientes));
         mapa.remove(recebePedidosClientes);
 
         setChanged();
         notifyObservers();
+        recebePedidosClientes.stop();
+        
     }
 
     //getters
     public ArrayClienteEnviar getClientesEnviar() {
-        return serverModel.getClientesEnviar();
+        return serverModel.getClientesEnviar(mapa);
     }
 
     //
@@ -75,7 +76,7 @@ public class ObservableGame extends java.util.Observable {
 
     public int login(Login login, Cliente cliente, RecebePedidosClientes recebePedidosClientes) {
         int ret = serverModel.login(login, cliente);
-        if (ret == 1) {
+        if (ret > 0) {
             novoCliente(recebePedidosClientes, cliente);
         }
         return ret;
@@ -93,6 +94,9 @@ public class ObservableGame extends java.util.Observable {
     public void FormaPar(FormarPar formarPar) 
     {
         serverModel.formarPar(formarPar,mapa.entrySet());
+        
+        setChanged();
+        notifyObservers();
     }
 
     public boolean temPar(FormarPar formarPar)

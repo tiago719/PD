@@ -5,7 +5,6 @@ import Model.JogosDecorrer;
 import Model.TrataServidorGestao;
 import Model.TrataUtilizador;
 
-///ARAY LIST COM MODELOS DE JOGO
 public class ServidorJogo {
 
     public static void main(String[] args) {

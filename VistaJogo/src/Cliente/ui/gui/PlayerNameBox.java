@@ -1,7 +1,7 @@
 
 package Cliente.ui.gui;
 
-import classescomunicacao.ModelJogo.ObservableGame;
+import Cliente.logic.ObservableGame;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

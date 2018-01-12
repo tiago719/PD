@@ -1,15 +1,18 @@
 package Cliente.logic;
 
+import Cliente.ui.gui.EcraInicial.PedidoPar;
 import ComunicacaoP.Comunicacao;
 import ComunicacaoP.RecebeAtualizacoes;
 import java.util.Observable;
 import classescomunicacao.*;
+import static classescomunicacao.Constantes.PEDIDO_RECUSADO;
 import classescomunicacao.ModelJogo.GameData;
 import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.Player;
 import classescomunicacao.ModelJogo.States.IStates;
 import classescomunicacao.ModelJogo.Token;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -55,7 +58,7 @@ public class ObservableGame extends Observable {
 
     public ObservableGame() {
         this.gameModel = null;
-        comunicacao = new Comunicacao();
+        comunicacao = new Comunicacao(this);
     }
 
     public GameModel getGameModel() {
@@ -153,7 +156,9 @@ public class ObservableGame extends Observable {
     }
 
     public void placeToken(int line, int column) {
-        gameModel.placeToken(line, column);
+        
+        comunicacao.novaJogada(line, column, this.gameModel.getIdJogo(), this.gameModel.getPlayer1().getName());
+//        gameModel.placeToken(line, column);
 
         setChanged();
         notifyObservers();
@@ -188,8 +193,9 @@ public class ObservableGame extends Observable {
         return ret;
     }
 
-    public void setClientesLogados(ArrayClienteEnviar clientes) {
+    public synchronized void setClientesLogados(ArrayClienteEnviar clientes) {
         this.clientes = clientes;
+
         setChanged();
         notifyObservers();
     }
@@ -230,32 +236,32 @@ public class ObservableGame extends Observable {
         comunicacao.logOut();
     }
 
-    public void PedePar(String Nikname) {
+    public synchronized void PedePar(String Nikname) {
         comunicacao.PedePar(Nikname);
     }
 
-    public int getSizePares() {
+    public synchronized int getSizePares() {
         return threadRecebeAtualizacoes.getPares().size();
     }
 
-    public ArrayList<FormarPar> getPares() {
+    public synchronized ArrayList<FormarPar> getPares() {
         return (ArrayList<FormarPar>) threadRecebeAtualizacoes.getPares();
     }
 
-    public void SetPares(ArrayList<FormarPar> par) {
+    public synchronized void SetPares(ArrayList<FormarPar> par) {
         threadRecebeAtualizacoes.setPares(par);
     }
 
-    public void RemovePar(int i) {
+    public synchronized void RemovePar(int i) {
         threadRecebeAtualizacoes.RemovePar(i);
     }
 
-    public void EnviaConfirmacao(int i) {
+    public synchronized void EnviaConfirmacao(int i) {
 
         comunicacao.EnviaConfirmacaoPar(threadRecebeAtualizacoes.getPares().get(i));
     }
 
-    public void EnviaConfirmacao(FormarPar pedidoPar, int resposta)
+    public synchronized void EnviaConfirmacao(FormarPar pedidoPar, int resposta)
     {
         for(FormarPar p : threadRecebeAtualizacoes.getPares())
         {
@@ -267,17 +273,45 @@ public class ObservableGame extends Observable {
         }
     }
 
-   public void TemPar(FormarPar formarPar) {
+   public synchronized void TemPar(FormarPar formarPar) {
 
         ParAtual = formarPar;
+        
+        setChanged();
+        notifyObservers();
     }
 
-    public void EnviaInicioJogo() {
+    public synchronized void EnviaInicioJogo() {
         comunicacao.EnviaIniciodoJogo(ParAtual);
     }
 
-    public void Desiste() {
+    public synchronized void Desiste() {
         comunicacao.Desiste(ParAtual);
         ParAtual = null;
+    }
+public int getIdJogo() {
+        return this.gameModel.getIdJogo();
+    }
+    public synchronized void RemovePar(FormarPar pedidoPar)
+    {
+        threadRecebeAtualizacoes.RemovePar(pedidoPar);
+    }
+
+    public synchronized void RemoveAllPar()
+    {
+        for(FormarPar formarPar : threadRecebeAtualizacoes.getPedidosPares()) 
+        {
+            formarPar.setAceite(PEDIDO_RECUSADO);
+            comunicacao.EnviaConfirmacaoPar(formarPar);
+        }
+        threadRecebeAtualizacoes.RemoveAllPar();
+        
+        setChanged();
+        notifyObservers();
+    }
+    
+    public String getUserName()
+    {
+        return comunicacao.getUserName();
     }
 }

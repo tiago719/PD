@@ -1,6 +1,9 @@
 package Model;
 
+import classescomunicacao.ModelJogo.GameModel;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -9,14 +12,18 @@ import java.util.ArrayList;
 public class JogosDecorrer{
 
     //key -> idJogo | value -> thread do Jogo
-    ArrayList<ThreadJogos> jogos;
+    Map<Integer, ThreadJogos> jogos;
 
     public JogosDecorrer() {
-        jogos = new ArrayList<>();
+        jogos = new HashMap<>();
     }
     
-    public void addNovoJogo(int id, String nick1, String nick2){
-        jogos.add(new ThreadJogos(nick1, nick2, id, this));
+    public void addNovoJogo(int id, String nick1, String nick2, int idPar){
+        jogos.put(idPar, new ThreadJogos(nick1, nick2, id, this, idPar));
+    }
+
+    GameModel getGameModel(int idPar) {
+        return jogos.get(idPar).getObservableGame().getGameModel();
     }
     
 }
