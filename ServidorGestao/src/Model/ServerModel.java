@@ -64,8 +64,9 @@ public class ServerModel
             cliente.setNome(pesquisasGestaoUtilizadores.getNome(ret));
             cliente.setLogado(true);
             cliente.setId(ret);
-
-          return ret;
+            
+            cliente.setPedidos(pesquisasGestaoUtilizadores.getPedidosUtilizador(cliente.getNomeUtilizador()));
+            cliente.setPar(pesquisasGestaoUtilizadores.getPar(cliente.getNomeUtilizador()));
         }        
         return ret;
     }
@@ -88,8 +89,8 @@ public class ServerModel
 
     public boolean temPar(FormarPar formarPar)
     {
-        int id1=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik1Util());
-        int id2=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik2Util());
+        int id1=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getUitlizadorQueFezPedido());
+        int id2=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getUtilizadorQueResponde());
         return pesquisasGestaoUtilizadores.temPar(id1, id2);
     }
     
@@ -97,70 +98,50 @@ public class ServerModel
     {
         if (formarPar.getAceite()==Constantes.PEDIDO_FEITO) 
         {
-            if(pesquisasGestaoUtilizadores.ExistePedido(formarPar.getNik1Util(), formarPar.getNik2Util()))
+            if(pesquisasGestaoUtilizadores.ExistePedido(formarPar.getUitlizadorQueFezPedido(), formarPar.getUtilizadorQueResponde()))
                 return;
+            
+            pesquisasGestaoUtilizadores.FormaPar(formarPar.getUitlizadorQueFezPedido(), formarPar.getUtilizadorQueResponde());
                 
             for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
                 RecebePedidosClientes key = entry.getKey();
                 Cliente value = entry.getValue();
 
-                if (formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
-
-                    try {
-                        key.getOut().writeObject(formarPar);
-                        key.getOut().flush();
-                        pesquisasGestaoUtilizadores.FormaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
-                        break;
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                if (formarPar.getUitlizadorQueFezPedido().equals(value.getNomeUtilizador())||formarPar.getUtilizadorQueResponde().equals(value.getNomeUtilizador())) 
+                {
+                    value.addPedido(formarPar);
                 }
             }
         } 
         else if(formarPar.getAceite()==Constantes.PEDIDO_RECUSADO)
         {
-             pesquisasGestaoUtilizadores.EliminaPar(formarPar.getNik1Util(), formarPar.getNik2Util());
+             pesquisasGestaoUtilizadores.EliminaPar(formarPar.getUitlizadorQueFezPedido(), formarPar.getUtilizadorQueResponde());
+             
+             for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
+                RecebePedidosClientes key = entry.getKey();
+                Cliente value = entry.getValue();
+
+                if (formarPar.getUitlizadorQueFezPedido().equals(value.getNomeUtilizador())||formarPar.getUtilizadorQueResponde().equals(value.getNomeUtilizador())) 
+                {
+                    value.removePedido(formarPar);
+                }
+            }
+             
         }
         else if(formarPar.getAceite()==Constantes.PEDIDO_ACEITE)
         {
-            ArrayList<FormarPar> pedidosEliminar=new ArrayList<>();
-            formarPar.setIdPar(pesquisasGestaoUtilizadores.ConfirmaPar(formarPar.getNik1Util(), formarPar.getNik2Util()));
+            formarPar.setIdPar(pesquisasGestaoUtilizadores.ConfirmaPar(formarPar.getUitlizadorQueFezPedido(), formarPar.getUtilizadorQueResponde()));
              
               for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
                 RecebePedidosClientes key = entry.getKey();
                 Cliente value = entry.getValue();
 
-                if (formarPar.getNik1Util().equals(value.getNomeUtilizador()) || formarPar.getNik2Util().equals(value.getNomeUtilizador())) {
-                    try {
-                        value.setParFormado(true);
-                        
-                        key.getOut().writeObject(formarPar);
-                        key.getOut().flush();
-                    } catch (IOException ex) {
-                        Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-            pedidosEliminar=pesquisasGestaoUtilizadores.getPedidosUtilizadores(formarPar.getNik1Util(),formarPar.getNik2Util());
-            
-            for (Map.Entry<RecebePedidosClientes, Cliente> entry : entrySet) {
-                RecebePedidosClientes key = entry.getKey();
-                Cliente value = entry.getValue();
-                
-                for(FormarPar pedido: pedidosEliminar)
+                if (formarPar.getUitlizadorQueFezPedido().equals(value.getNomeUtilizador()) || formarPar.getUtilizadorQueResponde().equals(value.getNomeUtilizador())) 
                 {
-                    if(pedido.getNik1Util().equals(value.getNomeUtilizador())||pedido.getNik2Util().equals(value.getNomeUtilizador()))
-                    {
-                        try {
-                            key.getOut().writeObject(pedido);
-                            key.getOut().flush();
-                        } catch (IOException ex) {
-                            Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
+                    value.setPar(formarPar);
                 }
             }
-            pesquisasGestaoUtilizadores.EliminaPedidos(formarPar.getNik1Util(), formarPar.getNik2Util());
+            pesquisasGestaoUtilizadores.EliminaPedidos(formarPar.getUitlizadorQueFezPedido(), formarPar.getUtilizadorQueResponde());
         }
     }
 

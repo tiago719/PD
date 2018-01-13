@@ -466,10 +466,10 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
         if(observableGame.getParAtual()!=null)
         {
-            if(jUsername.getText().equals(observableGame.getParAtual().getNik1Util()))
-                jPar.setText(observableGame.getParAtual().getNik2Util());
+            if(jUsername.getText().equals(observableGame.getParAtual().getUitlizadorQueFezPedido()))
+                jPar.setText(observableGame.getParAtual().getUtilizadorQueResponde());
             else
-                jPar.setText(observableGame.getParAtual().getNik1Util());
+                jPar.setText(observableGame.getParAtual().getUitlizadorQueFezPedido());
         }
         
         int guardasel = 0;
@@ -485,7 +485,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             return;
         }
 
-        for (ClienteEnviar cliente : observableGame.getClientes().getClientes()) {
+        for (ClienteEnviar cliente : observableGame.getClientes()) {
             if (cliente.isParFormado()) {
                 parFormado = "Tem par";
             } else {
@@ -573,7 +573,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 temporario.add(pedidoPar);
                 continue;
             }
-            novoPedidoPar = new PedidoPar(observableGame,pedidoPar.getNik1Util(),this,pedidoPar);
+            novoPedidoPar = new PedidoPar(observableGame,pedidoPar.getUitlizadorQueFezPedido(),this,pedidoPar);
             mapaPedidos.put(idPar++, novoPedidoPar);
             jPedidosPar.add(novoPedidoPar);
         }

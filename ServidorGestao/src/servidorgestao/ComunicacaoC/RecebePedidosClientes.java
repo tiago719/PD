@@ -53,7 +53,6 @@ public class RecebePedidosClientes extends Thread {
         int a = 0, ret;
         while (a == 0)//TODO: define condicao de paragem
         {
-
             try {
                 Object returnedObject = in.readObject();
                 if (returnedObject instanceof RegistoUtilizador) {
@@ -80,10 +79,7 @@ public class RecebePedidosClientes extends Thread {
                 }
                 else if(returnedObject instanceof FormarPar)
                 {
-                    if(!observableGame.temPar((FormarPar)returnedObject) || ((FormarPar) returnedObject).getAceite()==Constantes.PEDIDO_RECUSADO)
-                    {
-                        observableGame.FormaPar((FormarPar)returnedObject);
-                    }
+                    TrataPedidoPar((FormarPar)returnedObject);
                 }
                 else if(returnedObject instanceof Integer){//pedir SocketModeloServJogo
                     
@@ -118,7 +114,8 @@ public class RecebePedidosClientes extends Thread {
         this.in = in;
     }
 
-    public void TrataMensagens(Mensagem sms) {
+    public void TrataMensagens(Mensagem sms) 
+    {
         if (sms.getDistinatario() == null) {
             for (Map.Entry<RecebePedidosClientes, Cliente> en : observableGame.getTodosClientes().entrySet()) {
                 try {
@@ -152,6 +149,14 @@ public class RecebePedidosClientes extends Thread {
                 }
 
             }
+        }
+    }
+    
+    public void TrataPedidoPar(FormarPar formarPar)
+    {
+        if(!observableGame.temPar(formarPar) ||formarPar.getAceite()==Constantes.PEDIDO_RECUSADO)
+        {
+            observableGame.FormaPar(formarPar);
         }
     }
 }

@@ -13,9 +13,9 @@ import java.io.Serializable;
  */
 public class FormarPar implements Serializable
 {
-    private String Nik1Util;
-    private String Nik2Util;
-    private int aceite = 0;
+    private String utilizadorQueFezPedido;
+    private String utilizadorQueResponde;
+    private int aceite;
     int IdPar;
 
     public int getIdPar() {
@@ -26,8 +26,8 @@ public class FormarPar implements Serializable
         this.IdPar = IdPar;
     }
     
-    public String getNik1Util() {
-        return Nik1Util;
+    public String getUitlizadorQueFezPedido() {
+        return utilizadorQueFezPedido;
     }
 
     public int getAceite() {
@@ -37,22 +37,26 @@ public class FormarPar implements Serializable
     public void setAceite(int aceite) {
         this.aceite = aceite;
     }
+    
+    public FormarPar(String Nik1Util, String Nik2Util, int aceite) {
+        this.utilizadorQueFezPedido = Nik1Util;
+        this.utilizadorQueResponde = Nik2Util;
+        this.aceite = aceite;
+    }
 
     public FormarPar(String Nik1Util, String Nik2Util) {
-        this.Nik1Util = Nik1Util;
-        this.Nik2Util = Nik2Util;
-        aceite = 0;
+        this(Nik1Util,Nik2Util,0);
     }
 
-    public void setNik1Util(String Nik1Util) {
-        this.Nik1Util = Nik1Util;
+    public void setUitlizadorQueFezPedido(String Nik1Util) {
+        this.utilizadorQueFezPedido = Nik1Util;
     }
 
-    public String getNik2Util() {
-        return Nik2Util;
+    public String getUtilizadorQueResponde() {
+        return utilizadorQueResponde;
     }
 
-    public void setNik2Util(String Nik2Util) {
-        this.Nik2Util = Nik2Util;
+    public void setUtilizadorQueResponde(String Nik2Util) {
+        this.utilizadorQueResponde = Nik2Util;
     }
 }
