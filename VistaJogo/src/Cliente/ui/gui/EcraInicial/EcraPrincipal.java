@@ -218,7 +218,7 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jButton3.setText("Desistir");
+        jButton3.setText("Abandonar Par");
         jButton3.setEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener()
         {

@@ -143,8 +143,6 @@ public class RecebePedidosClientes extends Thread {
                         break;
                     } catch (IOException ex) {
                         Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(RecebePedidosClientes.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
 

@@ -286,7 +286,7 @@
     </Container>
     <Component class="javax.swing.JButton" name="jButton3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Desistir"/>
+        <Property name="text" type="java.lang.String" value="Abandonar Par"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>

@@ -44,17 +44,11 @@ public class ServerModel
     {
         int devolve = ModelGestaoUtilizadores.AdicionaUtil(registoUtilizador);
 
-        try
+        if (devolve == 1)
         {
-            if (devolve == 1)
-            {
-                pesquisasGestaoUtilizadores.AdicionaUtilizador(registoUtilizador.getNome(), registoUtilizador.getUsername(), registoUtilizador.getPassword());
-            }
-        } catch (NoSuchAlgorithmException ex)
-        {
-            Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
-            return -5;
+            pesquisasGestaoUtilizadores.AdicionaUtilizador(registoUtilizador.getNome(), registoUtilizador.getUsername(), registoUtilizador.getPassword());
         }
+
         return devolve;
     }
 
@@ -136,6 +130,7 @@ public class ServerModel
 
         } else if (formarPar.getAceite() == Constantes.PEDIDO_ACEITE)
         {
+            FormarPar temp;
             ArrayList<FormarPar> paraRemover = new ArrayList<>();
             formarPar.setIdPar(pesquisasGestaoUtilizadores.ConfirmaPar(formarPar.getUitlizadorQueFezPedido(), formarPar.getUtilizadorQueResponde()));
 
@@ -157,12 +152,12 @@ public class ServerModel
                         paraRemover.add(f);
                     }
                 }
-                for (Iterator<FormarPar> iterator = paraRemover.iterator(); iterator.hasNext();)
+                for (Iterator<FormarPar> iterator = value.getPedidos().iterator(); iterator.hasNext();)
                 {
-                    formarPar = iterator.next();
-                    for (FormarPar f : value.getPedidos())
+                    temp = iterator.next();
+                    for (FormarPar f : paraRemover)
                     {
-                        if (formarPar == f)
+                        if (temp.equals(f))
                         {
                             iterator.remove();
                         }
