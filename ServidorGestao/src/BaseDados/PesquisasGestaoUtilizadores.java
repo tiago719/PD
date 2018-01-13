@@ -613,8 +613,12 @@ public class PesquisasGestaoUtilizadores {
         ArrayList<Partida> temp = new ArrayList<>();
         ResultSet Rt = null, Rt1 = null;
         Statement s = bd.getStatement();
+        Statement s1 = bd.getStatement();
         int id1ret, id2ret, terminado = -1, interrompido = -1;
         boolean formado;
+
+        String NomeUtil1 = "none";
+        String NomeUtil2 = "none";
         try {
             Rt = bd.Le("SELECT * FROM jogo;", s);
 
@@ -624,11 +628,15 @@ public class PesquisasGestaoUtilizadores {
                 boolean Terminou = Rt.getBoolean("TERMINOU");
                 boolean Interrompido = Rt.getBoolean("INTERROMPIDO");
 
-                Rt1 = bd.Le("SELECT * FROM par WHILE IDPAR = " + Rt.getInt("IDPAR") + ";", s);
+                Rt1 = bd.Le("SELECT * FROM par WHERE IDPAR = " + Rt.getInt("IDPAR") + ";", s1);
 
-                String NomeUtil1 = GetNomeById(Rt1.getInt("IDU1"));
-                String NomeUtil2 = GetNomeById(Rt1.getInt("IDU2"));
-
+                if (Rt1.next()) {
+                    NomeUtil1 = GetNomeById(Rt1.getInt("IDU1"));
+                    NomeUtil2 = GetNomeById(Rt1.getInt("IDU2"));
+                } else {
+                    NomeUtil1 = "none";
+                    NomeUtil2 = "none";
+                }
                 if (Terminou) {
                     terminado = 1;
                 } else {
@@ -645,11 +653,15 @@ public class PesquisasGestaoUtilizadores {
 
             }
         } catch (Exception e) {
-
+            System.out.println("Erro: " + e.getMessage());
         } finally {
             try {
-                s.close();
                 Rt.close();
+                if(Rt1 != null)
+                    Rt1.close();
+                s.close();
+                s1.close();
+
             } catch (SQLException ex) {
                 Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -662,28 +674,34 @@ public class PesquisasGestaoUtilizadores {
         ArrayList<ClienteEnviar> temp = new ArrayList<>();
         ResultSet Rt = null, Rt1 = null;
         Statement s = bd.getStatement();
+        Statement s1 = bd.getStatement();
         int id1ret, id2ret, terminado = -1, interrompido = -1;
         boolean formado;
 
         try {
-            Rt = bd.Le("SELECT * FROM utilizador;", s);
+            Rt = bd.Le("SELECT * FROM utilizador WHERE LOGADO = 1;", s);
 
             while (Rt.next()) {
                 int id = Rt.getInt("IDUTILIZADOR");
+                String Nome = Rt.getString("NOME");
+                String Username = Rt.getString("USERNAME");
 
-                Rt1 = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id + " OR IDU2 = " + id + ") AND FORMADO = 1  ;", s);
+                Rt1 = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id + " OR IDU2 = " + id + ") AND FORMADO = 1  ;", s1);
                 if (Rt1.next()) {
-                    temp.add(new ClienteEnviar(Rt.getString("USERNAME"), Rt.getString("NOME"), true));
+                    temp.add(new ClienteEnviar(Username, Nome, true));
                 } else {
-                    temp.add(new ClienteEnviar(Rt.getString("USERNAME"), Rt.getString("NOME"), false));
+                    temp.add(new ClienteEnviar(Username, Nome, false));
                 }
             }
-        } catch (Exception e) {
 
+        } catch (Exception e) {
+            System.out.println("Erro: " + e.getMessage());
         } finally {
             try {
                 s.close();
+                s1.close();
                 Rt.close();
+                return temp;
             } catch (SQLException ex) {
                 Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             }

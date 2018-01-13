@@ -4,7 +4,6 @@ package servidorgestao.ComunicacaoC;
  *
  * @author Jose'
  */
-
 import BaseDados.PesquisasGestaoUtilizadores;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.FormarPar;
@@ -31,6 +30,7 @@ public class RemoteService extends UnicastRemoteObject implements RemoteInfoInte
         clients = new ArrayList<>();
         Jogadores = new ArrayList<ClienteEnviar>();
         Pares = new ArrayList<>();
+        Partidas = new ArrayList<>();
     }
 
     @Override
@@ -64,9 +64,10 @@ public class RemoteService extends UnicastRemoteObject implements RemoteInfoInte
         return constructDadosJogo();
     }
 
-    synchronized protected void updateData(ArrayList<FormarPar> par, ArrayList<ClienteEnviar> jogares) {
+    synchronized protected void updateData(ArrayList<FormarPar> par, ArrayList<ClienteEnviar> jogares, ArrayList<Partida> Partidas) {
         this.Jogadores = jogares;
         this.Pares = par;
+        this.Partidas = Partidas;
     }
 
     synchronized protected InfoJogo constructDadosJogo() {
@@ -75,12 +76,13 @@ public class RemoteService extends UnicastRemoteObject implements RemoteInfoInte
         InfoJogo t = new InfoJogo();
         t.setClientes(Jogadores);
         t.setPares(Pares);
+        t.setPartidas(Partidas);
         return t;
     }
 
     private void Atualizadados() {
         PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
-        Pares =  p.getPares();
+        Pares = p.getPares();
         Jogadores = p.getJogadoresLogados();
         Partidas = p.getPartidas();
     }
