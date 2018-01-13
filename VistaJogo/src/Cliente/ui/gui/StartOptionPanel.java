@@ -37,8 +37,6 @@ class StartOptionPanel extends JPanel implements Observer
         setBackground(Color.GREEN);
         setupComponents();
         setupLayout();
-        
-        setVisible(game.getState() instanceof AwaitBeginning);
     }
 
 
@@ -73,22 +71,11 @@ class StartOptionPanel extends JPanel implements Observer
     {
         player1Name = new PlayerNameBox(game,1);	
         player2Name = new PlayerNameBox(game,2);
-
-        start.addActionListener(new ActionListener(){        
-            @Override
-            public void actionPerformed(ActionEvent ev){
-                game.setPlayerName(1, player1Name.getText());
-                game.setPlayerName(2, player2Name.getText());
-                game.startGame();
-            }
-        });
-        
     }
 
     @Override
     public void update(Observable o, Object arg)
     {
-        setVisible(game.getState() instanceof AwaitBeginning);
     }
 	
 }
