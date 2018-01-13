@@ -31,10 +31,6 @@ public class RemoteService extends UnicastRemoteObject implements RemoteInfoInte
         clients = new ArrayList<>();
         Jogadores = new ArrayList<ClienteEnviar>();
         Pares = new ArrayList<>();
-
-        Jogadores.add(new ClienteEnviar("Andre", "Andre Trindade", true));
-        Jogadores.add(new ClienteEnviar("Eduardo", "Eduardo Fernandes", true));
-        Pares.add(new FormarPar("Andre", "Eduardo"));
     }
 
     @Override
@@ -85,6 +81,8 @@ public class RemoteService extends UnicastRemoteObject implements RemoteInfoInte
     private void Atualizadados() {
         PesquisasGestaoUtilizadores p = new PesquisasGestaoUtilizadores();
         Pares =  p.getPares();
+        Jogadores = p.getJogadoresLogados();
+        Partidas = p.getPartidas();
     }
 
 }
