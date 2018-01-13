@@ -39,7 +39,7 @@ public class RegistoLoginView extends JFrame implements Observer
     
     public RegistoLoginView(ObservableGame o)
     {
-        super("KSmasher");
+        super("Monitor");
         
         
         ObservableGame=o;
@@ -53,6 +53,7 @@ public class RegistoLoginView extends JFrame implements Observer
         PainelPrincipal.add(RegistoLoginPanel, "RegistoLogin");
         PainelPrincipal.add(EcraPrincipalPanel, "EcraPrincipal");
         cl.first(PainelPrincipal);
+        
         RegistoLoginPanel.setRegistoLoginView(this);
         
         RegistoLoginPanel.setCardPanel(PainelPrincipal);

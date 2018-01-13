@@ -30,6 +30,7 @@ public class ObservableGame extends Observable {
     private RecebeAtualizacoes threadRecebeAtualizacoes;
     private ArrayList<Mensagem> MensagensPrivadas;
     private FormarPar ParAtual = null;
+    
     private int IdUtilizador = -1;
 
     public int getIdUtilizador() {

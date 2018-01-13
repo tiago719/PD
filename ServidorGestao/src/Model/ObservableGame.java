@@ -35,9 +35,10 @@ public class ObservableGame extends java.util.Observable {
     }
 
     public ObservableGame() {
-        serverModel = new ServerModel();
+        serverModel = new ServerModel("localhost");
         mapa = new HashMap<>();
         serverModel.setLogados(false);
+        
     }
     
     public synchronized void novoCliente(RecebePedidosClientes recebePedidosClientes, Cliente cliente)
