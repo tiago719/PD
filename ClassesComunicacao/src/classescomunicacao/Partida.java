@@ -5,11 +5,13 @@
  */
 package classescomunicacao;
 
+import java.io.Serializable;
+
 /**
  *
  * @author andre
  */
-public class Partida {
+public class Partida implements Serializable{
     String Vencedor;
     String NikU1,NikU2;
     int Terminou;

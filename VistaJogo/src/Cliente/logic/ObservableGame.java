@@ -268,6 +268,18 @@ public class ObservableGame extends Observable {
     }
 
     public synchronized void EnviaInicioJogo() {
+                
+        if(ParAtual!=null)
+            comunicacao.comunicaServidorJogo();
+        
+        try
+        {
+            sleep(1000);
+        } catch (InterruptedException ex)
+        {
+            Logger.getLogger(ObservableGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         comunicacao.EnviaIniciodoJogo(ParAtual);
     }
 
