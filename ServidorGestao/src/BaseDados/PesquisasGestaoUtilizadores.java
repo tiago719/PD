@@ -385,4 +385,74 @@ public class PesquisasGestaoUtilizadores {
         
         return temp;
     }
+
+    public boolean temPar(int id)
+    {
+        try
+        {
+            ResultSet Rt;
+
+            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id + " OR IDU2 = " + id + " ;");
+            
+            while(Rt.next()) 
+            {
+                if (Rt.getBoolean("FORMADO") != false) 
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(SQLException e)
+        {
+            
+        }
+        return false;
+    }
+
+    public ArrayList<FormarPar> getPedidosUtilizador(String username)
+    {
+        int id1,id2;
+        
+        ArrayList<FormarPar> pares=new ArrayList<>();
+        try
+        {
+            int id=GetidByUserName(username);
+            ResultSet Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id + " OR IDU2 = " + id + " ) AND FORMADO=0;");
+            while(!Rt.isClosed() && Rt.next())
+            {
+                id1=Rt.getInt("IDU1");
+                id2=Rt.getInt("IDU2");
+
+                pares.add(new FormarPar(getUsername(id1),getUsername(id2),Constantes.PEDIDO_FEITO));
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return pares;
+    }
+    
+    public FormarPar getPar(String username)
+    {
+        int id1,id2;
+        
+        ArrayList<FormarPar> pares=new ArrayList<>();
+        try
+        {
+            int id=GetidByUserName(username);
+            ResultSet Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id + " OR IDU2 = " + id + " ) AND FORMADO=1;");
+            if(Rt.next())
+            {
+                id1=Rt.getInt("IDU1");
+                id2=Rt.getInt("IDU2");
+
+                return new FormarPar(getUsername(id1),getUsername(id2),Constantes.PEDIDO_ACEITE);
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }

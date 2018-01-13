@@ -18,6 +18,7 @@ public class Cliente
     private boolean parFormado, logado;
     private int id;
     private ArrayList<FormarPar> pedidos;
+    private FormarPar par;
 
     public Cliente(String nomeUtilizador, String nome,boolean parFormado, int id)
     {
@@ -26,9 +27,19 @@ public class Cliente
         this.nome = nome;
         this.parFormado = parFormado;
         pedidos=new ArrayList<>();
+        par=null;
+    }
+
+    public void setPedidos(ArrayList<FormarPar> pedidos)
+    {
+        this.pedidos = pedidos;
     }
     
-    public Cliente(){}
+    public Cliente()
+    {
+        pedidos=new ArrayList<>();
+        par=null;
+    }
 
     public String getNomeUtilizador()
     {
@@ -89,16 +100,35 @@ public class Cliente
     {
         pedidos.add(formarPar);
     }
+
+    public ArrayList<FormarPar> getPedidos()
+    {
+        return pedidos;
+    }
     
     public void removePedido(FormarPar formarPar)
     {
         for(FormarPar f : pedidos)
         {
-            if(f==formarPar)
+            if((f.getUitlizadorQueFezPedido().equals(formarPar.getUitlizadorQueFezPedido()) || f.getUitlizadorQueFezPedido().equals(formarPar.getUtilizadorQueResponde()))
+                    && (f.getUtilizadorQueResponde().equals(formarPar.getUitlizadorQueFezPedido()) || f.getUtilizadorQueResponde().equals(formarPar.getUtilizadorQueResponde())))
             {
                 pedidos.remove(f);
                 return;
             }
         }
+    }
+    
+    public void setPar(FormarPar formarPar)
+    {
+        parFormado=true;
+        par=formarPar;
+        if(par!=null)
+            pedidos.clear();
+    }
+    
+    public FormarPar getPar()
+    {
+        return par;
     }
 }
