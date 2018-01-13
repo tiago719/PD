@@ -223,7 +223,6 @@ public class Comunicacao extends java.util.Observable {
             outSocketModeloJogo.flush();
 //            inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
             threadLeJogadas = new threadLeJogadas(observableGame, socketModeloJogo, outSocketModeloJogo);
-            threadLeJogadas.start();
 //            GameModel gameModel = (GameModel) inc.readObject();
 //            observableGame.setGameModel(gameModel);
 //            observableGame.Update();
@@ -271,6 +270,21 @@ public class Comunicacao extends java.util.Observable {
             outSocketModeloJogo.writeObject(new Jogadas(nickName, line, column, idJogo));
             outSocketModeloJogo.flush();
         } catch (IOException ex) {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
+    
+    public void comunicaServidorJogo()
+    {         
+        try
+        {
+            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
+            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
+            outc.flush();
+            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
+        } catch (IOException ex)
+        {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
