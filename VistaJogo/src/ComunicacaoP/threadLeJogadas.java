@@ -25,9 +25,14 @@ class threadLeJogadas extends Thread {
     ObjectInputStream in;
 
 
-    threadLeJogadas(ObservableGame observableGame, ObjectInputStream in) {
+    threadLeJogadas(ObservableGame observableGame, Socket socketModeloJogo ) {
         this.observableGame = observableGame;
-        this.in = in;
+        try {
+            this.in = new ObjectInputStream(socketModeloJogo.getInputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(threadLeJogadas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.socketModeloJogo = socketModeloJogo;
     }
 
     @Override
@@ -35,17 +40,16 @@ class threadLeJogadas extends Thread {
         while (true) {
 
             try {
+                in = new ObjectInputStream(socketModeloJogo.getInputStream());
                
                 Object o = in.readObject();
 
-                if (o instanceof GameModel) 
+                if (o instanceof GameModel)
                 {
                     observableGame.setGameModel((GameModel) o);
                     observableGame.Update();
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(threadLeJogadas.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(threadLeJogadas.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

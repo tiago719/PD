@@ -8,9 +8,9 @@ import java.io.Serializable;
  */
 public class Jogadas implements Serializable {
 
+    static final long serialVersionUID = 1L;
     String nickname;
     int linha, coluna, idJogo;
-    static final long serialVersionUID = 1L;
 
     public Jogadas(String nickname, int linha, int coluna, int idJogo) {
         this.nickname = nickname;

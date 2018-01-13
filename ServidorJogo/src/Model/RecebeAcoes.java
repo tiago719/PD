@@ -38,12 +38,6 @@ class RecebeAcoes extends Thread {
             in = new ObjectInputStream(nextCliente.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(RecebeAcoes.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                out.close();
-            } catch (IOException ex) {
-                Logger.getLogger(RecebeAcoes.class.getName()).log(Level.SEVERE, null, ex);
-            }
         }
     }
 
@@ -69,8 +63,8 @@ class RecebeAcoes extends Thread {
                             rs = BD.Le("select count(*) as 'jogoCriado' from jogo where emcurso = 1 and idpar = " + ap.getIdPar());
                             rs.next();
                             if (rs.getInt("jogoCriado") != 0) {
-                                out.writeObject(jogosDecorrer.getGameModel(ap.getIdPar()));
-                                out.flush();
+//                                out.writeObject(jogosDecorrer.getGameModel(ap.getIdPar()));
+//                                out.flush();
                                 break;
                             }
 
@@ -105,8 +99,8 @@ class RecebeAcoes extends Thread {
                                 rs.next();
                                 jogosDecorrer.addNovoJogo(idJogo, nick1, nick2, ap.getIdPar());
                                 //TODO: Se existir ficheiro de modelo jogo usar esse e nao fazer novo gamemodel
-                                out.writeObject(jogosDecorrer.getGameModel(idPar));
-                                out.flush();
+//                                out.writeObject(jogosDecorrer.getGameModel(idPar));
+//                                out.flush();
                             }
                             break;
                         case 2:
