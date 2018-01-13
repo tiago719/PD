@@ -40,12 +40,20 @@ public class EnviaAtualizacoesJogadores implements Observer {
 
         for (Map.Entry<RecebePedidosClientes, Cliente> en : temp2.entrySet()) {
             RecebePedidosClientes key = en.getKey();
-         
+            Cliente value=en.getValue();
+            
             temp.getClientes().clear();
             String nomeClienteAtual = observableGame.getCliente(key).getNomeUtilizador();
-            for (ClienteEnviar clienteEnviar : observableGame.getClientesEnviar().getClientes()) {
-                if (!nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador())) {
+            for (ClienteEnviar clienteEnviar : observableGame.getClientesEnviar().getClientes()) 
+            {
+                if (!nomeClienteAtual.equals(clienteEnviar.getNomeUtilizador())) 
+                {
                     temp.addCliente(clienteEnviar);
+                }
+                else
+                {
+                    temp.setArrayPedidos(value.getPedidos());
+                    temp.setPar(value.getPar());
                 }
             }
             try {

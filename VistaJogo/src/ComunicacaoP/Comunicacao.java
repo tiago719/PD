@@ -205,8 +205,6 @@ public class Comunicacao extends java.util.Observable {
             out.writeObject(par);
             out.flush();
 
-            
-
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -238,6 +236,19 @@ public class Comunicacao extends java.util.Observable {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public void abandonaPar(FormarPar formarPar)
+    {
+        try
+        {
+            formarPar.setAceite(Constantes.PEDIDO_RECUSADO);
+            out.writeObject(formarPar);
+            out.flush();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void Desiste(FormarPar ParAtual) {

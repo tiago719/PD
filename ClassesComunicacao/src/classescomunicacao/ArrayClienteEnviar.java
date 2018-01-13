@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class ArrayClienteEnviar implements Serializable
 {
     private ArrayList<ClienteEnviar> clientes;
+    private FormarPar parFormado;
+    private ArrayList<FormarPar> listaPedidos;
 
     public ArrayClienteEnviar()
     {
@@ -44,5 +46,43 @@ public class ArrayClienteEnviar implements Serializable
     public void clear()
     {
         clientes.clear();
+    }
+    
+    public void addPedido(FormarPar formarPar)
+    {
+        listaPedidos.add(formarPar);
+    }
+    
+    public void removePedido(FormarPar formarPar)
+    {
+        for(FormarPar f:listaPedidos)
+        {
+            if((f.getUitlizadorQueFezPedido().equals(formarPar.getUitlizadorQueFezPedido()) || f.getUitlizadorQueFezPedido().equals(formarPar.getUtilizadorQueResponde()))
+                    && (f.getUtilizadorQueResponde().equals(formarPar.getUitlizadorQueFezPedido()) || f.getUtilizadorQueResponde().equals(formarPar.getUtilizadorQueResponde())))
+            {
+                listaPedidos.remove(f);
+                return;
+            }
+        }
+    }
+    
+    public void setPar(FormarPar formarPar)
+    {
+        parFormado=formarPar;
+    }
+    
+    public FormarPar getPar()
+    {
+        return parFormado;
+    }
+    
+    public void setArrayPedidos(ArrayList<FormarPar> lista)
+    {
+        listaPedidos=lista;
+    }
+
+    public ArrayList<FormarPar> getListaPedidos()
+    {
+        return listaPedidos;
     }
 }

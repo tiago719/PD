@@ -45,11 +45,9 @@ public class ThreeInRowGamePanel extends JPanel
         pSouth.add(pd1);
         pSouth.add(pd2);
         pCenter.add(pSouth,BorderLayout.SOUTH);
- 
                        
         add(pCenter,BorderLayout.CENTER);
-        
-        
+
         validate();
     }
     

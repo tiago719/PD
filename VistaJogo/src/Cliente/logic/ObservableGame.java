@@ -14,6 +14,7 @@ import classescomunicacao.ModelJogo.Token;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,7 +26,7 @@ public class ObservableGame extends Observable {
 
     private GameModel gameModel;
     private Comunicacao comunicacao;
-    private ArrayClienteEnviar clientes;
+    private ArrayList<ClienteEnviar> clientes;
     private RecebeAtualizacoes threadRecebeAtualizacoes;
     private ArrayList<Mensagem> MensagensPrivadas;
     private FormarPar ParAtual = null;
@@ -129,7 +130,7 @@ public class ObservableGame extends Observable {
         return gameModel.hasWon(player);
     }
 
-    public ArrayClienteEnviar getClientes() {
+    public ArrayList<ClienteEnviar> getClientes() {
         return clientes;
     }
 
@@ -173,7 +174,7 @@ public class ObservableGame extends Observable {
         return ret;
     }
 
-    public synchronized void setClientesLogados(ArrayClienteEnviar clientes) {
+    public synchronized void setClientesLogados(ArrayList clientes) {
         this.clientes = clientes;
 
         setChanged();
@@ -230,6 +231,9 @@ public class ObservableGame extends Observable {
 
     public synchronized void SetPares(ArrayList<FormarPar> par) {
         threadRecebeAtualizacoes.setPares(par);
+        
+        setChanged();
+        notifyObservers();
     }
 
     public synchronized void RemovePar(int i) {
@@ -253,7 +257,7 @@ public class ObservableGame extends Observable {
         }
     }
 
-   public synchronized void TemPar(FormarPar formarPar) {
+   public synchronized void setPar(FormarPar formarPar) {
 
         ParAtual = formarPar;
         
@@ -267,9 +271,9 @@ public class ObservableGame extends Observable {
 
     public synchronized void Desiste() {
         comunicacao.Desiste(ParAtual);
-        ParAtual = null;
     }
-public int getIdJogo() {
+    
+    public int getIdJogo() {
         return this.gameModel.getIdJogo();
     }
     public synchronized void RemovePar(FormarPar pedidoPar)
@@ -293,5 +297,26 @@ public int getIdJogo() {
     public String getUserName()
     {
         return comunicacao.getUserName();
+    }
+
+    public void removePares(ArrayList<FormarPar> temporario)
+    {
+        FormarPar formarPar;
+        for(Iterator<FormarPar> iterator= threadRecebeAtualizacoes.getPares().iterator();iterator.hasNext();)
+        {
+            formarPar=iterator.next();
+            for(FormarPar f:temporario)
+            {
+                if(formarPar==f)
+                {
+                    iterator.remove();
+                }
+            }
+        }
+    }
+
+    public void abandonaPar()
+    {
+        comunicacao.abandonaPar(ParAtual);
     }
 }
