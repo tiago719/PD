@@ -640,10 +640,10 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
         jHistorico.removeAll();
         
-        for(Jogo jogo : observableGame.getHistorico())
-        {   
-            jHistorico.add(new Historico(observableGame,jogo.getJogador1(),jogo.getJogador2(),jogo.getVencedor(),jogo.getEstadoJogo()));
-        }
+//        for(Jogo jogo : observableGame.getHistorico())
+//        {   
+//            jHistorico.add(new Historico(observableGame,jogo.getJogador1(),jogo.getJogador2(),jogo.getVencedor(),jogo.getEstadoJogo()));
+//        }
     }
 
     public void setParNome(String nome)

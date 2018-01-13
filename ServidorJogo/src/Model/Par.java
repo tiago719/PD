@@ -37,6 +37,7 @@ public class Par {
         this.user1 = user1;
         try {
             out1 = new ObjectOutputStream(user1.getOutputStream());
+            out1.flush();
             in1 = new ObjectInputStream(user1.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(Par.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,25 +52,26 @@ public class Par {
         this.user2 = user2;
         try {
             out2 = new ObjectOutputStream(user2.getOutputStream());
+            out2.flush();
             in2 = new ObjectInputStream(user2.getInputStream());
         } catch (IOException ex) {
             Logger.getLogger(Par.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public ObjectOutputStream getOut1() {
+    public synchronized ObjectOutputStream getOut1() {
         return out1;
     }
 
-    public ObjectOutputStream getOut2() {
+    public synchronized ObjectOutputStream getOut2() {
         return out2;
     }
 
-    public ObjectInputStream getIn1() {
+    public synchronized ObjectInputStream getIn1() {
         return in1;
     }
 
-    public ObjectInputStream getIn2() {
+    public synchronized ObjectInputStream getIn2() {
         return in2;
     }
     

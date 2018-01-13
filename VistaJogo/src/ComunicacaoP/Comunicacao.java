@@ -31,6 +31,7 @@ public class Comunicacao extends java.util.Observable {
 
     private Socket socketServidorJogo;
     private ObjectOutputStream outc;
+//    private ObjectInputStream inc;
 
     private Socket socketModeloJogo;
     private ObjectOutputStream outSocketModeloJogo;
@@ -221,8 +222,8 @@ public class Comunicacao extends java.util.Observable {
             socketModeloJogo = new Socket(IP, 5000 + par.getIdPar());
             outSocketModeloJogo = new ObjectOutputStream(socketModeloJogo.getOutputStream());
             outSocketModeloJogo.flush();
-            inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
-            threadLeJogadas = new threadLeJogadas(observableGame, inSocketModeloJogo);
+//            inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
+            threadLeJogadas = new threadLeJogadas(observableGame, socketModeloJogo);
             threadLeJogadas.start();
 //            GameModel gameModel = (GameModel) inc.readObject();
 //            observableGame.setGameModel(gameModel);
