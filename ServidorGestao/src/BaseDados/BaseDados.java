@@ -16,7 +16,7 @@ public class BaseDados {
     private String User = "root";
     private String Pass = "";
     
-    public BaseDados()
+    public BaseDados(String IP)
     {
         try{
             Class.forName("com.mysql.jdbc.Driver");

@@ -34,7 +34,7 @@ public class ObservableGame extends java.util.Observable {
         return serverModel;
     }
 
-    public ObservableGame() {
+    public ObservableGame(String IpDB) {
         serverModel = new ServerModel("localhost");
         mapa = new HashMap<>();
         serverModel.setLogados(false);

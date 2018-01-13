@@ -59,9 +59,9 @@ public class ObservableGame extends Observable {
         this.MensagensPrivadas = MensagensPrivadas;
     }
 
-    public ObservableGame() {
+    public ObservableGame(String ip, int Porto) {
         this.gameModel = null;
-        comunicacao = new Comunicacao(this);
+        comunicacao = new Comunicacao(this, ip, Porto);
     }
 
     public GameModel getGameModel() {
