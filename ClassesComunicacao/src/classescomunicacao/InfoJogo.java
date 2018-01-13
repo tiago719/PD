@@ -16,12 +16,23 @@ public class InfoJogo implements Serializable {
 
     ArrayList<ClienteEnviar> Clientes;
     ArrayList<FormarPar> Pares;
+    ArrayList<Partida> Partidas;
 
     public InfoJogo() {
         this.Clientes = new ArrayList<ClienteEnviar>();
         this.Pares = new ArrayList<FormarPar>();
+        this.Partidas = new ArrayList<Partida>();
     }
 
+    public ArrayList<Partida> getPartidas() {
+        return Partidas;
+    }
+
+    public void setPartidas(ArrayList<Partida> Partidas) {
+        this.Partidas = Partidas;
+    }
+
+    
     public ArrayList<ClienteEnviar> getClientes() {
         return Clientes;
     }
