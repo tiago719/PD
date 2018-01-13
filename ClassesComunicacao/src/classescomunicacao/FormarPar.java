@@ -59,4 +59,26 @@ public class FormarPar implements Serializable
     public void setUtilizadorQueResponde(String Nik2Util) {
         this.utilizadorQueResponde = Nik2Util;
     }
+    
+    @Override
+    public boolean equals(Object outro)
+    {
+        if(outro==null)
+            return false;
+        if(outro==this)
+            return true;
+
+        if(outro instanceof FormarPar)
+        { 
+            FormarPar outroFormarPar=(FormarPar) outro;
+            
+            if((outroFormarPar.getUitlizadorQueFezPedido().equals(utilizadorQueFezPedido) && outroFormarPar.getUtilizadorQueResponde().equals(utilizadorQueResponde)) ||
+                    (outroFormarPar.getUitlizadorQueFezPedido().equals(utilizadorQueResponde) && outroFormarPar.getUtilizadorQueResponde().equals(utilizadorQueFezPedido)))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
 }
