@@ -92,7 +92,7 @@ public class TrataUtilizador extends Thread {
                                 rs.next();
                                 jogosDecorrer.addNovoJogo(idJogo, nick1, nick2, ap.getIdPar());
                                 //TODO: Se existir ficheiro de modelo jogo usar esse e nao fazer novo gamemodel
-                                out.writeObject(new GameModel(nick1, nick2, idJogo));
+                                out.writeObject(jogosDecorrer.getGameModel(idPar));
                                 out.flush();
                             }
                             break;

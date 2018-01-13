@@ -2,8 +2,9 @@ package classescomunicacao.ModelJogo.States;
 
 import classescomunicacao.ModelJogo.Constants;
 import classescomunicacao.ModelJogo.GameData;
+import java.io.Serializable;
 
-public class StateAdapter implements IStates, Constants
+public class StateAdapter implements IStates, Constants, Serializable
 {
     private GameData game;
 
@@ -22,14 +23,7 @@ public class StateAdapter implements IStates, Constants
         this.game = game;
     }
 
-    @Override
-    public IStates setNumberPlayers(int num){ return this;}
 
-    @Override
-    public IStates setName(int num, String name){ return this;}
-
-    @Override
-    public IStates startGame(){ return this;}
 
     @Override
     public IStates placeToken(int linha, int coluna){ return this;}
@@ -40,16 +34,6 @@ public class StateAdapter implements IStates, Constants
     @Override
     public IStates quit(){ return this;}
 
-    @Override
-    public IStates login(String username, String password)
-    {
-        return this;
-    }
 
-    @Override
-    public IStates register(String username, String nome, String password)
-    {
-        return this;
-    }
     
 }

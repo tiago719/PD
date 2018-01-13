@@ -23,6 +23,7 @@ public class GameData implements Constants, Serializable
         players.add(new Player(nickName1, this));
         players.add(new Player(nickName2, this));
         grid = new Token[DIM][DIM];
+        initialize();
     }
     
     public boolean initialize() 
