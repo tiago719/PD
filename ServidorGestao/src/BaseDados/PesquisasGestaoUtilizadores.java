@@ -20,6 +20,8 @@ import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
 import java.sql.Statement;
 import java.util.ArrayList;
+import classescomunicacao.Partida;
+import classescomunicacao.ClienteEnviar;
 
 /**
  *
@@ -337,6 +339,32 @@ public class PesquisasGestaoUtilizadores {
         return -1;
     }
 
+    public String GetNomeById(int id) {
+        Statement s = bd.getStatement();
+        ResultSet Rt1 = null;
+        try {
+            Rt1 = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR = " + id + ";", s);
+            if (Rt1.next()) {
+                String responsta = Rt1.getString("USERNAME");
+
+                return responsta;
+
+            } else {
+
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                Rt1.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
     public int ConfirmaPar(String nik1Util, String nik2Util) {
         Statement s = bd.getStatement();
         ResultSet rs = null;
@@ -465,22 +493,18 @@ public class PesquisasGestaoUtilizadores {
         return temp;
     }
 
-
-    public ArrayList<FormarPar> getPares()
-    {
-        ArrayList<FormarPar> temp=new ArrayList<>();
-        ResultSet Rt=null;
-        Statement s=bd.getStatement();
-        int id1ret,id2ret;
+    public ArrayList<FormarPar> getPares() {
+        ArrayList<FormarPar> temp = new ArrayList<>();
+        ResultSet Rt = null;
+        Statement s = bd.getStatement();
+        int id1ret, id2ret;
         boolean formado;
-        try
-        {           
-            Rt=bd.Le("SELECT * FROM par;",s);
-            
-            while(Rt.next())
-            {
-                id1ret=Rt.getInt("IDU1");
-                id2ret=Rt.getInt("IDU2");
+        try {
+            Rt = bd.Le("SELECT * FROM par;", s);
+
+            while (Rt.next()) {
+                id1ret = Rt.getInt("IDU1");
+                id2ret = Rt.getInt("IDU2");
 
                 formado = Rt.getBoolean("FORMADO");
 
@@ -492,37 +516,28 @@ public class PesquisasGestaoUtilizadores {
                 }
                 temp.add(formarPar);
             }
-        }
-        catch(Exception e)
-        {
-            
-        }
-        finally
-        {
-            try
-            {
+        } catch (Exception e) {
+
+        } finally {
+            try {
                 s.close();
                 Rt.close();
-            } catch (SQLException ex)
-            {
+            } catch (SQLException ex) {
                 Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         }
-          return temp;
-     }
-    public boolean temPar(int id)
-    {
-        Statement s=bd.getStatement();
-        ResultSet Rt=null;
-        try
-        {
-            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id + " OR IDU2 = " + id + " ;",s);
-            
-            while(Rt.next()) 
-            {
-                if (Rt.getBoolean("FORMADO") != false) 
-                {
+        return temp;
+    }
+
+    public boolean temPar(int id) {
+        Statement s = bd.getStatement();
+        ResultSet Rt = null;
+        try {
+            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id + " OR IDU2 = " + id + " ;", s);
+
+            while (Rt.next()) {
+                if (Rt.getBoolean("FORMADO") != false) {
 
                     return true;
                 }
@@ -594,4 +609,85 @@ public class PesquisasGestaoUtilizadores {
         return null;
     }
 
+    public ArrayList<Partida> getPartidas() {
+        ArrayList<Partida> temp = new ArrayList<>();
+        ResultSet Rt = null, Rt1 = null;
+        Statement s = bd.getStatement();
+        int id1ret, id2ret, terminado = -1, interrompido = -1;
+        boolean formado;
+        try {
+            Rt = bd.Le("SELECT * FROM jogo;", s);
+
+            while (Rt.next()) {
+
+                String NomeVencedor = GetNomeById(Rt.getInt("VENCEDOR"));
+                boolean Terminou = Rt.getBoolean("TERMINOU");
+                boolean Interrompido = Rt.getBoolean("INTERROMPIDO");
+
+                Rt1 = bd.Le("SELECT * FROM par WHILE IDPAR = " + Rt.getInt("IDPAR") + ";", s);
+
+                String NomeUtil1 = GetNomeById(Rt1.getInt("IDU1"));
+                String NomeUtil2 = GetNomeById(Rt1.getInt("IDU2"));
+
+                if (Terminou) {
+                    terminado = 1;
+                } else {
+                    terminado = 0;
+                }
+
+                if (Interrompido) {
+                    interrompido = 1;
+                } else {
+                    interrompido = 0;
+                }
+
+                temp.add(new Partida(NomeVencedor, NomeUtil1, NomeUtil2, terminado, interrompido));
+
+            }
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                s.close();
+                Rt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        return temp;
+    }
+
+    public ArrayList<ClienteEnviar> getJogadoresLogados() {
+        ArrayList<ClienteEnviar> temp = new ArrayList<>();
+        ResultSet Rt = null, Rt1 = null;
+        Statement s = bd.getStatement();
+        int id1ret, id2ret, terminado = -1, interrompido = -1;
+        boolean formado;
+
+        try {
+            Rt = bd.Le("SELECT * FROM utilizador;", s);
+
+            while (Rt.next()) {
+                int id = Rt.getInt("IDUTILIZADOR");
+
+                Rt1 = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id + " OR IDU2 = " + id + ") AND FORMADO = 1  ;", s);
+                if (Rt1.next()) {
+                    temp.add(new ClienteEnviar(Rt.getString("USERNAME"), Rt.getString("NOME"), true));
+                } else {
+                    temp.add(new ClienteEnviar(Rt.getString("USERNAME"), Rt.getString("NOME"), false));
+                }
+            }
+        } catch (Exception e) {
+
+        } finally {
+            try {
+                s.close();
+                Rt.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return null;
+        }
+    }
 }
