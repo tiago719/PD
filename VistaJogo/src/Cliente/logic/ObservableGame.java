@@ -291,7 +291,6 @@ public class ObservableGame extends Observable {
 
     public synchronized void Desiste() {
         comunicacao.Desiste(ParAtual);
-        ParAtual = null;
     }
     
     public int getIdJogo() {
@@ -334,5 +333,10 @@ public class ObservableGame extends Observable {
                 }
             }
         }
+    }
+
+    public void abandonaPar()
+    {
+        comunicacao.abandonaPar(ParAtual);
     }
 }
