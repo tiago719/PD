@@ -107,10 +107,10 @@ public class PedidoPar extends javax.swing.JPanel
         observableGame.EnviaConfirmacao(pedidoPar, PEDIDO_ACEITE);
         observableGame.RemovePar(pedidoPar);
         observableGame.RemoveAllPar();
-        if(observableGame.getUserName().equals(pedidoPar.getNik1Util()))
-            ecraPrincipal.setParNome(pedidoPar.getNik2Util());
+        if(observableGame.getUserName().equals(pedidoPar.getUitlizadorQueFezPedido()))
+            ecraPrincipal.setParNome(pedidoPar.getUtilizadorQueResponde());
         else
-            ecraPrincipal.setParNome(pedidoPar.getNik1Util());
+            ecraPrincipal.setParNome(pedidoPar.getUitlizadorQueFezPedido());
         this.setVisible(false);
     }//GEN-LAST:event_jAceitarMouseClicked
 

@@ -1,6 +1,7 @@
 package classescomunicacao.ModelJogo;
 
 import classescomunicacao.ModelJogo.States.AwaitBeginning;
+import classescomunicacao.ModelJogo.States.AwaitPlacement;
 import classescomunicacao.ModelJogo.States.IStates;
 import java.io.Serializable;
 
@@ -18,7 +19,10 @@ public class GameModel implements Serializable {
         this.idJogo = idJogo;
 //        this.idPar = idPar;
         gameData = new GameData(nickName1, nickName2);
-        setState(new AwaitBeginning(gameData));
+        
+        setState(new AwaitPlacement(gameData));
+        gameData.initialize();
+        
     }
 
     public int getIdJogo() {
@@ -91,19 +95,8 @@ public class GameModel implements Serializable {
     }
 
     // Methods that are intended to be used by the user interfaces and that are delegated in the current state of the finite state machine 
-    public void setNumberPlayers(int num) {
-        setState(getState().setNumberPlayers(num));
-    }
 
-    public void setPlayerName(int num, String name) {
-        setState(getState().setName(num, name));
-    }
-
-    public void startGame() {
-        setState(getState().startGame());
-    }
-
-    public void placeToken(int line, int column) {
+    public synchronized void placeToken(int line, int column) {
         setState(getState().placeToken(line, column));
     }
 

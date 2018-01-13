@@ -4,9 +4,10 @@ import static classescomunicacao.ModelJogo.Constants.*;
 import classescomunicacao.ModelJogo.GameData;
 import classescomunicacao.ModelJogo.Player;
 import classescomunicacao.ModelJogo.Token;
+import java.io.Serializable;
 
 
-public class AwaitPlacement extends StateAdapter
+public class AwaitPlacement extends StateAdapter implements Serializable
 {
 
     private int prevLine, prevColumn;

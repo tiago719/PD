@@ -4,10 +4,11 @@ import static classescomunicacao.ModelJogo.Constants.DIM;
 import classescomunicacao.ModelJogo.GameData;
 import classescomunicacao.ModelJogo.Player;
 import classescomunicacao.ModelJogo.Token;
+import java.io.Serializable;
 
 
 
-public class AwaitReturn extends StateAdapter
+public class AwaitReturn extends StateAdapter implements Serializable
 {
     
     public AwaitReturn(GameData g) 

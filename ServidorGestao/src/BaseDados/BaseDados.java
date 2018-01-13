@@ -29,12 +29,24 @@ public class BaseDados {
         }
     }
     
-    public int Modifica (String q)
+    public Statement getStatement()
+    {
+        try
+        {
+            return Con.createStatement();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(BaseDados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public int Modifica (String q, Statement statement)
     {
         int resposta = -1;
         try{
-            resposta = St.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
-            ResultSet t  = St.getGeneratedKeys();
+            resposta = statement.executeUpdate(q, Statement.RETURN_GENERATED_KEYS);
+            ResultSet t  = statement.getGeneratedKeys();
             
             if(t.next()){
                 
@@ -53,10 +65,10 @@ public class BaseDados {
         return resposta;
     }
     
-    public ResultSet Le(String q)
+    public ResultSet Le(String q, Statement statement)
     {
         try{
-            Rs = St.executeQuery(q);
+            Rs = statement.executeQuery(q);
             
             return Rs;
         }catch(Exception ex)

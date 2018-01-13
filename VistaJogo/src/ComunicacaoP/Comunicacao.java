@@ -34,21 +34,28 @@ public class Comunicacao extends java.util.Observable {
 
     private Socket socketModeloJogo;
     private ObjectOutputStream outSocketModeloJogo;
-
     private ObjectInputStream inSocketModeloJogo;
 
-    private ObjectInputStream inc;
+//    private ObjectInputStream inc;
 
     FormarPar par;
     ObservableGame observableGame;
 
+    Thread threadLeJogadas;
+
     public Comunicacao(ObservableGame observableGame) {
+
         this.observableGame = observableGame;
         try {
             socket = new Socket(IP, PORTO2);
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
+            
+            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
+            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
+            outc.flush();
+//            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
 
         } catch (IOException ex) {
             System.out.println("Comunicacao: " + ex);
@@ -99,11 +106,12 @@ public class Comunicacao extends java.util.Observable {
             out.flush();
 
             Integer returnedObject = (Integer) in.readObject();
-            
-            if(returnedObject==1)
-                NomeUtilizador=novo.getNome();
 
-          return returnedObject;
+            if (returnedObject == 1) {
+                NomeUtilizador = novo.getNome();
+            }
+
+            return returnedObject;
 
         } catch (Exception e) {
             System.out.println("erro login: " + e);
@@ -197,11 +205,6 @@ public class Comunicacao extends java.util.Observable {
             out.writeObject(par);
             out.flush();
 
-            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
-            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
-            outc.flush();
-            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
-
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -214,20 +217,38 @@ public class Comunicacao extends java.util.Observable {
             outc.writeObject(x);
             outc.flush();
 
-            GameModel gameModel = (GameModel) inc.readObject();
-            observableGame.setGameModel(gameModel);
-//            if (gameModel.getIdJogo() > 0) {
+            this.par = par;
             socketModeloJogo = new Socket(IP, 5000 + par.getIdPar());
+            outSocketModeloJogo = new ObjectOutputStream(socketModeloJogo.getOutputStream());
+            outSocketModeloJogo.flush();
+            inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
+            threadLeJogadas = new threadLeJogadas(observableGame, inSocketModeloJogo);
+            threadLeJogadas.start();
+//            GameModel gameModel = (GameModel) inc.readObject();
+//            observableGame.setGameModel(gameModel);
+//            observableGame.Update();
+//            if (gameModel.getIdJogo() > 0) {
+
 //                outSocketModeloJogo = new ObjectOutputStream(socketModeloJogo.getOutputStream());
 //                inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
 //            }
-
         } catch (IOException ex) {
-            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+    }
+    
+    public void abandonaPar(FormarPar formarPar)
+    {
+        try
+        {
+            formarPar.setAceite(Constantes.PEDIDO_RECUSADO);
+            out.writeObject(formarPar);
+            out.flush();
+        } catch (IOException ex)
+        {
+            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void Desiste(FormarPar ParAtual) {
@@ -242,22 +263,17 @@ public class Comunicacao extends java.util.Observable {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public String getUserName()
-    {
+
+    public String getUserName() {
         return NomeUtilizador;
     }
 
-    public void novaJogada(int line, int column, int idJogo, String name) {
+    public void novaJogada(int line, int column, int idJogo, String nickName) {
         try {
-            outSocketModeloJogo = new ObjectOutputStream(socketModeloJogo.getOutputStream());
-            inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
 
-            outSocketModeloJogo.writeObject(new Jogadas(name, line, column, idJogo));
-            this.observableGame.setGameModel((GameModel) inSocketModeloJogo.readObject());
+            outSocketModeloJogo.writeObject(new Jogadas(nickName, line, column, idJogo));
+            outSocketModeloJogo.flush();
         } catch (IOException ex) {
-            Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -36,8 +36,15 @@ public class RecebeAtualizacoes extends Thread {
         return pares;
     }
 
-    public void setPares(List<FormarPar> pares) {
-        this.pares = pares;
+    public void setPares(List<FormarPar> paresRecebidos) {
+        
+        pares.clear();
+        
+        for(FormarPar formarPar : paresRecebidos)
+        {
+            if(!formarPar.getUitlizadorQueFezPedido().equals(observableGame.getUserName()))
+                pares.add(formarPar);
+        }
     }
 
     public RecebeAtualizacoes(ObservableGame observableGame, ObjectInputStream in) {
@@ -54,38 +61,17 @@ public class RecebeAtualizacoes extends Thread {
                 while (true)
                 {
                     Object returnedObject = in.readObject();
-
-                    if (returnedObject instanceof ArrayClienteEnviar) {
-                        observableGame.setClientesLogados((ArrayClienteEnviar) returnedObject);
+                    flag=false;
+                    if (returnedObject instanceof ArrayClienteEnviar) 
+                    {
+                        ArrayClienteEnviar arrayClienteEnviar=(ArrayClienteEnviar) returnedObject;
+                        observableGame.setClientesLogados(arrayClienteEnviar.getClientes());
+                        observableGame.SetPares(arrayClienteEnviar.getListaPedidos());
+                        observableGame.setPar(arrayClienteEnviar.getPar());
                     } else if (returnedObject instanceof Mensagem) {
                         mensagem = (Mensagem)returnedObject;
                         observableGame.Update();
                     } 
-                    else if(returnedObject instanceof FormarPar)
-                    {
-                        FormarPar pedido=((FormarPar) returnedObject);
-                        
-                        for(FormarPar formarPar:pares)
-                        {
-                            if((formarPar.getNik1Util().equals(pedido.getNik1Util()) && formarPar.getNik2Util().equals(pedido.getNik2Util())) || (formarPar.getNik1Util().equals(pedido.getNik2Util()) && formarPar.getNik2Util().equals(pedido.getNik1Util())))
-                            {
-                                formarPar.setAceite(pedido.getAceite());
-                                flag=true;
-                                break;
-                            }
-                        }
-                        if(flag)
-                            continue;
-                        
-                        int ret=pedido.getAceite();
-                        if(ret==Constantes.PEDIDO_FEITO)                        
-                            pares.add((FormarPar)returnedObject);
-                        else if(ret==Constantes.PEDIDO_ACEITE)
-                        {
-                            observableGame.TemPar((FormarPar)returnedObject);
-                        }
-                        observableGame.Update();
-                    }
                 }
             } 
             catch (IOException | ClassNotFoundException e) { 

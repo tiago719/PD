@@ -1,6 +1,7 @@
 package Model;
 
 import classescomunicacao.Jogadas;
+import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.ObservableGame;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,14 +20,23 @@ public class Comunicacao extends Thread {
 
     ServerSocket socket;
     ObjectInputStream in;
-    
-    ObjectOutputStream out;
-    ObservableGame observableGame;
 
-    public Comunicacao(ObservableGame og, int idPar) {
-        this.observableGame = og;
+    Socket socketUser1, socketUser2;
+    GameModel gameModel;
+    Par par;
+    
+    Thread t1, t2;
+
+    public Comunicacao(GameModel og, int idPar) {
+        this.gameModel = og;
+        par = new Par(null, null);
+        t1 = new recebeJogadas(par, 1, og);
+        t2 = new recebeJogadas(par, 2, og);
+        
+        t1.start();
+        t2.start();
         try {
-            socket = new ServerSocket(5000+ idPar);
+            socket = new ServerSocket(5000 + idPar);
         } catch (IOException ex) {
             System.out.println("Comunicacao: " + ex);
         }
@@ -38,28 +48,21 @@ public class Comunicacao extends Thread {
 
     @Override
     public void run() {
-        ServerSocket server;
         try {
 
-            server = new ServerSocket(PORTO);
             while (true) {
-                Socket nextCliente = server.accept();
-
-                ObjectOutputStream out = new ObjectOutputStream(nextCliente.getOutputStream());
-                out.flush();
-                ObjectInputStream in = new ObjectInputStream(nextCliente.getInputStream());
-
-                Object objectRecebidoUtilizador = in.readObject();
-
-                if (objectRecebidoUtilizador instanceof Jogadas) {
-                    Jogadas jogada = (Jogadas)objectRecebidoUtilizador;
-
-                    observableGame.placeToken(jogada.getLinha(), jogada.getColuna());
-
-                    out.writeObject(observableGame);
+                Socket nextCliente = socket.accept();
+                if (par.getUser1() == null) {
+                    par.setUser1(nextCliente);
+                } else if (par.getUser2() == null) {
+                     par.setUser2(nextCliente);
+                } else /*if (par.getUser1().equals(nextCliente))*/{
+//                    socketUser1 = nextCliente;
                 }
+                new ObjectOutputStream(nextCliente.getOutputStream()).writeObject(gameModel);
             }
         } catch (Exception e) {
+            System.out.println(e);
         }
     }
 }

@@ -18,6 +18,7 @@ import Model.Cliente;
 import classescomunicacao.Constantes;
 import classescomunicacao.FormarPar;
 import classescomunicacao.Mensagem;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 /**
@@ -44,45 +45,70 @@ public class PesquisasGestaoUtilizadores {
     }
 
     /// FUNÇAO PARA REGISTAR UTILIZADORES
-    public void AdicionaUtilizador(String Nome, String Username, String PalavraChave) throws NoSuchAlgorithmException {
-        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, USERNAME, PASSWORD, LOGADO) VALUES ( null,'" + Nome.trim() + "','" + Username.trim() + "','" + SHA1(PalavraChave) + "', false);");
+    public void AdicionaUtilizador(String Nome, String Username, String PalavraChave){
+        Statement s=bd.getStatement();
+        bd.Modifica("INSERT INTO utilizador(IDUTILIZADOR, NOME, USERNAME, PASSWORD, LOGADO) VALUES ( null,'" + Nome.trim() + "','" + Username.trim() + "','" + SHA1(PalavraChave) + "', false);",s);
+        
 
     }
 
     ///FUNÇAO CONVERTE STRING PARA SHA1
-    static String SHA1(String input) throws NoSuchAlgorithmException {
-        MessageDigest mDigest = MessageDigest.getInstance("SHA1");
-        byte[] result = mDigest.digest(input.getBytes());
-        StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < result.length; i++) {
-            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+    static String SHA1(String input){
+        try
+        {
+            MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+            byte[] result = mDigest.digest(input.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < result.length; i++) {
+                sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            
+            return sb.toString();
+        } catch (NoSuchAlgorithmException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        return sb.toString();
+        return null;
     }
 
     //VERIFICA SE O Username EXISTE NA BASE DE DADOS
-    public boolean ExisteUsername(String Username) throws SQLException {
-
-        ResultSet Rt;
-
-        Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + Username + "';");
-
-        if (Rt.next()) {
-
-            return true;
-        } else {
-
-            return false;
+    public boolean ExisteUsername(String Username){
+        ResultSet Rt=null;
+        Statement s=bd.getStatement();
+        try
+        {
+            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + Username + "';",s);
+            
+            if (Rt.next()) {
+                
+                return true;
+            } else {
+                
+                return false;
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
     }
 
     //VERIFICA SE O Username E Password ESTÁ REGISTADO NA BASE DE DADOS
-    public int VerificaLogin(String Username, String Password) throws SQLException {
-        ResultSet Rt;
+    public int VerificaLogin(String Username, String Password){
+        ResultSet Rt=null;
+        Statement s=bd.getStatement();
         try {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + Username + "'and PASSWORD='" + SHA1(Password) + "';");
+            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + Username + "'and PASSWORD='" + SHA1(Password) + "';", s);
             if (Rt.next()) {
                 int id = Rt.getInt("IDUTILIZADOR");
                 if (Rt.getBoolean("LOGADO")==true) {
@@ -94,24 +120,37 @@ public class PesquisasGestaoUtilizadores {
 
                 return -1;
             }
-        } catch (NoSuchAlgorithmException ex) {
-            System.out.println();
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            try
+            {
+                Rt.close();
+                s.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return -1;
     }
 
     public void setClienteLogado(int id) {
-
+        Statement s=bd.getStatement();
         try {
-            bd.Modifica("UPDATE UTILIZADOR SET LOGADO=1 WHERE IDUTILIZADOR=" + id + ";");
+            bd.Modifica("UPDATE UTILIZADOR SET LOGADO=1 WHERE IDUTILIZADOR=" + id + ";",s);
         } catch (Exception e) {
         }
     }
 
     public String getNome(String username) {
+        Statement s=bd.getStatement();
         ResultSet Rt = null;
         try {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + username + "';");
+            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME='" + username + "';",s);
 
             if (Rt.next()) {
                 String nome = Rt.getString("NOME");
@@ -124,16 +163,26 @@ public class PesquisasGestaoUtilizadores {
 
         } catch (SQLException e) {
         }
-
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return null;
     }
 
     public String getNome(int id) {
+        Statement s=bd.getStatement();
 
         ResultSet Rt = null;
 
         try {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
+            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";",s);
 
             if (Rt.next()) {
                 String nome = Rt.getString("NOME");
@@ -144,59 +193,91 @@ public class PesquisasGestaoUtilizadores {
             }
 
         } catch (SQLException e) {
+        }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
 
         return null;
     }
 
     public void setLogados() {
-        bd.Modifica("delete from jogo");
+        Statement s=bd.getStatement();
+        Statement s2=bd.getStatement();
+        Statement s3=bd.getStatement();
         
-        bd.Modifica("UPDATE utilizador SET LOGADO=0;");
-        bd.Modifica("DELETE FROM par;");
+        bd.Modifica("delete from jogo",s);
+        
+        bd.Modifica("UPDATE utilizador SET LOGADO=0;",s2);
+        bd.Modifica("DELETE FROM par;",s3);
 
     }
 
-    public void AdicionaSMS(Mensagem sms) throws SQLException {
-
-        ResultSet Rt, Rt1;
-        int idmensagem;
-
-        Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + sms.getRemetente() + "';");
-
-        if (Rt.next()) {
-
-            int id = Rt.getInt("IDUTILIZADOR");
-            idmensagem = bd.Modifica("INSERT INTO `mensagem`(`IDMENSAGEM`, `IDUTILIZADOR`, `MENSAGEM`) VALUES (null," + Rt.getInt("IDUTILIZADOR") + ",'" + sms.getMensagem() + "')");
-            if (sms.getDistinatario() != null) {
-                Rt1 = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + sms.getDistinatario() + "';");
-                if (Rt1.next()) {
-                    int idutilizador = Rt1.getInt("IDUTILIZADOR");
-                    bd.Modifica("INSERT INTO `utilizador_mensagem`(`IDUTILIZADOR`, `IDMENSAGEM`) VALUES (" + idutilizador + "," + idmensagem + ")");
+    public void AdicionaSMS(Mensagem sms){
+        Statement s=bd.getStatement();
+        Statement s2=bd.getStatement();
+        Statement s3=bd.getStatement();
+        Statement s4=bd.getStatement();
+        ResultSet Rt=null;
+        ResultSet Rt1=null;
+        try
+        {
+            int idmensagem;
+            Rt = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + sms.getRemetente() + "';",s);
+            if (Rt.next()) {
+                
+                int id = Rt.getInt("IDUTILIZADOR");
+                idmensagem = bd.Modifica("INSERT INTO `mensagem`(`IDMENSAGEM`, `IDUTILIZADOR`, `MENSAGEM`) VALUES (null," + Rt.getInt("IDUTILIZADOR") + ",'" + sms.getMensagem() + "')",s2);
+                if (sms.getDistinatario() != null) {
+                    Rt1 = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + sms.getDistinatario() + "';",s3);
+                    if (Rt1.next()) {
+                        int idutilizador = Rt1.getInt("IDUTILIZADOR");
+                        bd.Modifica("INSERT INTO `utilizador_mensagem`(`IDUTILIZADOR`, `IDMENSAGEM`) VALUES (" + idutilizador + "," + idmensagem + ")",s4);
+                    }
+                    
                 }
 
             }
-
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        finally
+        {
+            try
+            {
+                Rt.close();
+                Rt1.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void setLogout(Cliente cliente) {
-
+        Statement s=bd.getStatement();
         int ret;
 
         try {
-            ret = bd.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + cliente.getId() + ";");
+            ret = bd.Modifica("UPDATE utilizador SET LOGADO=0 WHERE IDUTILIZADOR=" + cliente.getId() + ";",s);
         } catch (Exception e) {
 
         }
     }
 
     public boolean VeirficaExiste(int id1, int id2) {
+        Statement s=bd.getStatement();
+        ResultSet Rt;
 
-        ResultSet Rt, Rt1;
-
-        Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+        Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";",s);
 
         try {
             if (Rt.next()) 
@@ -212,17 +293,27 @@ public class PesquisasGestaoUtilizadores {
         } catch (SQLException ex) {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         return false;
     }
     
     public boolean temPar(int id1, int id2)
     {
+        Statement s=bd.getStatement();
+        ResultSet Rt=null;
         try
         {
-            ResultSet Rt;
-
-            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " OR IDU2 = " + id1 + " OR IDU1= "+ id2 + " OR IDU2= "+id2+" ;");
+            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id1 + " OR IDU2 = " + id1 + " OR IDU1= "+ id2 + " OR IDU2= "+id2+" ;",s);
             
             while(Rt.next()) 
             {
@@ -237,68 +328,92 @@ public class PesquisasGestaoUtilizadores {
         {
             
         }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return false;
     }
 
     public int FormaPar(String nik1Util, String nik2Util) {
-
-        int id2 = -1;
-        int id1 = -1;
-
-        try {
-            id1 = GetidByUserName(nik1Util);
-            id2 = GetidByUserName(nik2Util);
-        } catch (SQLException ex) {
-            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Statement s=bd.getStatement();
+        int id1 = GetidByUserName(nik1Util);
+        int id2 = GetidByUserName(nik2Util);
 
         if (id2 != -1 && id1 != -1) {
             if (VeirficaExiste(id1, id2)) {
                 return -1;
             }
-            return bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, '0' ,'" + id1 + "', '" + id2 + "');");
-            
+            return bd.Modifica("INSERT INTO `par`(`IDPAR`, `FORMADO`, `IDU1`, `IDU2`) VALUES (null, '0' ,'" + id1 + "', '" + id2 + "');",s);      
         }
         return -1;
     }
 
-    public int GetidByUserName(String username) throws SQLException {
-
-        ResultSet Rt1;
-
-        Rt1 = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + username + "';");
-        if (Rt1.next()) {
-            int responsta = Rt1.getInt("IDUTILIZADOR");
-
-            return responsta;
-
-        } else {
-
-            return -1;
+    public int GetidByUserName(String username){
+        Statement s=bd.getStatement();
+        ResultSet Rt1=null;
+        try
+        {           
+            Rt1 = bd.Le("SELECT * FROM utilizador WHERE USERNAME = '" + username + "';",s);
+            if (Rt1.next()) {
+                int responsta = Rt1.getInt("IDUTILIZADOR");
+                
+                return responsta;
+                
+            } else {
+                
+                return -1;
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
+        finally
+        {
+            try
+            {
+                Rt1.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
     }
 
-    public int ConfirmaPar(String nik1Util, String nik2Util) {
-        int id1, id2;
+    public int ConfirmaPar(String nik1Util, String nik2Util) 
+    {
+        Statement s=bd.getStatement();
+        ResultSet rs=null;
+        int id1 = GetidByUserName(nik1Util);
+        int id2 = GetidByUserName(nik2Util);
 
         try {
-            id1 = GetidByUserName(nik1Util);
-            id2 = GetidByUserName(nik2Util);
-        } catch (SQLException ex) {
-            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-            return -1;
-        }
-
-        try {
-           bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           bd.Modifica("UPDATE `par` SET `FORMADO`=1 WHERE IDU1 = " + id1 + " AND IDU2 = " + id2 + ";",s);
            int idPar;
            
-           ResultSet rs = bd.Le("select idPar from par where IDU1 = " + id1 + " AND IDU2 = " + id2 + ";");
+           rs = bd.Le("select idPar from par where IDU1 = " + id1 + " AND IDU2 = " + id2 + ";",s);
            rs.next();
            return rs.getInt("idPar");
 
         } catch (Exception e) {
 
+        }
+        finally
+        {
+            try
+            {
+                rs.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         return -1;
@@ -306,31 +421,23 @@ public class PesquisasGestaoUtilizadores {
 
     public void EliminaPar(String nik1Util, String nik2Util)
     {
-        int id1, id2;
+        Statement s=bd.getStatement();
+        int id1 = GetidByUserName(nik1Util);
+        int id2 = GetidByUserName(nik2Util);
 
-        try {
-            id1 = GetidByUserName(nik1Util);
-            id2 = GetidByUserName(nik2Util);
-            
-            bd.Modifica("DELETE FROM par WHERE (IDU1= " + id1 + " AND IDU2= " + id2 + " ) OR (IDU1= " + id2 + " AND IDU2= " + id1 +" ) ;");
-
-        } catch (SQLException ex) {
-            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
-        
+        bd.Modifica("DELETE FROM par WHERE (IDU1= " + id1 + " AND IDU2= " + id2 + " ) OR (IDU1= " + id2 + " AND IDU2= " + id1 +" ) ;",s); 
     }
 
     public boolean ExistePedido(String nik1Util, String nik2Util)
     {
+        Statement s=bd.getStatement();
+        ResultSet Rt=null;
         try
         {
             int id1=GetidByUserName(nik1Util);
             int id2=GetidByUserName(nik2Util);
-            
-            ResultSet Rt;
 
-            Rt = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id1 + " AND IDU2 = " + id2 + " ) OR ( IDU1= "+ id2 + " AND IDU2= "+id1+" ) ;");
+            Rt = bd.Le("SELECT * FROM par WHERE ( IDU1 = " + id1 + " AND IDU2 = " + id2 + " ) OR ( IDU1= "+ id2 + " AND IDU2= "+id1+" ) ;",s);
             
             if(Rt.next())
                 return true;
@@ -341,30 +448,35 @@ public class PesquisasGestaoUtilizadores {
         {
             
         }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return false;
     }
 
     public void EliminaPedidos(String nik1Util, String nik2Util)
     {
-        try
-        {
-            int id1=GetidByUserName(nik1Util);
-            int id2=GetidByUserName(nik2Util);
-            
-            bd.Modifica("DELETE FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;");
+        Statement s=bd.getStatement();
+        int id1=GetidByUserName(nik1Util);
+        int id2=GetidByUserName(nik2Util);
 
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        bd.Modifica("DELETE FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;",s);
     }
     
     public String getUsername(int id)
     {
+        Statement s=bd.getStatement();
         ResultSet Rt = null;
 
         try {
-            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";");
+            Rt = bd.Le("SELECT * FROM utilizador WHERE IDUTILIZADOR=" + id + ";",s);
 
             if (Rt.next()) {
                 String nome = Rt.getString("USERNAME");
@@ -376,25 +488,34 @@ public class PesquisasGestaoUtilizadores {
 
         } catch (SQLException e) {
         }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
         return null;
     }
 
     public ArrayList<FormarPar> getPedidosUtilizadores(String nik1Util, String nik2Util)
     {
+        Statement s=bd.getStatement();
         int id1ret, id2ret;
         ArrayList<FormarPar> temp=new ArrayList<>();
-
+        ResultSet Rt=null;
         try
         {
             int id1=GetidByUserName(nik1Util);
             int id2=GetidByUserName(nik2Util);
             
-            ResultSet Rt;
+            Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;",s);
             
-            Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id1 + " OR IDU2 = " + id2 + " OR IDU1= "+ id2 + " OR IDU2= "+id1+") AND FORMADO = 0 ;");
-            
-            while(!Rt.isClosed() && Rt.next())
+            while(Rt.next())
             {
                 id1ret=Rt.getInt("IDU1");
                 id2ret=Rt.getInt("IDU2");
@@ -407,10 +528,20 @@ public class PesquisasGestaoUtilizadores {
         {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
         return temp;
     }
-    
+
     public ArrayList<FormarPar> getPares()
     {
         ArrayList<FormarPar> temp=new ArrayList<>();
@@ -436,13 +567,110 @@ public class PesquisasGestaoUtilizadores {
                     formarPar.setAceite(Constantes.PEDIDO_FEITO);
                 temp.add(formarPar);
             }
+          return temp;
+     }
+    public boolean temPar(int id)
+    {
+        Statement s=bd.getStatement();
+        ResultSet Rt=null;
+        try
+        {
+            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id + " OR IDU2 = " + id + " ;",s);
+            
+            while(Rt.next()) 
+            {
+                if (Rt.getBoolean("FORMADO") != false) 
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(SQLException e)
+        {
+            
+        }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<FormarPar> getPedidosUtilizador(String username)
+    {
+        Statement s=bd.getStatement();
+        ResultSet Rt=null;
+        int id1,id2;
+        
+        ArrayList<FormarPar> pares=new ArrayList<>();
+        try
+        {
+            int id=GetidByUserName(username);
+            Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id + " OR IDU2 = " + id + " ) AND FORMADO=0;",s);
+            while( Rt.next())
+            {
+                id1=Rt.getInt("IDU1");
+                id2=Rt.getInt("IDU2");
+
+                pares.add(new FormarPar(getUsername(id1),getUsername(id2),Constantes.PEDIDO_FEITO));
+            }
         } catch (SQLException ex)
         {
             Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return temp;
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return pares;
     }
     
-    
+    public FormarPar getPar(String username)
+    {
+        Statement s=bd.getStatement();
+        ResultSet Rt=null;
+        int id1,id2;
+        
+        ArrayList<FormarPar> pares=new ArrayList<>();
+        try
+        {
+            int id=GetidByUserName(username);
+            Rt=bd.Le("SELECT * FROM par WHERE (IDU1 = " + id + " OR IDU2 = " + id + " ) AND FORMADO=1;",s);
+            if(Rt.next())
+            {
+                id1=Rt.getInt("IDU1");
+                id2=Rt.getInt("IDU2");
+
+                return new FormarPar(getUsername(id1),getUsername(id2),Constantes.PEDIDO_ACEITE);
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        finally
+        {
+            try
+            {
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return null;
+    }
+
 }
