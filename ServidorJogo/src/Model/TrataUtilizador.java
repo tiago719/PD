@@ -40,7 +40,8 @@ public class TrataUtilizador extends Thread {
 
                 Object objectRecebidoUtilizador = in.readObject();
 
-                if (objectRecebidoUtilizador instanceof AcoesPartida) {
+                if (objectRecebidoUtilizador instanceof AcoesPartida) 
+                {
                     AcoesPartida ap = (AcoesPartida) objectRecebidoUtilizador;
 
                     ResultSet rs;

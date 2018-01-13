@@ -16,6 +16,10 @@ public interface Constantes
     public static final int PEDIDO_FEITO=0;
     public static final int PEDIDO_RECUSADO=1;
     public static final int PEDIDO_ACEITE=2;
+    
     public static final int TEMPOPERIODOGESTAOJOGO = 1000;
 
+    public static final int JOGO_INTERROMPIDO=0;
+    public static final int JOGO_EM_ANDAMENTO=1;
+    public static final int JOGO_FINALIZADO=2;
 }

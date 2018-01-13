@@ -465,17 +465,23 @@ public class PesquisasGestaoUtilizadores {
         return temp;
     }
 
-    public ArrayList<FormarPar> getPares() {
-        try {
-            Statement s = bd.getStatement();
-            ArrayList<FormarPar> temp = new ArrayList<>();
-            int id1ret, id2ret;
-            boolean formado;
-            ResultSet Rt;
-            Rt = bd.Le("SELECT * FROM par;",s);
-            while (!Rt.isClosed() && Rt.next()) {
-                id1ret = Rt.getInt("IDU1");
-                id2ret = Rt.getInt("IDU2");
+
+    public ArrayList<FormarPar> getPares()
+    {
+        ArrayList<FormarPar> temp=new ArrayList<>();
+        ResultSet Rt=null;
+        Statement s=bd.getStatement();
+        int id1ret,id2ret;
+        boolean formado;
+        try
+        {           
+            Rt=bd.Le("SELECT * FROM par;",s);
+            
+            while(Rt.next())
+            {
+                id1ret=Rt.getInt("IDU1");
+                id2ret=Rt.getInt("IDU2");
+
                 formado = Rt.getBoolean("FORMADO");
 
                 FormarPar formarPar = new FormarPar(getUsername(id1ret), getUsername(id2ret));
@@ -486,22 +492,38 @@ public class PesquisasGestaoUtilizadores {
                 }
                 temp.add(formarPar);
             }
-            return temp;
-        } catch (SQLException ex) {
-            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        catch(Exception e)
+        {
+            
+        }
+        finally
+        {
+            try
+            {
+                s.close();
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+          return temp;
+     }
+    public boolean temPar(int id)
+    {
+        Statement s=bd.getStatement();
+        ResultSet Rt=null;
+        try
+        {
+            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id + " OR IDU2 = " + id + " ;",s);
+            
+            while(Rt.next()) 
+            {
+                if (Rt.getBoolean("FORMADO") != false) 
+                {
 
-    }
-
-    public boolean temPar(int id) {
-        Statement s = bd.getStatement();
-        ResultSet Rt = null;
-        try {
-            Rt = bd.Le("SELECT * FROM par WHERE IDU1 = " + id + " OR IDU2 = " + id + " ;", s);
-
-            while (Rt.next()) {
-                if (Rt.getBoolean("FORMADO") != false) {
                     return true;
                 }
             }
