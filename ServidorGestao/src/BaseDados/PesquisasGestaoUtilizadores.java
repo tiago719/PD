@@ -545,16 +545,15 @@ public class PesquisasGestaoUtilizadores {
     public ArrayList<FormarPar> getPares()
     {
         ArrayList<FormarPar> temp=new ArrayList<>();
+        ResultSet Rt=null;
+        Statement s=bd.getStatement();
         int id1ret,id2ret;
         boolean formado;
         try
-        {
+        {           
+            Rt=bd.Le("SELECT * FROM par;",s);
             
-            ResultSet Rt;
-            
-            Rt=bd.Le("SELECT * FROM par;");
-            
-            while(!Rt.isClosed() && Rt.next())
+            while(Rt.next())
             {
                 id1ret=Rt.getInt("IDU1");
                 id2ret=Rt.getInt("IDU2");
@@ -567,6 +566,23 @@ public class PesquisasGestaoUtilizadores {
                     formarPar.setAceite(Constantes.PEDIDO_FEITO);
                 temp.add(formarPar);
             }
+        }
+        catch(Exception e)
+        {
+            
+        }
+        finally
+        {
+            try
+            {
+                s.close();
+                Rt.close();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
           return temp;
      }
     public boolean temPar(int id)
