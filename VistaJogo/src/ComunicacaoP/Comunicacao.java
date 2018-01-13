@@ -200,9 +200,9 @@ public class Comunicacao extends java.util.Observable {
             out.writeObject(par);
             out.flush();
 
-            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
-            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
-            outc.flush();
+//            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
+//            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
+//            outc.flush();
 //            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
 
         } catch (IOException ex) {

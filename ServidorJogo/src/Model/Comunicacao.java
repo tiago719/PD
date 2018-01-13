@@ -54,10 +54,7 @@ public class Comunicacao extends Thread {
 //                    socketUser1 = nextCliente;
                 } 
 
-                ObjectOutputStream out = new ObjectOutputStream(nextCliente.getOutputStream());
-                out.flush();
                 ObjectInputStream input = new ObjectInputStream(nextCliente.getInputStream());
-                socketUser1 = nextCliente;
 
                 Object objectRecebidoUtilizador = input.readObject();
 

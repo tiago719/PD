@@ -121,10 +121,12 @@ public class Cliente
     
     public void setPar(FormarPar formarPar)
     {
-        parFormado=true;
         par=formarPar;
         if(par!=null)
+        {
             pedidos.clear();
+            parFormado=true;
+        }
     }
     
     public FormarPar getPar()
