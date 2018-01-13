@@ -54,7 +54,7 @@ public class RecebeAtualizacoes extends Thread {
                 while (true)
                 {
                     Object returnedObject = in.readObject();
-
+                    flag=false;
                     if (returnedObject instanceof ArrayClienteEnviar) {
                         observableGame.setClientesLogados((ArrayClienteEnviar) returnedObject);
                     } else if (returnedObject instanceof Mensagem) {

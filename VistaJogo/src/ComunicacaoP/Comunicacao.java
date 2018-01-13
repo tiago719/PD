@@ -200,7 +200,7 @@ public class Comunicacao extends java.util.Observable {
             socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
             outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
             outc.flush();
-            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
+//            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
 
         } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);

@@ -564,17 +564,21 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
         jPedidosPar.removeAll();
         
+        ArrayList<FormarPar> temporario=new ArrayList<>();
+        
         for(FormarPar pedidoPar : observableGame.getPares())
         {
             if(pedidoPar.getAceite()!=Constantes.PEDIDO_FEITO)
             {
-                observableGame.RemovePar(pedidoPar);
+                temporario.add(pedidoPar);
                 continue;
             }
             novoPedidoPar = new PedidoPar(observableGame,pedidoPar.getNik1Util(),this,pedidoPar);
             mapaPedidos.put(idPar++, novoPedidoPar);
             jPedidosPar.add(novoPedidoPar);
         }
+        
+        observableGame.removePares(temporario);
         
         if(observableGame.getParAtual()!= null)
         {
