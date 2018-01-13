@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import servidorgestao.ComunicacaoC.RecebePedidosClientes;
+import servidorgestao.ComunicacaoC.ThreadMonitor;
 
 /**
  *
@@ -31,11 +32,17 @@ public class ServerModel
 {
     private PesquisasGestaoUtilizadores pesquisasGestaoUtilizadores;
     private ArrayClienteEnviar arrayClienteEnviar;
-
-    public ServerModel()
+    ThreadMonitor monitor;
+    
+    
+    public ServerModel(String ip)
     {
         arrayClienteEnviar=new ArrayClienteEnviar();
         pesquisasGestaoUtilizadores=new PesquisasGestaoUtilizadores();
+        
+        monitor = new ThreadMonitor(ip);     
+        monitor.start();
+        
     }
     
     public int regista(RegistoUtilizador registoUtilizador)

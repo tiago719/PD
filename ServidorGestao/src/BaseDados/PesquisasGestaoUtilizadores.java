@@ -410,4 +410,37 @@ public class PesquisasGestaoUtilizadores {
         
         return temp;
     }
+    
+    public ArrayList<FormarPar> getPares()
+    {
+        ArrayList<FormarPar> temp=new ArrayList<>();
+        int id1ret,id2ret;
+        boolean formado;
+        try
+        {
+            
+            ResultSet Rt;
+            
+            Rt=bd.Le("SELECT * FROM par;");
+            
+            while(!Rt.isClosed() && Rt.next())
+            {
+                id1ret=Rt.getInt("IDU1");
+                id2ret=Rt.getInt("IDU2");
+                formado = Rt.getBoolean("FORMADO");
+                
+                FormarPar formarPar=new FormarPar(getUsername(id1ret), getUsername(id2ret));
+                if(formado)
+                    formarPar.setAceite(Constantes.PEDIDO_ACEITE);
+                else
+                    formarPar.setAceite(Constantes.PEDIDO_FEITO);
+                temp.add(formarPar);
+            }
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return temp;
+    }
 }
