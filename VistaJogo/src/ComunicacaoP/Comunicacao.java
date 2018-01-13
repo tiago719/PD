@@ -31,6 +31,7 @@ public class Comunicacao extends java.util.Observable {
 
     private Socket socketServidorJogo;
     private ObjectOutputStream outc;
+//    private ObjectInputStream inc;
 
     private Socket socketModeloJogo;
     private ObjectOutputStream outSocketModeloJogo;

@@ -43,17 +43,16 @@ class threadLeJogadas extends Thread {
         while (true) {
 
             try {
+                in = new ObjectInputStream(socketModeloJogo.getInputStream());
                
                 Object o = in.readObject();
 
-                if (o instanceof GameModel) 
+                if (o instanceof GameModel)
                 {
                     observableGame.setGameModel((GameModel) o);
                     observableGame.Update();
                 }
-            } catch (IOException ex) {
-                Logger.getLogger(threadLeJogadas.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(threadLeJogadas.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
