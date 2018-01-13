@@ -157,8 +157,8 @@ public class ObservableGame extends Observable {
 
     public void placeToken(int line, int column) {
         
-        comunicacao.novaJogada(line, column, this.gameModel.getIdJogo(), this.gameModel.getPlayer1().getName());
 //        gameModel.placeToken(line, column);
+        comunicacao.novaJogada(line, column, this.gameModel.getIdJogo(), this.gameModel.getPlayer1().getName());
 
         setChanged();
         notifyObservers();
