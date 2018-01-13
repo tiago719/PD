@@ -525,7 +525,6 @@ public class PesquisasGestaoUtilizadores {
             } catch (SQLException ex) {
                 Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         }
         return temp;
     }
@@ -547,6 +546,7 @@ public class PesquisasGestaoUtilizadores {
 
         } finally {
             try {
+                s.close();
                 Rt.close();
             } catch (SQLException ex) {
                 Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
