@@ -1,6 +1,7 @@
 package Model;
 
 import classescomunicacao.Jogadas;
+import classescomunicacao.ModelJogo.GameModel;
 import classescomunicacao.ModelJogo.ObservableGame;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -21,13 +22,19 @@ public class Comunicacao extends Thread {
     ObjectInputStream in;
 
     Socket socketUser1, socketUser2;
+    GameModel gameModel;
+    Par par;
+    
+    Thread t1, t2;
 
-    ObservableGame observableGame;
-
-    public Comunicacao(ObservableGame og, int idPar) {
-        this.observableGame = og;
-        socketUser1 = null;
-        socketUser2 = null;
+    public Comunicacao(GameModel og, int idPar) {
+        this.gameModel = og;
+        par = new Par(null, null);
+        t1 = new recebeJogadas(par, 1, og);
+        t2 = new recebeJogadas(par, 2, og);
+        
+        t1.start();
+        t2.start();
         try {
             socket = new ServerSocket(5000 + idPar);
         } catch (IOException ex) {
@@ -45,40 +52,14 @@ public class Comunicacao extends Thread {
 
             while (true) {
                 Socket nextCliente = socket.accept();
-                if(socketUser1 == null){
-                    socketUser1 = nextCliente;
-                }
-                else if (!nextCliente.equals(socketUser1) && socketUser2 == null) {
-                    socketUser2 = nextCliente;
-                } else {
+                if (par.getUser1() == null) {
+                    par.setUser1(nextCliente);
+                } else if (par.getUser2() == null) {
+                     par.setUser2(nextCliente);
+                } else /*if (par.getUser1().equals(nextCliente))*/{
 //                    socketUser1 = nextCliente;
-                } 
-
-                ObjectOutputStream out = new ObjectOutputStream(nextCliente.getOutputStream());
-                out.flush();
-                ObjectInputStream input = new ObjectInputStream(nextCliente.getInputStream());
-                socketUser1 = nextCliente;
-
-                Object objectRecebidoUtilizador = input.readObject();
-
-                if (objectRecebidoUtilizador instanceof Jogadas) {
-                    Jogadas jogada = (Jogadas) objectRecebidoUtilizador;
-
-                    observableGame.placeToken(jogada.getLinha(), jogada.getColuna());
-
-                    ObjectOutputStream out1, out2;
-                    if (socketUser1 != null){
-                        out1 = new ObjectOutputStream(socketUser1.getOutputStream());
-                        out1.writeObject(observableGame.getGameModel());
-                        out1.flush();
-                    }
-                    
-                    if (socketUser2 != null){
-                        out2 = new ObjectOutputStream(socketUser2.getOutputStream());
-                        out2.writeObject(observableGame.getGameModel());
-                        out2.flush();
-                    }
                 }
+                new ObjectOutputStream(nextCliente.getOutputStream()).writeObject(gameModel);
             }
         } catch (Exception e) {
             System.out.println(e);

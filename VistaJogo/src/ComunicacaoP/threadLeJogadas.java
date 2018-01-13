@@ -35,6 +35,7 @@ class threadLeJogadas extends Thread {
         while (true) {
 
             try {
+               
                 Object o = in.readObject();
 
                 if (o instanceof GameModel) {

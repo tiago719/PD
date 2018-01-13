@@ -23,7 +23,7 @@ public class JogosDecorrer{
     }
 
     GameModel getGameModel(int idPar) {
-        return jogos.get(idPar).getObservableGame().getGameModel();
+        return jogos.get(idPar).getGameModel();
     }
     
 }

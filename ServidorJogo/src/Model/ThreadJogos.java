@@ -1,6 +1,9 @@
 package Model;
 
-import classescomunicacao.ModelJogo.ObservableGame;
+//import classescomunicacao.ModelJogo.ObservableGame;
+
+import classescomunicacao.ModelJogo.GameModel;
+
 
 /**
  *
@@ -8,7 +11,7 @@ import classescomunicacao.ModelJogo.ObservableGame;
  */
 public class ThreadJogos {
 
-    private ObservableGame observableGame;
+    private GameModel gameModel;
     private String nick1, nick2;
     Comunicacao comunicacao;
     int idJogo;
@@ -20,14 +23,14 @@ public class ThreadJogos {
         this.idJogo = idJogo;
         this.jogosDecorrer = jogosDecorrer;
         
-        observableGame = new ObservableGame(nick1, nick2, idJogo);
-        comunicacao = new Comunicacao(observableGame, idPar);
+        gameModel = new GameModel(nick1, nick2, idJogo);
+        comunicacao = new Comunicacao(gameModel, idPar);
         comunicacao.start();
         
     }
 
-    public ObservableGame getObservableGame() {
-        return observableGame;
+    public GameModel getGameModel() {
+        return gameModel;
     }
     
     
