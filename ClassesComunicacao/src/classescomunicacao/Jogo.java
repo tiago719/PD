@@ -5,11 +5,13 @@
  */
 package classescomunicacao;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Tiago Coutinho
  */
-public class Jogo
+public class Jogo implements Serializable
 {
     private String jogador1, jogador2, vencedor;
     private int estadoJogo;
