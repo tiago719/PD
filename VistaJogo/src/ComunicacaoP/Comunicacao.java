@@ -37,8 +37,7 @@ public class Comunicacao extends java.util.Observable {
     private ObjectOutputStream outSocketModeloJogo;
     private ObjectInputStream inSocketModeloJogo;
 
-    private ObjectInputStream inc;
-
+//    private ObjectInputStream inc;
     FormarPar par;
     ObservableGame observableGame;
 
@@ -52,6 +51,11 @@ public class Comunicacao extends java.util.Observable {
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());
+
+            socketServidorJogo = new Socket(IP, PORTOSERVIDORJOGO);
+            outc = new ObjectOutputStream(socketServidorJogo.getOutputStream());
+            outc.flush();
+//            inc = new ObjectInputStream(socketServidorJogo.getInputStream());
 
         } catch (IOException ex) {
             System.out.println("Comunicacao: " + ex);
@@ -215,8 +219,10 @@ public class Comunicacao extends java.util.Observable {
 
             this.par = par;
             socketModeloJogo = new Socket(IP, 5000 + par.getIdPar());
-            threadLeJogadas = new threadLeJogadas(observableGame, socketModeloJogo);
-            threadLeJogadas.start();
+            outSocketModeloJogo = new ObjectOutputStream(socketModeloJogo.getOutputStream());
+            outSocketModeloJogo.flush();
+//            inSocketModeloJogo = new ObjectInputStream(socketModeloJogo.getInputStream());
+            threadLeJogadas = new threadLeJogadas(observableGame, socketModeloJogo, outSocketModeloJogo);
 //            GameModel gameModel = (GameModel) inc.readObject();
 //            observableGame.setGameModel(gameModel);
 //            observableGame.Update();
@@ -230,16 +236,13 @@ public class Comunicacao extends java.util.Observable {
         }
 
     }
-    
-    public void abandonaPar(FormarPar formarPar)
-    {
-        try
-        {
+
+    public void abandonaPar(FormarPar formarPar) {
+        try {
             formarPar.setAceite(Constantes.PEDIDO_RECUSADO);
             out.writeObject(formarPar);
             out.flush();
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -270,6 +273,7 @@ public class Comunicacao extends java.util.Observable {
             Logger.getLogger(Comunicacao.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+}
     
     public void comunicaServidorJogo()
     {         
