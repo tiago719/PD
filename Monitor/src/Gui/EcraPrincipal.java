@@ -232,12 +232,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         for (FormarPar s : jogo.getPares()) {
             if (s.getAceite() == classescomunicacao.Constantes.PEDIDO_FEITO) {
                 DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-                Object[] row = {s.getNik1Util(), s.getNik2Util()};
+                Object[] row = {s.getUitlizadorQueFezPedido(), s.getUtilizadorQueResponde()};
                 model.addRow(row);
             } else {
                 if (s.getAceite() == classescomunicacao.Constantes.PEDIDO_ACEITE) {
                     DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-                    Object[] row = {s.getNik1Util(), s.getNik2Util()};
+                    Object[] row = {s.getUitlizadorQueFezPedido(), s.getUtilizadorQueResponde()};
                     model.addRow(row);
                 }
             }
