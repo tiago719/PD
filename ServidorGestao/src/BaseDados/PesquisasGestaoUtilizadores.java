@@ -581,7 +581,6 @@ public class PesquisasGestaoUtilizadores {
             {
                 Logger.getLogger(PesquisasGestaoUtilizadores.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
           return temp;
      }
@@ -610,6 +609,7 @@ public class PesquisasGestaoUtilizadores {
         {
             try
             {
+                s.close();
                 Rt.close();
             } catch (SQLException ex)
             {
