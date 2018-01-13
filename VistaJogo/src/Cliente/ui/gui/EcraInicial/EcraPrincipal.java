@@ -13,6 +13,7 @@ import classescomunicacao.ArrayClienteEnviar;
 import classescomunicacao.ClienteEnviar;
 import classescomunicacao.Constantes;
 import classescomunicacao.FormarPar;
+import classescomunicacao.Jogo;
 import classescomunicacao.Mensagem;
 import com.sun.java.accessibility.util.AWTEventMonitor;
 import java.awt.Button;
@@ -638,6 +639,11 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         }
         
         jHistorico.removeAll();
+        
+        for(Jogo jogo : observableGame.getHistorico())
+        {   
+            jHistorico.add(new Historico(observableGame,jogo.getJogador1(),jogo.getJogador2(),jogo.getVencedor(),jogo.getEstadoJogo()));
+        }
     }
 
     public void setParNome(String nome)

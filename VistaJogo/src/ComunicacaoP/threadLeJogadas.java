@@ -38,7 +38,8 @@ class threadLeJogadas extends Thread {
                
                 Object o = in.readObject();
 
-                if (o instanceof GameModel) {
+                if (o instanceof GameModel) 
+                {
                     observableGame.setGameModel((GameModel) o);
                     observableGame.Update();
                 }
