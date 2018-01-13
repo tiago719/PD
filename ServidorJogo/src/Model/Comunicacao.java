@@ -24,7 +24,7 @@ public class Comunicacao extends Thread {
     Socket socketUser1, socketUser2;
     GameModel gameModel;
     Par par;
-    
+
     Thread t1, t2;
 
     public Comunicacao(GameModel og, int idPar) {
@@ -32,7 +32,7 @@ public class Comunicacao extends Thread {
         par = new Par(null, null);
         t1 = new recebeJogadas(par, 1, og);
         t2 = new recebeJogadas(par, 2, og);
-        
+
         t1.start();
         t2.start();
         try {
@@ -53,13 +53,16 @@ public class Comunicacao extends Thread {
             while (true) {
                 Socket nextCliente = socket.accept();
                 if (par.getUser1() == null) {
+                    new ObjectOutputStream(nextCliente.getOutputStream()).writeObject(gameModel);
                     par.setUser1(nextCliente);
+
                 } else if (par.getUser2() == null) {
-                     par.setUser2(nextCliente);
-                } else /*if (par.getUser1().equals(nextCliente))*/{
+                    new ObjectOutputStream(nextCliente.getOutputStream()).writeObject(gameModel);
+                    par.setUser2(nextCliente);
+
+                } else /*if (par.getUser1().equals(nextCliente))*/ {
 //                    socketUser1 = nextCliente;
                 }
-                new ObjectOutputStream(nextCliente.getOutputStream()).writeObject(gameModel);
             }
         } catch (Exception e) {
             System.out.println(e);
