@@ -88,16 +88,9 @@ public class ServerModel
 
     public boolean temPar(FormarPar formarPar)
     {
-        try
-        {
-            int id1=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik1Util());
-            int id2=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik2Util());
-            return pesquisasGestaoUtilizadores.temPar(id1, id2);
-        } catch (SQLException ex)
-        {
-            Logger.getLogger(ServerModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return true;
+        int id1=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik1Util());
+        int id2=pesquisasGestaoUtilizadores.GetidByUserName(formarPar.getNik2Util());
+        return pesquisasGestaoUtilizadores.temPar(id1, id2);
     }
     
     public void formarPar(FormarPar formarPar, Set<Map.Entry<RecebePedidosClientes, Cliente>> entrySet)

@@ -14,6 +14,7 @@ import classescomunicacao.ModelJogo.Token;
 import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -313,5 +314,21 @@ public int getIdJogo() {
     public String getUserName()
     {
         return comunicacao.getUserName();
+    }
+
+    public void removePares(ArrayList<FormarPar> temporario)
+    {
+        FormarPar formarPar;
+        for(Iterator<FormarPar> iterator= threadRecebeAtualizacoes.getPares().iterator();iterator.hasNext();)
+        {
+            formarPar=iterator.next();
+            for(FormarPar f:temporario)
+            {
+                if(formarPar==f)
+                {
+                    iterator.remove();
+                }
+            }
+        }
     }
 }

@@ -62,9 +62,9 @@ public class RecebePedidosClientes extends Thread {
                     Integer novo = new Integer(ret);
                     out.writeObject(novo);
                     out.flush();
-                } else if (returnedObject instanceof Login) {
-                    Cliente cliente=new Cliente();
-                    ret = observableGame.login((Login) returnedObject, cliente, this);
+                } else if (returnedObject instanceof Login) 
+                {
+                    ret = observableGame.login((Login) returnedObject, this);
                     Integer novo = new Integer(ret);
                     out.writeObject(novo);
                     out.flush();
