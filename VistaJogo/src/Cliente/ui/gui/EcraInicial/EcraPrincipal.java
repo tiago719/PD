@@ -84,10 +84,9 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         jTableUtilizadores.getColumn("Jogar").setCellEditor(botoesFormarPar);
         
         jPedidosPar.setLayout(new GridLayout(6,0));  
+        jHistorico.setLayout(new GridLayout(6,0));
         jPar.setText("");
     }
-
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -112,13 +111,14 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         jButton2 = new javax.swing.JButton();
         jPedidosPar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jBotaoAbandonarPar = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jButaoJogar = new javax.swing.JButton();
         jUsername = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jPar = new javax.swing.JLabel();
         jBotaoDesistir = new javax.swing.JButton();
+        jHistorico = new javax.swing.JPanel();
 
         jTableUtilizadores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
@@ -219,13 +219,13 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jBotaoAbandonarPar.setText("Abandonar Par");
-        jBotaoAbandonarPar.setEnabled(false);
-        jBotaoAbandonarPar.addActionListener(new java.awt.event.ActionListener()
+        jButton3.setText("Abandonar Par");
+        jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                jBotaoAbandonarParActionPerformed(evt);
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -263,6 +263,19 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             }
         });
 
+        jHistorico.setBackground(new java.awt.Color(0, 153, 0));
+
+        javax.swing.GroupLayout jHistoricoLayout = new javax.swing.GroupLayout(jHistorico);
+        jHistorico.setLayout(jHistoricoLayout);
+        jHistoricoLayout.setHorizontalGroup(
+            jHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 404, Short.MAX_VALUE)
+        );
+        jHistoricoLayout.setVerticalGroup(
+            jHistoricoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -286,42 +299,46 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1))))
                     .addComponent(jScrollPane1))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPedidosPar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(187, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButaoJogar, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButaoJogar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBotaoDesistir, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel3))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jUsername)
-                                    .addComponent(jPar)))
-                            .addComponent(jBotaoAbandonarPar, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBotaoDesistir, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(74, 74, 74))))
+                                    .addComponent(jPar))))
+                        .addGap(74, 74, 74))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jHistorico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
-                    .addComponent(jPedidosPar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 2, Short.MAX_VALUE))
+                    .addComponent(jHistorico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane3)
                         .addGap(57, 57, 57))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 54, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jUsername)
                                     .addComponent(jLabel3))
@@ -334,10 +351,13 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jBotaoDesistir, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jBotaoAbandonarPar, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(24, 24, 24))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
+                                    .addComponent(jPedidosPar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -443,12 +463,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
     }//GEN-LAST:event_jButaoJogarActionPerformed
 
-    private void jBotaoAbandonarParActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotaoAbandonarParActionPerformed
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         observableGame.abandonaPar();
-        jBotaoAbandonarPar.setEnabled(false);
+        jButton3.setEnabled(false);
         jButaoJogar.setEnabled(false);
         jBotaoDesistir.setEnabled(false);
-    }//GEN-LAST:event_jBotaoAbandonarParActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jBotaoDesistirActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jBotaoDesistirActionPerformed
     {//GEN-HEADEREND:event_jBotaoDesistirActionPerformed
@@ -458,11 +478,12 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jBotaoAbandonarPar;
     private javax.swing.JButton jBotaoDesistir;
     private javax.swing.JButton jButaoJogar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JPanel jHistorico;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -604,17 +625,19 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
         
         if(observableGame.getParAtual()!= null)
         {
-            jBotaoAbandonarPar.setEnabled(true);
+            jButton3.setEnabled(true);
             jButaoJogar.setEnabled(true);
             jBotaoDesistir.setEnabled(true);
         }
         else
         {
-            jBotaoAbandonarPar.setEnabled(false);
+            jButton3.setEnabled(false);
             jButaoJogar.setEnabled(false);
             jBotaoDesistir.setEnabled(false);
             jPar.setText("");
         }
+        
+        jHistorico.removeAll();
     }
 
     public void setParNome(String nome)
