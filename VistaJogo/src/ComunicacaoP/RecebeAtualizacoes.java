@@ -72,31 +72,6 @@ public class RecebeAtualizacoes extends Thread {
                         mensagem = (Mensagem)returnedObject;
                         observableGame.Update();
                     } 
-//                    else if(returnedObject instanceof FormarPar)
-//                    {
-//                        FormarPar pedido=((FormarPar) returnedObject);
-//                        
-//                        for(FormarPar formarPar:pares)
-//                        {
-//                            if((formarPar.getNik1Util().equals(pedido.getNik1Util()) && formarPar.getNik2Util().equals(pedido.getNik2Util())) || (formarPar.getNik1Util().equals(pedido.getNik2Util()) && formarPar.getNik2Util().equals(pedido.getNik1Util())))
-//                            {
-//                                formarPar.setAceite(pedido.getAceite());
-//                                flag=true;
-//                                break;
-//                            }
-//                        }
-//                        if(flag)
-//                            continue;
-//                        
-//                        int ret=pedido.getAceite();
-//                        if(ret==Constantes.PEDIDO_FEITO)                        
-//                            pares.add((FormarPar)returnedObject);
-//                        else if(ret==Constantes.PEDIDO_ACEITE)
-//                        {
-//                            observableGame.TemPar((FormarPar)returnedObject);
-//                        }
-//                        observableGame.Update();
-//                    }
                 }
             } 
             catch (IOException | ClassNotFoundException e) { 

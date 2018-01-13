@@ -122,9 +122,18 @@ public class ServerModel
                 RecebePedidosClientes key = entry.getKey();
                 Cliente value = entry.getValue();
 
-                if (formarPar.getUitlizadorQueFezPedido().equals(value.getNomeUtilizador()) || formarPar.getUtilizadorQueResponde().equals(value.getNomeUtilizador()))
+                if(value.getPar()!=null && value.getPar().equals(formarPar))
                 {
-                    value.removePedido(formarPar);
+                    value.setPar(null);
+                }
+                for (FormarPar f : value.getPedidos())
+                {
+                    if (formarPar.equals(f))
+                    {
+                        value.setPar(null);
+                        value.removePedido(formarPar);
+                        break;
+                    } 
                 }
             }
 

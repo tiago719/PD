@@ -127,6 +127,8 @@ public class Cliente
             pedidos.clear();
             parFormado=true;
         }
+        else
+            parFormado=false;
     }
     
     public FormarPar getPar()
