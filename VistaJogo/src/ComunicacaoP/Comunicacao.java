@@ -21,7 +21,8 @@ import javafx.beans.Observable;
 public class Comunicacao extends java.util.Observable {
 
     public static final int BUFSIZE = 4000;
-    public static final String IP = "localhost";
+    public  String IP = "localhost";
+    public int PORTOSERVIDORGESTAO;
     public static final int TIMEOUT = 50000;
     private String NomeUtilizador;
 
@@ -43,11 +44,12 @@ public class Comunicacao extends java.util.Observable {
 
     Thread threadLeJogadas;
 
-    public Comunicacao(ObservableGame observableGame) {
-
+    public Comunicacao(ObservableGame observableGame, String Ip, int Porto) {
+        this.PORTOSERVIDORGESTAO = Porto;
+        this.IP = Ip;
         this.observableGame = observableGame;
         try {
-            socket = new Socket(IP, PORTO2);
+            socket = new Socket(IP, PORTOSERVIDORGESTAO);
             out = new ObjectOutputStream(socket.getOutputStream());
             out.flush();
             in = new ObjectInputStream(socket.getInputStream());

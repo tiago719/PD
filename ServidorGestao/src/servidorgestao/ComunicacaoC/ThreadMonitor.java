@@ -32,7 +32,7 @@ public class ThreadMonitor extends Thread {
     @Override
     public void run() {
         try {
-            RemoteService Service = new RemoteService();
+            RemoteService Service = new RemoteService(ip);
 
             try {
                 LocateRegistry.createRegistry(Registry.REGISTRY_PORT);

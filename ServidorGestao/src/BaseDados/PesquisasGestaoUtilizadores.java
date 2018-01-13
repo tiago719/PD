@@ -32,7 +32,7 @@ public class PesquisasGestaoUtilizadores {
     private BaseDados bd;
 
     public PesquisasGestaoUtilizadores() {
-        bd = new BaseDados();
+        bd = new BaseDados("localhost");
     }
 
     @Override

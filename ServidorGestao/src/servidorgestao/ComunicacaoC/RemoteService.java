@@ -22,15 +22,17 @@ public class RemoteService extends UnicastRemoteObject implements RemoteInfoInte
     ArrayList<ClienteEnviar> Jogadores;
     ArrayList<FormarPar> Pares;
     ArrayList<Partida> Partidas;
+    String IP;
 
     //Nota: nao era solicitado no enunciado manter a referencia dos clientes
     protected List<RemoteInfoClientInterface> clients;
 
-    public RemoteService() throws RemoteException {
+    public RemoteService(String ip) throws RemoteException {
         clients = new ArrayList<>();
         Jogadores = new ArrayList<ClienteEnviar>();
         Pares = new ArrayList<>();
         Partidas = new ArrayList<>();
+        IP = ip;
     }
 
     @Override
