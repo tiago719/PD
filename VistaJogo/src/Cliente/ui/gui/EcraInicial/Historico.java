@@ -5,19 +5,57 @@
  */
 package Cliente.ui.gui.EcraInicial;
 
+import Cliente.logic.ObservableGame;
+import static classescomunicacao.Constantes.JOGO_EM_ANDAMENTO;
+import static classescomunicacao.Constantes.JOGO_FINALIZADO;
+import static classescomunicacao.Constantes.JOGO_INTERROMPIDO;
+import classescomunicacao.Jogo;
+import java.util.Observable;
+
 /**
  *
  * @author Tiago Coutinho
  */
 public class Historico extends javax.swing.JPanel
 {
+    private ObservableGame observableGame;
+    private String adversario,vencedor;
+    private int estadoJogo;
 
-    /**
-     * Creates new form Historico
-     */
-    public Historico()
+    public Historico(ObservableGame observableGame, String jogador1, String jogador2, String vencedor, int estadoJogo)
     {
+        this.observableGame=observableGame;
+        
+        if(jogador1.equals(observableGame.getUserName()))
+            adversario=jogador2;
+        else
+            adversario=jogador1;
+        
+        this.vencedor=vencedor;
+        this.estadoJogo=estadoJogo;
+        
         initComponents();
+        
+        if(vencedor!=null)
+            jAdversario.setText(vencedor);
+        else
+            jAdversario.setText("");
+        
+        if(estadoJogo==JOGO_EM_ANDAMENTO)
+        {
+            jEstado.setText("Em Andamento");
+            jVencedor.setText("");
+        }
+        else if(estadoJogo==JOGO_FINALIZADO)
+        {
+            jEstado.setText("Terminado");
+            jVencedor.setText(vencedor);
+        }
+        else if(estadoJogo==JOGO_INTERROMPIDO)
+        {
+            jEstado.setText("Interrompido");
+            jVencedor.setText(vencedor);
+        }
     }
 
     /**

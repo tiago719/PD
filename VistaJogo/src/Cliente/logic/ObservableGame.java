@@ -32,6 +32,7 @@ public class ObservableGame extends Observable {
     private FormarPar ParAtual = null;
     
     private int IdUtilizador = -1;
+    private ArrayList<Jogo> historico;
 
     public int getIdUtilizador() {
         return IdUtilizador;
@@ -319,5 +320,15 @@ public class ObservableGame extends Observable {
     public void abandonaPar()
     {
         comunicacao.abandonaPar(ParAtual);
+    }
+
+    public void setHistorico(ArrayList<Jogo> historico)
+    {
+        this.historico=historico;
+    }
+
+    public ArrayList<Jogo> getHistorico()
+    {
+        return historico;
     }
 }
