@@ -52,7 +52,8 @@ public class ThreadRecebeInfo extends Thread {
                 Thread.sleep(1000);
                 ageService.GetData(ageClient);
                 jogo = ageService.getDadosJogo();
-                observablescreen.Update();
+                if(jogo != null)
+                    observablescreen.Update();
             }
 
             // Termina o servico ageClient

@@ -10,6 +10,7 @@ import classescomunicacao.ClienteEnviar;
 import classescomunicacao.FormarPar;
 import classescomunicacao.InfoJogo;
 import classescomunicacao.Constantes;
+import classescomunicacao.Partida;
 import java.util.Observer;
 import javafx.beans.Observable;
 import javax.swing.ButtonGroup;
@@ -167,9 +168,17 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
                 {null, null, null, null, null}
             },
             new String [] {
-                "Jogador1", "Jogador2", "Vencedor", "Estado", "Termino"
+                "Jogador1", "Jogador2", "Vencedor", "Interrompido", "Termino"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, 450, 130));
@@ -229,24 +238,37 @@ public class EcraPrincipal extends javax.swing.JPanel implements Observer {
             dm.removeRow(0);
         }
 
-        for (FormarPar s : jogo.getPares()) {
-            if (s.getAceite() == classescomunicacao.Constantes.PEDIDO_FEITO) {
-                DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
-                Object[] row = {s.getUitlizadorQueFezPedido(), s.getUtilizadorQueResponde()};
-                model.addRow(row);
-            } else {
-                if (s.getAceite() == classescomunicacao.Constantes.PEDIDO_ACEITE) {
-                    DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        if (jogo.getPares() != null) {
+            for (FormarPar s : jogo.getPares()) {
+                if (s.getAceite() == classescomunicacao.Constantes.PEDIDO_FEITO) {
+                    DefaultTableModel model = (DefaultTableModel) jTable4.getModel();
                     Object[] row = {s.getUitlizadorQueFezPedido(), s.getUtilizadorQueResponde()};
                     model.addRow(row);
+                } else {
+                    if (s.getAceite() == classescomunicacao.Constantes.PEDIDO_ACEITE) {
+                        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+                        Object[] row = {s.getUitlizadorQueFezPedido(), s.getUtilizadorQueResponde()};
+                        model.addRow(row);
+                    }
                 }
             }
         }
 
-        for (ClienteEnviar s : jogo.getClientes()) {
-            DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-            Object[] row = {s.getNome(), s.getNomeUtilizador(),s.isParFormado()};
-            model.addRow(row);
+        if (jogo.getClientes() != null) {
+            for (ClienteEnviar s : jogo.getClientes()) {
+                DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+                Object[] row = {s.getNome(), s.getNomeUtilizador(), s.isParFormado()};
+                model.addRow(row);
+            }
+        }
+        
+        if(jogo.getPartidas() != null)
+        {
+            for (Partida s : jogo.getPartidas()) {
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                Object[] row = {s.getNikU1(), s.getNikU2(), s.getVencedor(),s.getInterrompido(),s.getTerminou()};
+                model.addRow(row);
+            }
         }
 
     }
